@@ -1,1 +1,13 @@
 @import 'tailwindcss';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@theme {
+  --color-primaryBlue: #1a267c;
+  --color-primaryOrange: #e76715;
+  --color-primaryWhite: #fafcf7;
+}
+
+body {
+  background-color: #fafcf7;
+}

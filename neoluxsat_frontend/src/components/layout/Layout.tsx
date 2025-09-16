@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 const Layout = () => {
   return (
-    <div className="layout-container">
+    <div className="layout-container max-w-[1380px] mx-auto flex justify-center">
       <Header />
       <div className="layout-content">
         <Outlet />
