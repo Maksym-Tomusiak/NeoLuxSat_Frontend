@@ -8,7 +8,7 @@ import EmailIcon from '@/assets/svgs/email-icon.svg';
 
 const Footer = () => {
   return (
-    <div className="fixed bottom-[24px] left-[30px] right-[30px] h-[680px] bg-primaryBlue max-w-[1360px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
+    <div className="mb-[24px] left-[30px] right-[30px] h-[680px] bg-primaryBlue max-w-[1360px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
       <div className="flex justify-between text-primaryWhite pt-[100px] font-noto">
         <ul className="flex flex-col flex-1 gap-[24px] text-[16px] font-normal pl-[80px]">
           <li>
