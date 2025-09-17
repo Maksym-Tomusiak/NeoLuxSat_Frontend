@@ -2,6 +2,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @theme {
   --color-primaryBlue: #1a267c;
   --color-primaryOrange: #e76715;
@@ -10,4 +11,17 @@
 
 body {
   background-color: #fafcf7;
+}
+
+:root {
+  --font-manrope: 'Manrope', sans-serif;
+  --font-noto: 'Noto Sans', sans-serif;
+}
+
+.font-manrope {
+  font-family: var(--font-manrope);
+}
+
+.font-noto {
+  font-family: var(--font-noto);
 }
