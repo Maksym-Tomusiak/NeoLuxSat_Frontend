@@ -1,7 +1,7 @@
-import WhyUsIcon1 from '@/assets/svgs/why-us-icon-1.svg';
-import WhyUsIcon2 from '@/assets/svgs/why-us-icon-2.svg';
-import WhyUsIcon3 from '@/assets/svgs/why-us-icon-3.svg';
-import WhyUsIcon4 from '@/assets/svgs/why-us-icon-4.svg';
+import WhyUsIcon1 from '@/assets/svgs/why-us/why-us-icon-1.svg';
+import WhyUsIcon2 from '@/assets/svgs/why-us/why-us-icon-2.svg';
+import WhyUsIcon3 from '@/assets/svgs/why-us/why-us-icon-3.svg';
+import WhyUsIcon4 from '@/assets/svgs/why-us/why-us-icon-4.svg';
 import WhyUsBlock from './WhyUsBlock';
 
 const WhyUsSection = () => {

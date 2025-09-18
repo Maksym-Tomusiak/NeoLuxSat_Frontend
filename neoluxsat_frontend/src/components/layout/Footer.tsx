@@ -1,10 +1,10 @@
-import Logo from '@/assets/svgs/logo-neoluxsat-footer.svg';
-import TelegramIcon from '@/assets/svgs/telegram-icon.svg';
-import ViberIcon from '@/assets/svgs/viber-icon.svg';
-import FacebookIcon from '@/assets/svgs/facebook-icon.svg';
-import AddressIcon from '@/assets/svgs/address-icon.svg';
-import PhoneIcon from '@/assets/svgs/phone-icon.svg';
-import EmailIcon from '@/assets/svgs/email-icon.svg';
+import Logo from '@/assets/svgs/logos/logo-neoluxsat-footer.svg';
+import TelegramIcon from '@/assets/svgs/footer/telegram-icon.svg';
+import ViberIcon from '@/assets/svgs/footer/viber-icon.svg';
+import FacebookIcon from '@/assets/svgs/footer/facebook-icon.svg';
+import AddressIcon from '@/assets/svgs/footer/address-icon.svg';
+import PhoneIcon from '@/assets/svgs/footer/phone-icon.svg';
+import EmailIcon from '@/assets/svgs/footer/email-icon.svg';
 
 const Footer = () => {
   return (

@@ -1,8 +1,9 @@
-import CtaIcon1 from '@/assets/svgs/cta-icon-1.svg';
-import CtaIcon2 from '@/assets/svgs/cta-icon-2.svg';
-import CtaIcon3 from '@/assets/svgs/cta-icon-3.svg';
+import CtaIcon1 from '@/assets/svgs/ctas/cta-icon-1.svg';
+import CtaIcon2 from '@/assets/svgs/ctas/cta-icon-2.svg';
+import CtaIcon3 from '@/assets/svgs/ctas/cta-icon-3.svg';
 import CtaSection from '@/components/common/CtaSection';
 import WhyUsSection from './WhyUsSection/WhyUsSection';
+import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 
 const HomePage = () => {
   const ctaData = [
@@ -28,6 +29,7 @@ const HomePage = () => {
     <>
       <CtaSection {...ctaData[0]} />
       <WhyUsSection />
+      <FeedbacksSection />
       <CtaSection {...ctaData[1]} />
       <CtaSection {...ctaData[2]} />
     </>

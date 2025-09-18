@@ -1,5 +1,5 @@
-import Logo from '@/assets/svgs/logo-neoluxsat-header.svg';
-import Divider from '@/assets/svgs/header-divider.svg';
+import Logo from '@/assets/svgs/logos/logo-neoluxsat-header.svg';
+import Divider from '@/assets/svgs/header/header-divider.svg';
 import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
 
 const Header = () => {
