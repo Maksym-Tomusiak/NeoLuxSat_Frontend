@@ -4,6 +4,7 @@ import CtaIcon3 from '@/assets/svgs/ctas/cta-icon-3.svg';
 import CtaSection from '@/components/common/CtaSection';
 import WhyUsSection from './WhyUsSection/WhyUsSection';
 import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
+import ServicesSection from './ServicesSection/ServicesSection';
 
 const HomePage = () => {
   const ctaData = [
@@ -27,6 +28,7 @@ const HomePage = () => {
 
   return (
     <>
+      <ServicesSection />
       <CtaSection {...ctaData[0]} />
       <WhyUsSection />
       <FeedbacksSection />

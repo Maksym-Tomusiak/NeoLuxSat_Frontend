@@ -49,14 +49,14 @@ const FeedbacksSection = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px]">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
         {feedbacks.map((fb, index) => (
           <FeebackCard
             key={fb.id}
-            icon={icons[index % icons.length]} // pick icon by index
+            icon={icons[index % icons.length]}
             author={fb.author}
             content={fb.content}
-            isOrange={index % 2 === 0} // alternate colors
+            isOrange={index % 2 === 0}
           />
         ))}
       </div>
