@@ -1,4 +1,4 @@
-import HeroSectionTemlpate from '@/components/common/HeaderSectionTemlpate';
+import HeroSectionTemlpate from '@/components/common/HeroSectionTemlpate';
 import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
 import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 

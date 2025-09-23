@@ -17,13 +17,25 @@ const Header = () => {
       <div className="flex flex-1 justify-center">
         <ul className="flex justify-end items-center gap-[24px] text-primaryBlue text-[16px] font-normal">
           <li>
-            <a href="#">Послуги</a>
+            <div className="relative w-fit">
+              <a href="#" className="navigation-link">
+                Послуги
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#">Про нас</a>
+            <div className="relative w-fit">
+              <a href="#" className="navigation-link">
+                Про нас
+              </a>
+            </div>
           </li>
           <li>
-            <a href="#">Підтримка</a>
+            <div className="relative w-fit">
+              <a href="#" className="navigation-link">
+                Підтримка
+              </a>
+            </div>
           </li>
         </ul>
       </div>

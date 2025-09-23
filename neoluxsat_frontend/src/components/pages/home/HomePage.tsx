@@ -6,6 +6,7 @@ import WhyUsSection from './WhyUsSection/WhyUsSection';
 import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 import ServicesSection from './ServicesSection/ServicesSection';
 import HeroSection from './HeroSection/HeroSection';
+import ShopSection from './ShopSection/ShopSection';
 
 const HomePage = () => {
   const ctaData = [
@@ -31,6 +32,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <ServicesSection />
+      <ShopSection />
       <CtaSection {...ctaData[0]} />
       <WhyUsSection />
       <FeedbacksSection />
