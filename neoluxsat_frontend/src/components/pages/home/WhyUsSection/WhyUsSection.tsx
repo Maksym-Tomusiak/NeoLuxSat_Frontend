@@ -35,9 +35,8 @@ const WhyUsSection = () => {
   return (
     <>
       <section className="flex flex-col gap-[56px]">
-        <h2 className="font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px]">
-          Чому <br />
-          саме ми
+        <h2 className="font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] max-w-[400px]">
+          Чому саме ми
         </h2>
         <div className="flex mr-[250px] justify-between items-center">
           <img

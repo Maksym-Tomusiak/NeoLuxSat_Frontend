@@ -1,10 +1,10 @@
 import Logo from '@/assets/svgs/logos/logo-neoluxsat-footer.svg';
-import TelegramIcon from '@/assets/svgs/footer/telegram-icon.svg';
-import ViberIcon from '@/assets/svgs/footer/viber-icon.svg';
-import FacebookIcon from '@/assets/svgs/footer/facebook-icon.svg';
-import AddressIcon from '@/assets/svgs/footer/address-icon.svg';
-import PhoneIcon from '@/assets/svgs/footer/phone-icon.svg';
-import EmailIcon from '@/assets/svgs/footer/email-icon.svg';
+import TelegramIcon from '@/assets/svgs/contacts/telegram-icon.svg';
+import ViberIcon from '@/assets/svgs/contacts/viber-icon.svg';
+import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
+import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
+import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
+import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
 
 const Footer = () => {
   return (
@@ -28,13 +28,13 @@ const Footer = () => {
           <p>
             Ми завжди поруч — <br />у месенджерах та соцмережах
           </p>
-          <div className="flex gap-[24px] justify-center">
+          <div className="flex gap-[24px] justify-center fill-primaryWhite">
             <TelegramIcon />
             <ViberIcon />
             <FacebookIcon />
           </div>
         </div>
-        <div className="flex flex-1 justify-end pr-[80px]">
+        <div className="flex flex-1 justify-end pr-[80px] fill-primaryWhite/80">
           <div className="flex flex-col w-fit gap-[24px] text-[16px]/[120%] text-left">
             <div className="flex gap-[12px] items-center w-fit">
               <AddressIcon />

@@ -7,6 +7,7 @@ import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 import ServicesSection from './ServicesSection/ServicesSection';
 import HeroSection from './HeroSection/HeroSection';
 import ShopSection from './ShopSection/ShopSection';
+import ContactsSection from '@/components/common/ContactsSection';
 
 const HomePage = () => {
   const ctaData = [
@@ -37,6 +38,7 @@ const HomePage = () => {
       <WhyUsSection />
       <FeedbacksSection />
       <CtaSection {...ctaData[1]} />
+      <ContactsSection />
       <CtaSection {...ctaData[2]} />
     </>
   );
