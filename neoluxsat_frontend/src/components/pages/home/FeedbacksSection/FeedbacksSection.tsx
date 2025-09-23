@@ -7,12 +7,7 @@ import FeedbackIcon5 from '@/assets/svgs/feedbacks/feedback-icon-5.svg';
 import FeedbackIcon6 from '@/assets/svgs/feedbacks/feedback-icon-6.svg';
 import FeebackCard from './FeebackCard';
 import { FeedbackService } from '@/services/feedbacks.service';
-
-type Feedback = {
-  id: string;
-  author: string;
-  content: string;
-};
+import type { FeedbackDto } from '@/types/feedback';
 
 const icons = [
   <FeedbackIcon1 key="1" />,
@@ -24,7 +19,7 @@ const icons = [
 ];
 
 const FeedbacksSection = () => {
-  const [feedbacks, setFeedbacks] = useState<Feedback[]>([]);
+  const [feedbacks, setFeedbacks] = useState<FeedbackDto[]>([]);
 
   useEffect(() => {
     const fetchFeedbacks = async () => {

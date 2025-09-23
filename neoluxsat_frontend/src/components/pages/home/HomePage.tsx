@@ -1,13 +1,14 @@
 import CtaIcon1 from '@/assets/svgs/ctas/cta-icon-1.svg';
 import CtaIcon2 from '@/assets/svgs/ctas/cta-icon-2.svg';
 import CtaIcon3 from '@/assets/svgs/ctas/cta-icon-3.svg';
-import CtaSection from '@/components/common/CtaSection';
 import WhyUsSection from './WhyUsSection/WhyUsSection';
 import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 import ServicesSection from './ServicesSection/ServicesSection';
 import HeroSection from './HeroSection/HeroSection';
 import ShopSection from './ShopSection/ShopSection';
 import ContactsSection from '@/components/common/ContactsSection';
+import FaqSection from './FaqSection/FaqSection';
+import CtaSectionTemplate from '@/components/common/CtaSectionTemplate';
 
 const HomePage = () => {
   const ctaData = [
@@ -34,12 +35,13 @@ const HomePage = () => {
       <HeroSection />
       <ServicesSection />
       <ShopSection />
-      <CtaSection {...ctaData[0]} />
+      <CtaSectionTemplate {...ctaData[0]} />
       <WhyUsSection />
       <FeedbacksSection />
-      <CtaSection {...ctaData[1]} />
+      <CtaSectionTemplate {...ctaData[1]} />
       <ContactsSection />
-      <CtaSection {...ctaData[2]} />
+      <FaqSection />
+      <CtaSectionTemplate {...ctaData[2]} />
     </>
   );
 };

@@ -1,14 +1,14 @@
 import React from 'react';
 import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
 
-type CtaSectionProps = {
+type CtaSectionTemplateProps = {
   icon: React.ReactNode;
   title: string;
   description: string;
   onApplicationClick?: () => void;
 };
 
-const CtaSection: React.FC<CtaSectionProps> = ({
+const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
   icon,
   title,
   description,
@@ -39,4 +39,4 @@ const CtaSection: React.FC<CtaSectionProps> = ({
   );
 };
 
-export default CtaSection;
+export default CtaSectionTemplate;
