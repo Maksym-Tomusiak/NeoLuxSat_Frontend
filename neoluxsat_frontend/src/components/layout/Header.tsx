@@ -10,7 +10,9 @@ const Header = () => {
   return (
     <div className="header-shadow fixed top-[24px] left-[30px] right-[30px] flex items-center p-[10px] bg-primaryWhite rounded-[20px] max-w-[1380px] mx-auto z-10 font-noto">
       <div className="flex-1">
-        <Logo />
+        <a href="/">
+          <Logo />
+        </a>
       </div>
       <div className="flex flex-1 justify-center">
         <ul className="flex justify-end items-center gap-[24px] text-primaryBlue text-[16px] font-normal">

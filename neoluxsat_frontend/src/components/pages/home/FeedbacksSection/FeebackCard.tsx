@@ -4,22 +4,24 @@ type FeedbackCardProps = {
   icon: React.ReactNode;
   author: string;
   content: string;
-  isOrange: boolean;
+  isBlue: boolean;
 };
 
 const FeebackCard: React.FC<FeedbackCardProps> = ({
   icon,
   author,
   content,
-  isOrange,
+  isBlue,
 }) => {
   return (
     <div
-      className={`flex flex-col flex-1 justify-between h-[200px] rounded-[20px] p-[24px] relative text-primaryWhite font-noto ${
-        isOrange ? 'bg-primaryOrange' : 'bg-primaryBlue'
+      className={`flex flex-col flex-1 justify-between h-[200px] rounded-[20px] p-[24px] relative font-noto ${
+        isBlue
+          ? 'bg-primaryBlue text-primaryWhite'
+          : 'bg-primaryBlue/20 text-primaryBlue'
       }`}
     >
-      <div className="absolute right-[0px] top-[0px]">{icon}</div>
+      <div className="absolute right-[0px] top-[-10px]">{icon}</div>
       <p className="text-[16px]/[120%] tracking-[-0.32px] font-normal">
         {content}
       </p>

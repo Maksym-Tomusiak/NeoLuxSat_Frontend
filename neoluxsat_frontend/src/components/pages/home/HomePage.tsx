@@ -5,6 +5,7 @@ import CtaSection from '@/components/common/CtaSection';
 import WhyUsSection from './WhyUsSection/WhyUsSection';
 import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 import ServicesSection from './ServicesSection/ServicesSection';
+import HeroSection from './HeroSection/HeroSection';
 
 const HomePage = () => {
   const ctaData = [
@@ -28,6 +29,7 @@ const HomePage = () => {
 
   return (
     <>
+      <HeroSection />
       <ServicesSection />
       <CtaSection {...ctaData[0]} />
       <WhyUsSection />

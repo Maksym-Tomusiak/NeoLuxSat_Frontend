@@ -3,7 +3,6 @@ import ServiceIcon2 from '@/assets/svgs/services/services-icon-2.svg';
 import ServiceIcon3 from '@/assets/svgs/services/services-icon-3.svg';
 import ServiceIcon4 from '@/assets/svgs/services/services-icon-4.svg';
 import ServiceCard from './ServiceCard';
-import { href } from 'react-router-dom';
 
 const ServicesSection = () => {
   const data = [
@@ -38,7 +37,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="grid grid-cols-4 grid-rows-2 gap-[20px]">
+    <section id="services" className="grid grid-cols-4 grid-rows-2 gap-[20px]">
       <h2 className="col-start-1 row-start-1 font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] ">
         Наші послуги
       </h2>

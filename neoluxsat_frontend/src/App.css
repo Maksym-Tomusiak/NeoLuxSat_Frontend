@@ -7,3 +7,31 @@
 section {
   margin: 0 auto 120px auto;
 }
+
+.hero-section .application-button:hover {
+  color: #fafcf7 !important;
+}
+
+.home-hero-mask {
+  background-image: url('/images/home-hero-bg.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+.trust-badges-slider .slick-track {
+  display: flex !important;
+  animation: scroll 20s linear infinite; /* adjust speed here */
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-10%); /* move by half since we duplicated slides */
+  }
+}

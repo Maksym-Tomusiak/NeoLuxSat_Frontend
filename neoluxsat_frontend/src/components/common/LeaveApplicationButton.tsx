@@ -14,7 +14,7 @@ const LeaveApplicationButton: React.FC<LeaveApplicationButtonProps> = ({
   return (
     <button
       className={
-        'border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fill hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold ' +
+        'application-button border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fill hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold ' +
         (isOrange ? orangeClasses : blueClasses)
       }
       onClick={onApplicationClick}

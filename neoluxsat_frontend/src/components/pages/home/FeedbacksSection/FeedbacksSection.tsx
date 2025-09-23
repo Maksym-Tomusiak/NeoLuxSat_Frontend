@@ -56,7 +56,7 @@ const FeedbacksSection = () => {
             icon={icons[index % icons.length]}
             author={fb.author}
             content={fb.content}
-            isOrange={index % 2 === 0}
+            isBlue={index % 2 === 1}
           />
         ))}
       </div>
