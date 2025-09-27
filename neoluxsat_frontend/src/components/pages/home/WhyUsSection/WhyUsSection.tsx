@@ -3,6 +3,7 @@ import WhyUsIcon2 from '@/assets/svgs/why-us/why-us-icon-2.svg';
 import WhyUsIcon3 from '@/assets/svgs/why-us/why-us-icon-3.svg';
 import WhyUsIcon4 from '@/assets/svgs/why-us/why-us-icon-4.svg';
 import WhyUsBlock from './WhyUsBlock';
+import SectionHeader from '@/components/common/SectionHeader';
 
 const WhyUsSection = () => {
   const blocksData = [
@@ -35,9 +36,11 @@ const WhyUsSection = () => {
   return (
     <>
       <section className="flex flex-col gap-[56px]">
-        <h2 className="font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] max-w-[400px]">
-          Чому саме ми
-        </h2>
+        <SectionHeader isCta={false}>
+          Чому
+          <br />
+          саме ми
+        </SectionHeader>
         <div className="flex mr-[250px] justify-between items-center">
           <img
             src={'/images/why-us-image.png'}

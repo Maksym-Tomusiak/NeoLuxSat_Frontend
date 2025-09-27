@@ -1,5 +1,6 @@
 import React from 'react';
 import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
+import SectionHeader from '@/components/common/SectionHeader';
 
 type CtaSectionTemplateProps = {
   icon: React.ReactNode;
@@ -23,9 +24,9 @@ const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
   return (
     <section className="relative bg-primaryOrange rounded-[20px] pt-[32px] pb-[24px] px-[24px] flex flex-col justify-between h-[345px]">
       <div className="absolute right-0 top-0">{icon}</div>
-      <h2 className="text-primaryWhite font-manrope text-[64px]/[90%] font-semibold max-w-[60%]">
+      <SectionHeader isCta={true} className="max-w-[60%]">
         {title}
-      </h2>
+      </SectionHeader>
       <div className="bg-primaryWhite p-[10px] rounded-[10px] flex justify-between z-1">
         <p className="text-primaryBlue/80 text-[16px]/[120%] font-noto font-medium max-w-[28%]">
           {description}

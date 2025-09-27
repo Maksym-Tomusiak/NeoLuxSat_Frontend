@@ -6,6 +6,7 @@ import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
+import SectionHeader from '@/components/common/SectionHeader';
 
 const ContactsSection = () => {
   const markerIcon = new L.Icon({
@@ -17,9 +18,11 @@ const ContactsSection = () => {
 
   return (
     <section>
-      <h2 className="font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] max-w-[500px]">
-        Де нас знайти
-      </h2>
+      <SectionHeader isCta={false}>
+        Де нас
+        <br />
+        знайти
+      </SectionHeader>
       <div className="flex justify-end font-noto mb-[56px]">
         <div className="flex flex-wrap items-center gap-x-[59px] gap-y-[32px] h-[175px] w-[680px] text-primaryBlue fill-primaryBlue">
           <div className="flex gap-[12px] items-center w-fit">

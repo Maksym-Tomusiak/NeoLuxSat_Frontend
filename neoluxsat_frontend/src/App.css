@@ -4,6 +4,23 @@
     0 8px 8px 0 rgba(24, 30, 73, 0.09), 0 2px 4px 0 rgba(24, 30, 73, 0.1);
 }
 
+html {
+  /* Reserve scrollbar space to prevent layout shifts when overlays open */
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
+}
+
+body {
+  /* Ensure portals/overlays that affect body don't cause layout shifts */
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
+}
+
+/* Neutralize scrollbar padding commonly injected by scroll-lock libraries */
+body[style*='padding-right'] {
+  padding-right: 0 !important;
+}
+
 section {
   margin: 0 auto 120px auto;
 }
@@ -37,16 +54,16 @@ section {
   position: absolute;
   left: 50%;
   bottom: 0;
-  height: 2px; /* thickness of line */
+  height: 2px;
   width: 0;
   background-color: #e76715;
-  border-radius: 9999px; /* fully rounded ends */
+  border-radius: 9999px;
   transition: all 0.3s ease-in-out;
 }
 
 .navigation-link:hover::after {
-  left: 0;
-  width: 100%;
+  left: calc(50% - 25px);
+  width: 50px;
 }
 
 @keyframes scroll {

@@ -6,6 +6,7 @@ import FeedbackIcon4 from '@/assets/svgs/feedbacks/feedback-icon-4.svg';
 import FeedbackIcon5 from '@/assets/svgs/feedbacks/feedback-icon-5.svg';
 import FeedbackIcon6 from '@/assets/svgs/feedbacks/feedback-icon-6.svg';
 import FeebackCard from './FeebackCard';
+import SectionHeader from '@/components/common/SectionHeader';
 import { FeedbackService } from '@/services/feedbacks.service';
 import type { FeedbackDto } from '@/types/feedback';
 
@@ -36,9 +37,7 @@ const FeedbacksSection = () => {
   return (
     <section className="flex flex-col gap-[58px]">
       <div className="flex w-full justify-between">
-        <h2 className="font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px]">
-          Відгуки
-        </h2>
+        <SectionHeader isCta={false}>Відгуки</SectionHeader>
         <p className="flex items-end font-noto text-primaryBlue text-[16px]/[120%] font-normal tracking-[-0.32px] w-[330px]">
           Довіра клієнтів — найкращий показник якості наших послуг.
         </p>

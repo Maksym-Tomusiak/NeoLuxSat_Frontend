@@ -5,6 +5,7 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from '@/components/ui/accordion';
+import SectionHeader from '@/components/common/SectionHeader';
 import FaqIcon from '@/assets/svgs/faq-icon.svg';
 import type { FaqDto } from '@/types/faq';
 
@@ -16,9 +17,14 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({ faqs }) => {
   return (
     <section className="relative flex justify-center">
       {/* Left-aligned title */}
-      <h2 className="absolute left-0 top-0 font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] max-w-[500px]">
-        Часті питання
-      </h2>
+      <SectionHeader
+        isCta={false}
+        className="max-w-[500px] absolute left-0 top-0"
+      >
+        Часті
+        <br />
+        питання
+      </SectionHeader>
 
       {/* Centered image + accordion */}
       <div className="flex flex-col items-center">

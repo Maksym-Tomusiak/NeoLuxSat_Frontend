@@ -3,6 +3,7 @@ import ServiceIcon2 from '@/assets/svgs/services/services-icon-2.svg';
 import ServiceIcon3 from '@/assets/svgs/services/services-icon-3.svg';
 import ServiceIcon4 from '@/assets/svgs/services/services-icon-4.svg';
 import ServiceCard from './ServiceCard';
+import SectionHeader from '@/components/common/SectionHeader';
 
 const ServicesSection = () => {
   const data = [
@@ -38,9 +39,11 @@ const ServicesSection = () => {
 
   return (
     <section id="services" className="grid grid-cols-4 grid-rows-2 gap-[20px]">
-      <h2 className="col-start-1 row-start-1 font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] ">
-        Наші послуги
-      </h2>
+      <SectionHeader isCta={false} className="col-start-1 row-start-1">
+        Наші
+        <br />
+        послуги
+      </SectionHeader>
 
       <div className="col-start-3 row-start-1">
         <ServiceCard {...data[0]} />

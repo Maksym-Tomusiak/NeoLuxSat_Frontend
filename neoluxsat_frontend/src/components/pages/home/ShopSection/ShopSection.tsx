@@ -1,5 +1,6 @@
 import ShopImage from '@/assets/images/shop/shop-image.png';
 import ShopCard from './ShopCard';
+import SectionHeader from '@/components/common/SectionHeader';
 
 const ShopSection = () => {
   const itemsData = [
@@ -23,9 +24,11 @@ const ShopSection = () => {
   return (
     <section className="flex flex-col gap-[56px]">
       <div className="flex justify-between items-end">
-        <h2 className="col-start-1 row-start-1 font-manrone text-primaryBlue/20 text-[88px]/[90%] font-semibold tracking-[-2px] max-w-[500px]">
-          Наш магазин
-        </h2>
+        <SectionHeader isCta={false}>
+          Наш
+          <br />
+          магазин
+        </SectionHeader>
         <div className="flex flex-col gap-[16px] w-[330px] text-primaryBlue font-noto text-[16px]/[120%] tracking-[-0.32px]">
           <p>
             Ми пропонуємо широкий асортимент сучасних гаджетів,
