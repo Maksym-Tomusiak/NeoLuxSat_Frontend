@@ -9,9 +9,23 @@ import ServicesDropdown from '../common/ServicesDropdown';
 
 const Footer = () => {
   return (
-    <div className="mb-[24px] left-[30px] right-[30px] h-[680px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
-      <div className="flex justify-between text-primaryWhite pt-[100px] font-noto">
-        <ul className="flex flex-col flex-1 gap-[24px] text-[16px] font-normal pl-[80px]">
+    <div className="h-[fit] xs:h-[550px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
+      {/* Wrapper that switches direction */}
+      <div className="flex flex-col md:flex-row justify-between text-primaryWhite pt-[40px] md:pt-[100px] font-noto gap-[40px] md:gap-0">
+        {/* Messengers: first on mobile, middle on desktop */}
+        <div className="flex flex-col gap-[24px] text-center text-[16px]/[120%] font-normal order-1 md:order-2 flex-1">
+          <p>
+            Ми завжди поруч — <br />у месенджерах та соцмережах
+          </p>
+          <div className="flex gap-[24px] justify-center fill-primaryWhite">
+            <TelegramIcon />
+            <ViberIcon />
+            <FacebookIcon />
+          </div>
+        </div>
+
+        {/* Navigation: horizontal on mobile, left column on desktop */}
+        <ul className="flex flex-row flex-wrap md:flex-col justify-center md:justify-start flex-1 gap-[24px] text-[16px] font-normal order-2 md:order-1 pl-[0px] lg:pl-[40px] xl:pl-[80px]">
           <li>
             <a href="/" className="navigation-link">
               Головна
@@ -31,17 +45,9 @@ const Footer = () => {
             <ServicesDropdown isWhite={true} />
           </li>
         </ul>
-        <div className="flex flex-col flex-1 gap-[24px] text-center text-[16px]/[120%] font-normal">
-          <p>
-            Ми завжди поруч — <br />у месенджерах та соцмережах
-          </p>
-          <div className="flex gap-[24px] justify-center fill-primaryWhite">
-            <TelegramIcon />
-            <ViberIcon />
-            <FacebookIcon />
-          </div>
-        </div>
-        <div className="flex flex-1 justify-end pr-[80px] fill-primaryWhite/80">
+
+        {/* Contacts: last on mobile, right column on desktop */}
+        <div className="flex justify-center md:justify-end flex-1 pr-[0px] lg:pr-[40px] xl:pr-[80px] fill-primaryWhite/80 order-3 md:order-3">
           <div className="flex flex-col w-fit gap-[24px] text-[16px]/[120%] text-left">
             <div className="flex gap-[12px] items-center w-fit">
               <AddressIcon />
@@ -73,7 +79,11 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <Logo />
+
+      {/* Logo always at bottom */}
+      <div className="footer-logo-container mt-[40px] md:mt-0">
+        <Logo />
+      </div>
     </div>
   );
 };

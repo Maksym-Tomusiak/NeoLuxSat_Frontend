@@ -9,7 +9,12 @@ type ShopCardProps = {
 
 const ShopCard: React.FC<ShopCardProps> = ({ image, title, options }) => {
   return (
-    <div className="relative flex flex-col justify-end gap-[24px] bg-primaryBlue w-[330px] h-[500px] p-[24px] rounded-[20px] overflow-hidden">
+    <div
+      className="relative flex flex-col justify-end gap-[24px] bg-primaryBlue 
+    w-[90vw] 2xs:w-[330px] 
+    h-[500px] 
+    p-[24px] rounded-[20px] overflow-hidden"
+    >
       {/* Image with fade */}
       <div className="absolute top-[14px] left-0 w-full">
         <div className="w-fit h-fit m-auto relative">

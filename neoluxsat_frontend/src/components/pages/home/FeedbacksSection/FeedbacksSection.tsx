@@ -35,24 +35,49 @@ const FeedbacksSection = () => {
   }, []);
 
   return (
-    <section className="flex flex-col gap-[58px]">
-      <div className="flex w-full justify-between">
+    <section className="flex flex-col gap-[32px] sm:gap-[40px] md:gap-[58px]">
+      <div className="flex w-full items-center sm:items-end justify-between gap-[16px]">
         <SectionHeader isCta={false}>Відгуки</SectionHeader>
-        <p className="flex items-end font-noto text-primaryBlue text-[16px]/[120%] font-normal tracking-[-0.32px] w-[330px]">
+        <p className="flex w-full max-w-[50%] sm:max-w-[360px] items-end font-noto font-normal text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
           Довіра клієнтів — найкращий показник якості наших послуг.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px]">
-        {feedbacks.map((fb, index) => (
-          <FeebackCard
-            key={fb.id}
-            icon={icons[index % icons.length]}
-            author={fb.author}
-            content={fb.content}
-            isBlue={index % 2 === 1}
-          />
-        ))}
+      <div className="-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px] min-[1360px]:justify-center overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px]">
+        {(() => {
+          const slides = [];
+          const half = Math.ceil(feedbacks.length / 2);
+          for (let i = 0; i < half; i++) {
+            const top = feedbacks[i];
+            const bottom = feedbacks[i + half];
+
+            slides.push(
+              <div key={i} className="snap-center shrink-0 min-h-fit">
+                <div className="flex w-[90vw] 2xs:w-[400px] max-w-[90vw] flex-col gap-[12px] md:w-[420px] md:max-w-[450px]">
+                  {top && (
+                    <FeebackCard
+                      key={top.id}
+                      icon={icons[i]}
+                      author={top.author}
+                      content={top.content}
+                      isBlue={i % 2 === 1}
+                    />
+                  )}
+                  {bottom && (
+                    <FeebackCard
+                      key={bottom.id}
+                      icon={icons[i + half]}
+                      author={bottom.author}
+                      content={bottom.content}
+                      isBlue={i % 2 === 0}
+                    />
+                  )}
+                </div>
+              </div>
+            );
+          }
+          return slides;
+        })()}
       </div>
     </section>
   );

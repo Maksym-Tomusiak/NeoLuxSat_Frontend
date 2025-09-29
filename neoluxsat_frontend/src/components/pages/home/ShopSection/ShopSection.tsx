@@ -22,34 +22,34 @@ const ShopSection = () => {
   ];
 
   return (
-    <section className="flex flex-col gap-[56px]">
-      <div className="flex justify-between items-end">
+    <section className="flex flex-col gap-[32px] sm:gap-[40px] md:gap-[56px]">
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-[16px]">
         <SectionHeader isCta={false}>
-          Наш
-          <br />
+          Наш <br className="hidden sm:inline" />
           магазин
         </SectionHeader>
-        <div className="flex flex-col gap-[16px] w-[330px] text-primaryBlue font-noto text-[16px]/[120%] tracking-[-0.32px]">
+        <div className="flex w-full max-w-[360px] flex-col gap-[12px] font-noto text-primaryBlue sm:gap-[16px] md:w-[330px] text-[16px]/[120%] tracking-[-0.32px]">
           <p>
             Ми пропонуємо широкий асортимент сучасних гаджетів,
             інтернет-обладнання та аксесуарів.
           </p>
           <p>
-            <span className="text-primaryOrange text-[18px]/[120%] font-semibold">
+            <span className="font-semibold text-primaryOrange text-[18px]/[120%]">
               Зверніть увагу:
             </span>{' '}
             придбати товари можна безпосередньо на місці, у нашому магазині.
           </p>
         </div>
       </div>
-      <div className="flex gap-[20px] items-center justify-center">
+      <div className="flex snap-x snap-mandatory items-stretch gap-[12px] overflow-x-auto sm:-mx-[10px] sm:px-[10px] min-[1090px]:justify-center md:gap-[20px]">
         {itemsData.map((item, index) => (
-          <ShopCard
-            key={index}
-            image={item.image}
-            title={item.title}
-            options={item.options}
-          />
+          <div key={index} className="snap-center shrink-0">
+            <ShopCard
+              image={item.image}
+              title={item.title}
+              options={item.options}
+            />
+          </div>
         ))}
       </div>
     </section>

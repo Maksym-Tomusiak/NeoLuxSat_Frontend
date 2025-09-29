@@ -38,23 +38,43 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section id="services" className="grid grid-cols-4 grid-rows-2 gap-[20px]">
-      <SectionHeader isCta={false} className="col-start-1 row-start-1">
-        Наші
-        <br />
+    <section
+      id="services"
+      className="
+        grid gap-[16px] sm:gap-[20px]
+        grid-cols-1
+        md:grid-cols-2 md:justify-items-center
+        lg:grid-cols-4 lg:grid-rows-2
+      "
+    >
+      {/* Header */}
+      <SectionHeader
+        isCta={false}
+        className="
+          w-full
+          row-start-1
+          md:col-span-2 md:justify-self-center
+          lg:col-span-1 lg:row-start-1 lg:col-start-1 lg:justify-self-start
+        "
+      >
+        Наші <br className="hidden md:inline" />
         послуги
       </SectionHeader>
 
-      <div className="col-start-3 row-start-1">
+      {/* Cards */}
+      {/* Phone → stacked 1 col
+          Tablet → 2x2 grid centered
+          Desktop → manual placement */}
+      <div className="lg:col-start-3 lg:row-start-1">
         <ServiceCard {...data[0]} />
       </div>
-      <div className="col-start-4 row-start-1">
+      <div className="lg:col-start-4 lg:row-start-1">
         <ServiceCard {...data[1]} />
       </div>
-      <div className="col-start-2 row-start-2">
+      <div className="lg:col-start-2 lg:row-start-2">
         <ServiceCard {...data[2]} />
       </div>
-      <div className="col-start-3 row-start-2">
+      <div className="lg:col-start-3 lg:row-start-2">
         <ServiceCard {...data[3]} />
       </div>
     </section>

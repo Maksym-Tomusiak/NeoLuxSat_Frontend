@@ -25,6 +25,17 @@ section {
   margin: 0 auto 120px auto;
 }
 
+@media screen and (max-width: 768px) {
+  section {
+    margin: 0 auto 80px auto;
+  }
+}
+@media screen and (max-width: 380px) {
+  section {
+    margin: 0 auto 60px auto;
+  }
+}
+
 .hero-section .application-button:hover {
   color: #fafcf7 !important;
 }
@@ -64,6 +75,43 @@ section {
 .navigation-link:hover::after {
   left: calc(50% - 25px);
   width: 50px;
+}
+
+.footer-logo-container svg {
+  width: 100%;
+  height: auto;
+}
+
+.cta-icon-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+.animate-slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
 }
 
 @keyframes scroll {

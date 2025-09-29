@@ -34,7 +34,7 @@ const TrustBadgesSlider = () => {
   const duplicatedSlides = [...slides, ...slides];
 
   return (
-    <div className="w-[700px] h-[60px] overflow-hidden">
+    <div className="w-[300px] sm:w-[350px] md:w-[500px] xl:w-[700px] h-[50px] xl:h-[60px] overflow-hidden">
       <Slider {...settings} className="trust-badges-slider">
         {duplicatedSlides.map((s, idx) => (
           <div key={idx} className="flex justify-center items-center px-4">

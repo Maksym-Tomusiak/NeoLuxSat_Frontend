@@ -42,7 +42,7 @@ function AccordionTrigger({
         {...props}
       >
         {children}
-        <Icon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200 mb-auto" />
+        <Icon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200  my-auto w-[24px] h-[24px]" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
