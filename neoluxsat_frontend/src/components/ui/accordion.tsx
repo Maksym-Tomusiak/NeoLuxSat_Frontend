@@ -1,6 +1,6 @@
 import * as React from 'react';
 import * as AccordionPrimitive from '@radix-ui/react-accordion';
-import { ChevronDownIcon } from 'lucide-react';
+import FaqIcon from '@/assets/svgs/faq-icon.svg';
 
 import { cn } from '@/lib/utils';
 
@@ -26,7 +26,9 @@ function AccordionItem({
 function AccordionTrigger({
   className,
   children,
-  icon: Icon = ChevronDownIcon,
+  icon: Icon = FaqIcon as unknown as React.ComponentType<
+    React.SVGProps<SVGSVGElement>
+  >,
   ...props
 }: React.ComponentProps<typeof AccordionPrimitive.Trigger> & {
   icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;

@@ -1,5 +1,5 @@
 import SectionHeader from '../SectionHeader';
-import AreasMapIcon from '@/assets/svgs/areas/areas-map-icon.svg';
+import mapImage from '@/assets/images/areas/areas-map-icon.png';
 
 const WorkAreasSection = () => {
   return (
@@ -9,7 +9,7 @@ const WorkAreasSection = () => {
         працюємо
       </SectionHeader>
       <div className="mx-auto w-full areas-map-container mt-[40px]">
-        <AreasMapIcon />
+        <img src={mapImage} alt="areas map" className="mx-auto" />
       </div>
     </section>
   );
