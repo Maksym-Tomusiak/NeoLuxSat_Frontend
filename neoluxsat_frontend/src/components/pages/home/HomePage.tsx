@@ -1,14 +1,14 @@
 import CtaIcon1 from '@/assets/svgs/ctas/cta-icon-1.svg';
 import CtaIcon2 from '@/assets/svgs/ctas/cta-icon-2.svg';
 import CtaIcon3 from '@/assets/svgs/ctas/cta-icon-3.svg';
-import WhyUsSection from './WhyUsSection/WhyUsSection';
+import WhyUsSection from '@/components/common/sections/WhyUsSection/WhyUsSection';
 import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 import ServicesSection from './ServicesSection/ServicesSection';
 import HeroSection from './HeroSection/HeroSection';
 import ShopSection from './ShopSection/ShopSection';
-import ContactsSection from '@/components/common/ContactsSection';
+import ContactsSection from '@/components/common/sections/ContactsSection';
 import FaqSection from './FaqSection/FaqSection';
-import CtaSectionTemplate from '@/components/common/CtaSectionTemplate';
+import CtaSectionTemplate from '@/components/common/sections/CtaSectionTemplate';
 
 const HomePage = () => {
   const ctaData = [

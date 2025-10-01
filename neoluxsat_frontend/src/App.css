@@ -122,3 +122,9 @@ section {
     transform: translateX(-10%); /* move by half since we duplicated slides */
   }
 }
+
+.areas-map-container svg {
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}

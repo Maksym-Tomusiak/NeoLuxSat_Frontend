@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FaqService } from '@/services/faq.service';
 import type { FaqDto } from '@/types/faq';
-import FaqSectionTemplate from '@/components/common/FaqSectionTemplate';
+import FaqSectionTemplate from '@/components/common/sections/FaqSectionTemplate';
 
 const FaqSection = () => {
   const [faqs, setFaqs] = useState<FaqDto[]>([]);

@@ -1,4 +1,4 @@
-import HeroSectionTemplate from '@/components/common/HeroSectionTemplate';
+import HeroSectionTemplate from '@/components/common/sections/HeroSectionTemplate';
 import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
 import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 
@@ -10,7 +10,7 @@ const HeroSection = () => {
           font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
           text-primaryWhite
           text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]
-          sm:w-[70%]
+          max-sm:w-[70%]
       
         "
       >
@@ -34,15 +34,21 @@ const HeroSection = () => {
           className="max-w-fit"
         />
         <a
-          href="#services"
+          onClick={(e) => {
+            e.preventDefault();
+            const el = document.getElementById('services');
+            if (el) {
+              el.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
           className="
-          max-h-[40px] max-w-fit
-            font-noto text-[16px]/[120%] tracking-[-0.32px]
-            border border-[1.4px] border-primaryWhite rounded-[10px]
-            py-[14px] px-[18px]
-            flex items-center justify-center
-            hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer
-          "
+    max-h-[40px] max-w-fit
+    font-noto text-[16px]/[120%] tracking-[-0.32px]
+    border border-[1.4px] border-primaryWhite rounded-[10px]
+    py-[14px] px-[18px]
+    flex items-center justify-center
+    hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer
+  "
         >
           Послуги
         </a>
@@ -72,7 +78,7 @@ const HeroSection = () => {
         rightPart={
           <div className="hidden md:block w-fit h-fit">{rightPart}</div> // visible only on md+
         }
-        maskPath="/images/home-hero-bg.png"
+        maskPath="/images/template-1-big-hero-bg.png"
       >
         <div className="absolute z-0 bottom-[16px] md:bottom-[24px] lg:bottom-[30px] right-0 sm:block">
           <TrustBadgesSlider />

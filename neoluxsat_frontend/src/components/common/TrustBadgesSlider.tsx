@@ -5,9 +5,9 @@ import Slider from 'react-slick';
 import Badge1 from '@/assets/images/trust-badges/trust-badge-1.png';
 import Badge2 from '@/assets/images/trust-badges/trust-badge-2.png';
 import Badge3 from '@/assets/images/trust-badges/trust-badge-3.png';
-import Badge4 from '@/assets/images/trust-badges/trust-badge-1.png';
-import Badge5 from '@/assets/images/trust-badges/trust-badge-2.png';
-import Badge6 from '@/assets/images/trust-badges/trust-badge-3.png';
+import Badge4 from '@/assets/images/trust-badges/trust-badge-4.png';
+import Badge5 from '@/assets/images/trust-badges/trust-badge-5.png';
+import Badge6 from '@/assets/images/trust-badges/trust-badge-6.png';
 
 const TrustBadgesSlider = () => {
   const settings = {
