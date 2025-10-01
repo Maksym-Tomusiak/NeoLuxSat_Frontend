@@ -1,5 +1,4 @@
 import HeroSectionTemplate from '@/components/common/sections/HeroSectionTemplate';
-import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
 import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 
 const HeroSection = () => {

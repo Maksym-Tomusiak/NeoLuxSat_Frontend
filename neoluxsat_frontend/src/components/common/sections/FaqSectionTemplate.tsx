@@ -6,7 +6,7 @@ import {
   AccordionContent,
 } from '@/components/ui/accordion';
 import SectionHeader from '@/components/common/SectionHeader';
-import FaqIcon from '@/assets/svgs/faq-icon.svg';
+
 import type { FaqDto } from '@/types/faq';
 
 type FaqSectionTemplateProps = {
@@ -43,10 +43,7 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({ faqs }) => {
               value={faq.id}
               className="rounded-[20px] bg-primaryBlue p-[24px] font-noto text-primaryWhite"
             >
-              <AccordionTrigger
-                className="flex items-center justify-between text-[16px]/[120%] font-medium tracking-[-0.32px] text-primaryWhite sm:text-[17px]/[120%] sm:tracking-[-0.34px] md:text-[18px]/[120%] md:tracking-[-0.36px]"
-                icon={FaqIcon}
-              >
+              <AccordionTrigger className="flex items-center justify-between text-[16px]/[120%] font-medium tracking-[-0.32px] text-primaryWhite sm:text-[17px]/[120%] sm:tracking-[-0.34px] md:text-[18px]/[120%] md:tracking-[-0.36px]">
                 {faq.question}
               </AccordionTrigger>
               <AccordionContent className="max-w-[100%] text-[14px]/[120%] tracking-[-0.28px] sm:text-[15px]/[120%] sm:tracking-[-0.3px] md:max-w-[75%] md:text-[16px]/[120%] md:tracking-[-0.32px]">
