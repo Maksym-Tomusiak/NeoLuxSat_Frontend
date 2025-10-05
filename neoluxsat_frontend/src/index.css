@@ -12,6 +12,9 @@
   --color-primaryBlue: #1a267c;
   --color-primaryOrange: #e76715;
   --color-primaryWhite: #fafcf7;
+  --color-iconsRed: #ec221f;
+  --color-iconsBlue: #337bff;
+  --color-iconsGreen: #14ae5c;
 }
 
 @theme {

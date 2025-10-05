@@ -40,12 +40,6 @@ section {
   color: #fafcf7 !important;
 }
 
-.home-hero-mask {
-  background-image: url('/images/home-hero-bg.png');
-  background-repeat: no-repeat;
-  background-size: contain;
-}
-
 * {
   scroll-behavior: smooth;
 }

@@ -21,7 +21,7 @@ const HeroSectionTemplate: React.FC<HeroSectionTemplateProps> = ({
         gap-[8px] md:gap-[12px]
         overflow-hidden
         rounded-[16px] md:rounded-[20px]
-        px-[16px] md:px-[24px]
+        max-md:px-[16px] md:pl-[24px]
         py-[20px] md:py-[45px]
         text-primaryWhite
         h-[420px] md:h-[500px] lg:h-[620px] xl:h-[694px]

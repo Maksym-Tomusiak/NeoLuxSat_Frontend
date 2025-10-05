@@ -10,7 +10,7 @@ const HeroSection = () => {
           font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
           text-primaryWhite
           text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]
-          max-sm:w-[70%]
+          
       
         "
       >
@@ -62,8 +62,8 @@ const HeroSection = () => {
         src="/images/home-hero-image.png"
         alt="hero-image"
         className="
-          max-w-full sm:max-w-[400px] md:max-w-[250px] lg:max-w-[420px] xl:max-w-[484px]
-          max-h-auto sm:max-h-[400px] md:max-h-[250px]  lg:max-h-[420px] xl:max-h-[484px]
+          max-w-full sm:max-w-[400px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[484px]
+          max-h-auto sm:max-h-[400px] md:max-h-[300px]  lg:max-h-[420px] xl:max-h-[484px]
           h-auto
         "
       />
@@ -76,7 +76,12 @@ const HeroSection = () => {
       <HeroSectionTemplate
         leftPart={leftPart}
         rightPart={
-          <div className="hidden md:block w-fit h-fit">{rightPart}</div> // visible only on md+
+          <div
+            className="hidden md:block w-fit h-fit
+          mr-[32px] lg:mr-[60px]"
+          >
+            {rightPart}
+          </div> // visible only on md+
         }
         maskPath="/images/template-1-big-hero-bg.png"
       >
