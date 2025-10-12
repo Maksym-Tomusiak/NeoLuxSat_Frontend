@@ -4,7 +4,7 @@ import Divider from '@/assets/svgs/header/header-divider.svg';
 import MenuIcon from '@/assets/svgs/header/menu-icon.svg';
 import CloseIcon from '@/assets/svgs/close-icon.svg';
 import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
-import ServicesDropdown from '../common/ServicesDropdown';
+import ServicesDropdown from '../../common/ServicesDropdown';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
@@ -189,14 +189,14 @@ const Header = () => {
               <div className="px-6 flex flex-col w-fit gap-[40px] text-[16px]/[120%] text-left fill-primaryBlue">
                 <div className="flex gap-[12px] items-center w-fit">
                   <AddressIcon />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-[8px]">
                     <p className="font-normal text-primaryBlue/80">Адреса</p>
                     <p className="font-medium">вул. Лесі Українки, Острог</p>
                   </div>
                 </div>
                 <div className="flex gap-[12px] items-center w-fit">
                   <PhoneIcon />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-[8px]">
                     <p className="font-normal text-primaryBlue/80">
                       Номер телефону
                     </p>
@@ -207,7 +207,7 @@ const Header = () => {
                 </div>
                 <div className="flex gap-[12px] items-center w-fit">
                   <EmailIcon />
-                  <div className="flex flex-col">
+                  <div className="flex flex-col gap-[8px]">
                     <p className="font-normal text-primaryBlue/80">Пошта</p>
                     <a
                       href="mailto:neoluxsat@example.com"

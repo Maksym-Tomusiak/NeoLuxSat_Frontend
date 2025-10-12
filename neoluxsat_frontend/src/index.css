@@ -28,9 +28,22 @@ body {
   background-color: #fafcf7;
 }
 
+p,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+button {
+  text-box-trim: trim-both;
+  text-box-edge: cap alphabetic;
+}
+
 :root {
-  --font-manrope: 'Manrope', sans-serif;
-  --font-noto: 'Noto Sans', sans-serif;
+  --font-manrope: 'Manrope', serif;
+  --font-noto: 'Noto Sans', serif;
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --foreground: oklch(0.141 0.005 285.823);

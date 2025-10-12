@@ -5,7 +5,7 @@ import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
-import ServicesDropdown from '../common/ServicesDropdown';
+import ServicesDropdown from '../../common/ServicesDropdown';
 
 const Footer = () => {
   return (
@@ -51,14 +51,14 @@ const Footer = () => {
           <div className="flex flex-col w-fit gap-[24px] text-[16px]/[120%] text-left">
             <div className="flex gap-[12px] items-center w-fit">
               <AddressIcon />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">Адреса</p>
                 <p className="font-medium">вул. Лесі Українки, Острог</p>
               </div>
             </div>
             <div className="flex gap-[12px] items-center w-fit">
               <PhoneIcon />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">
                   Номер телефону
                 </p>
@@ -69,7 +69,7 @@ const Footer = () => {
             </div>
             <div className="flex gap-[12px] items-center w-fit">
               <EmailIcon />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">Пошта</p>
                 <a href="mailto:neoluxsat@example.com" className="font-medium">
                   neoluxsat@example.com

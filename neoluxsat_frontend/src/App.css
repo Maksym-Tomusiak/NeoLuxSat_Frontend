@@ -10,12 +10,6 @@ html {
   scrollbar-gutter: stable both-edges;
 }
 
-body {
-  /* Ensure portals/overlays that affect body don't cause layout shifts */
-  overflow-y: scroll;
-  scrollbar-gutter: stable both-edges;
-}
-
 /* Neutralize scrollbar padding commonly injected by scroll-lock libraries */
 body[style*='padding-right'] {
   padding-right: 0 !important;

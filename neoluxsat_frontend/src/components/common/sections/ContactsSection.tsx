@@ -26,21 +26,21 @@ const ContactsSection = () => {
         <div className="flex flex-wrap max-lg:justify-center items-center gap-x-[59px] lg:gap-y-[32px] h-[175px] w-[680px] text-primaryBlue fill-primaryBlue">
           <div className="flex gap-[12px] items-center w-fit">
             <AddressIcon />
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Адреса</p>
               <p className="font-medium">вул. Лесі Українки, Острог</p>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
             <PhoneIcon />
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
               <p className="font-medium">093-777-3244</p>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
             <EmailIcon />
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
               <p className="font-medium">neoluxsat@example.com</p>
             </div>
@@ -56,21 +56,21 @@ const ContactsSection = () => {
         <div className="flex flex-col items-start gap-[16px] text-primaryBlue fill-primaryBlue">
           <div className="flex gap-[12px] items-center w-fit">
             <AddressIcon />
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Адреса</p>
               <p className="font-medium">вул. Лесі Українки, Острог</p>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
             <PhoneIcon />
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
               <p className="font-medium">093-777-3244</p>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
             <EmailIcon />
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
               <p className="font-medium">neoluxsat@example.com</p>
             </div>
