@@ -1,5 +1,12 @@
-import type { FeedbackCreateDto, FeedbackUpdateDto } from '@/types/feedback';
+import type {
+  FeedbackCreateDto,
+  FeedbackDto,
+  FeedbackUpdateDto,
+} from '@/types/feedback';
 import { HttpClient } from './HttpClient';
+import type { PaginationParams } from '@/types/paginationParams';
+import { TextService } from './textService';
+import type { PaginatedResult } from '@/types/paginatedResult';
 
 export class FeedbackService {
   static async getAllFeedbacks(signal?: AbortSignal) {
@@ -9,6 +16,21 @@ export class FeedbackService {
       signal,
     });
     return await httpClient.get('');
+  }
+
+  static async getAllFeedbacksPaginated(
+    pagination: PaginationParams,
+    signal?: AbortSignal
+  ): Promise<PaginatedResult<FeedbackDto>> {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/feedbacks`,
+      signal,
+    });
+    return await httpClient.get(
+      `paginated${TextService.paginationToText(pagination)}`
+    );
   }
 
   /**
@@ -37,7 +59,7 @@ export class FeedbackService {
       baseURL: `${apiUrl}/feedbacks`,
       signal,
     });
-    return await httpClient.post('/add', feedback);
+    return await httpClient.post('', feedback);
   }
 
   /**
@@ -53,7 +75,7 @@ export class FeedbackService {
       baseURL: `${apiUrl}/feedbacks`,
       signal,
     });
-    return await httpClient.put('/update', feedback);
+    return await httpClient.put(`${feedback.id}`, feedback);
   }
 
   /**
@@ -66,6 +88,6 @@ export class FeedbackService {
       baseURL: `${apiUrl}/feedbacks`,
       signal,
     });
-    return await httpClient.delete(`/delete/${id}`);
+    return await httpClient.delete(`/${id}`);
   }
 }

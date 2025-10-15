@@ -29,7 +29,7 @@ export interface NetworkProblemCreateDto {
   fixStartTime: Date | null;
   fixEndTime: Date | null;
   networkProblemStatusId: string;
-  networkProblemServices: string[];
+  networkProblemServicesIds: string[];
 }
 
 export interface NetworkProblemUpdateDto {
@@ -40,5 +40,5 @@ export interface NetworkProblemUpdateDto {
   fixStartTime: Date | null;
   fixEndTime: Date | null;
   networkProblemStatusId: string;
-  networkProblemServices: string[];
+  networkProblemServicesIds: string[];
 }

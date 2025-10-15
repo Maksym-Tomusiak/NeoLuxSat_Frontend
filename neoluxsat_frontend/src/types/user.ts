@@ -1,11 +1,10 @@
 export interface UserCreateDto {
-  roleId: string;
   username: string;
   password: string;
 }
 
 export interface UserUpdateDto {
-  roleId: string;
+  id: string;
   username: string | null;
   password: string | null;
 }

@@ -1,72 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from '@/components/ui/dashboard-table';
-import { ApplicationService } from '@/services/application.service';
+import React from 'react';
 
-import UserIcon from '@/assets/svgs/admin/dashboard/person-icon.svg';
-import StatusIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
-import DateIcon from '@/assets/svgs/admin/dashboard/date-icon.svg';
-import ActionsIcon from '@/assets/svgs/admin/dashboard/actions-icon.svg';
-import OptionsIcon from '@/assets/svgs/admin/dashboard/options-icon.svg';
-import type { ApplicationDto } from '@/types/application';
+import { Table, TableBody } from '@/components/common/admin/dashboard-table';
+import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
+import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
-const getStatusStyles = (status: string = '') => {
-  const statusLower = status?.toLowerCase();
-  switch (statusLower) {
-    case 'відхилена':
-    case 'скасована':
-      return 'bg-iconsRed/20 border border-iconsRed/80';
-    case 'завершена':
-      return 'bg-iconsGreen/20 border border-iconsGreen/80';
-    case 'виконується':
-      return 'bg-iconsBlue/20 border border-iconsBlue/80';
-    case 'нова':
-    default:
-      return 'bg-primaryOrange/20 border border-primaryOrange/80';
-  }
-};
+import LatestApplicationsHeader from './LatestApplicationsHeader';
+import LatestApplicationsRow from './LatestApplicationsRow';
+import type {
+  ApplicationCreateDto,
+  ApplicationDto,
+  ApplicationUpdateDto,
+} from '@/types/application';
+import ApplicationFormFields from './LatestApplicationsFormFields';
+import useApplicationsTableLogic from './useApplicationsTableLogic';
 
 const LatestApplicationsTable: React.FC = () => {
-  const [applications, setApplications] = useState<ApplicationDto[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    ApplicationService.getLatestApplications(4, controller.signal)
-      .then((data: ApplicationDto[]) => {
-        setApplications(data);
-      })
-      .catch((error: any) => {
-        console.error('Failed to fetch latest applications:', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-
-    return () => controller.abort();
-  }, []);
-
-  const formatDate = (date: Date | string): string => {
-    try {
-      const d = new Date(date);
-      if (isNaN(d.getTime())) return String(date);
-      return d.toLocaleDateString('uk-UA', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        timeZone: 'Europe/Kyiv',
-      });
-    } catch {
-      return String(date);
-    }
-  };
+  const {
+    applications,
+    loading,
+    openMenuId,
+    isDeleteModalOpen,
+    itemToDelete,
+    isFormModalOpen,
+    isReadOnlyModal,
+    entityToEdit,
+    ApplicationServiceProxy,
+    formatDate,
+    toggleMenu,
+    openDeleteModal,
+    closeDeleteModal,
+    handleDeleteConfirm,
+    handleDetails,
+    handleEdit,
+    closeFormModal,
+    getApplicationInitialData,
+    applicationTypes,
+    applicationStatuses,
+    validateApplication, // New from hook
+    handleSuccess, // New from hook
+  } = useApplicationsTableLogic();
 
   if (loading) {
     return (
@@ -83,87 +55,69 @@ const LatestApplicationsTable: React.FC = () => {
       </h2>
       <div>
         <Table>
-          <TableHeader className="pb-[16px]">
-            <TableRow className="border-b-0">
-              <TableHead className="text-primaryBlue">
-                <div className="flex gap-[6px] items-center pl-[12px]">
-                  <UserIcon />
-                  <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-                    ПІБ
-                  </p>
-                </div>
-              </TableHead>
-              <TableHead className="text-primaryBlue">
-                <div className="flex gap-[6px] items-center">
-                  <StatusIcon />
-                  <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-                    Статус
-                  </p>
-                </div>
-              </TableHead>
-              <TableHead className="text-primaryBlue">
-                <div className="flex gap-[6px] items-center">
-                  <DateIcon />
-                  <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-                    Дата створення
-                  </p>
-                </div>
-              </TableHead>
-              <TableHead className="text-primaryBlue text-right">
-                <div className="flex gap-[6px] items-center justify-end pr-[12px]">
-                  <ActionsIcon />
-                  <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-                    Дії
-                  </p>
-                </div>
-              </TableHead>
-            </TableRow>
-          </TableHeader>
+          <LatestApplicationsHeader />
           <TableBody>
             {applications.length > 0 ? (
               applications.map((app) => (
-                <TableRow
+                <LatestApplicationsRow
                   key={app.id}
-                  className="bg-primaryWhite rounded-[10px] h-[60px] transition-shadow duration-200 shadow-none hover:shadow-md border-b-0 hover:bg-muted/50 data-[state=selected]:bg-muted"
-                  style={{ marginBottom: '8px' }}
-                >
-                  <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 rounded-l-[10px]">
-                    {app.fullName}
-                  </TableCell>
-                  <TableCell className="p-0">
-                    <span
-                      className={`inline-flex justify-start px-[10px] py-[8px] rounded-full ${getStatusStyles(
-                        app.status?.title
-                      )}`}
-                    >
-                      <p className="font-noto text-[14px]/[120%] tracking-[-0.28px] font-normal text-primaryBlue">
-                        {app.status?.title}
-                      </p>
-                    </span>
-                  </TableCell>
-                  <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue p-0">
-                    {formatDate(app.createdAt)}
-                  </TableCell>
-                  <TableCell className="text-right pr-[18px] rounded-r-[10px]">
-                    <button className="hover:cursor-pointer">
-                      <OptionsIcon />
-                    </button>
-                  </TableCell>
-                </TableRow>
+                  app={app}
+                  openMenuId={openMenuId}
+                  onToggleMenu={toggleMenu}
+                  onDetails={handleDetails}
+                  onEdit={handleEdit}
+                  onDelete={openDeleteModal}
+                  formatDate={formatDate}
+                />
               ))
             ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={4}
-                  className="h-24 text-center text-gray-500"
-                >
+              <tr>
+                <td colSpan={4} className="h-24 text-center text-gray-500">
                   Немає останніх заявок.
-                </TableCell>
-              </TableRow>
+                </td>
+              </tr>
             )}
           </TableBody>
         </Table>
       </div>
+      {/* Delete Modal */}
+      {itemToDelete && (
+        <DeleteConfirmationModal
+          isOpen={isDeleteModalOpen}
+          onClose={closeDeleteModal}
+          onConfirm={handleDeleteConfirm}
+          itemName={`заявку від "${itemToDelete.name}"`}
+        />
+      )}
+
+      {/* Form/Details Modal */}
+      {isFormModalOpen && (
+        <EntityFormModal<
+          ApplicationDto,
+          ApplicationCreateDto,
+          ApplicationUpdateDto
+        >
+          isOpen={isFormModalOpen}
+          onClose={closeFormModal}
+          isReadOnly={isReadOnlyModal}
+          entity={entityToEdit}
+          title="заявку"
+          service={ApplicationServiceProxy}
+          onSuccess={handleSuccess}
+          getInitialData={getApplicationInitialData}
+          formFields={(formData, handleChange, isReadOnly, errors) => (
+            <ApplicationFormFields
+              formData={formData}
+              handleChange={handleChange}
+              isReadOnly={isReadOnly}
+              errors={errors}
+              applicationTypes={applicationTypes}
+              applicationStatuses={applicationStatuses}
+            />
+          )}
+          validate={validateApplication}
+        />
+      )}
     </div>
   );
 };

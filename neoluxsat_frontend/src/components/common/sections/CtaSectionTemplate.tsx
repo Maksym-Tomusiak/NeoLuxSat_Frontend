@@ -27,17 +27,17 @@ const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
       <SectionHeader isCta={true} className="xl:max-w-[60%]">
         {title}
       </SectionHeader>
-      <div className="bg-primaryWhite p-[10px] rounded-[10px] flex gap-[16px] flex-col sm:flex-row justify-between z-1">
+      <div className="bg-primaryWhite p-[10px] rounded-[10px] flex gap-[16px] flex-col sm:flex-row justify-between items-center z-1">
         <p
           className="text-primaryBlue/80 text-[16px]/[120%] font-noto font-medium
-        md:max-w-[50%] xl:max-w-[28%]"
+        md:max-w-[50%] xl:max-w-[30%]"
         >
           {description}
         </p>
         <LeaveApplicationButton
           {...applicationButtonParams}
           onApplicationClick={onApplicationClick}
-          className="min-w-fit justify-center"
+          className="sm:min-w-fit min-w-full justify-center"
         />
       </div>
     </section>

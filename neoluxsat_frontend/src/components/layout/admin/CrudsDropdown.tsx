@@ -19,8 +19,9 @@ const CrudsDropdown = () => {
   const options = [
     { name: 'Заявки', href: '/admin/applications' },
     { name: 'Часті питання', href: '/admin/faqs' },
-    { name: 'Коментарі', href: '/admin/feedbacks' },
+    { name: 'Відгуки', href: '/admin/feedbacks' },
     { name: 'Акції', href: '/admin/sales' },
+    { name: 'Мережеві проблеми', href: '/admin/network' },
   ];
 
   if (decoded.role && decoded.role === 'Admin') {

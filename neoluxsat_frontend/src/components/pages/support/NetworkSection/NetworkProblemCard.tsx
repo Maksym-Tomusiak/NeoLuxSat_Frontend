@@ -42,6 +42,7 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
   ) {
     if (start && end) formattedTime = `${start} - ${end}`;
     else if (end) formattedTime = `до ${end}`;
+    else if (start) formattedTime = `після ${start}`;
   }
 
   // Choose color by status

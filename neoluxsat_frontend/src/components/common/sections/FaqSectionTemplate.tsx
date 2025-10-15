@@ -33,8 +33,7 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({ faqs }) => {
 
         {/* Accordion */}
         <Accordion
-          type="single"
-          collapsible
+          type="multiple"
           className="relative w-full max-w-[680px] space-y-4 sm:space-y-5 md:space-y-6 lg:min-w-[680px]"
         >
           {faqs.map((faq) => (

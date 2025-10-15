@@ -8,6 +8,11 @@ import SupportPage from '@/components/pages/support/SupportPage';
 import ProtectedRoute from './ProtectedRoute';
 import AdminLayout from '@/components/layout/admin/AdminLayout';
 import LoginPage from '@/components/pages/auth/LoginPage';
+import FeedbacksTable from '@/components/pages/admin/Crud/Feedbacks/FeedbacksTable';
+import UsersTable from '@/components/pages/admin/Crud/Users/UsersTable';
+import FaqsTable from '@/components/pages/admin/Crud/Faqs/FaqsTable';
+import ApplicationsTable from '@/components/pages/admin/Crud/Applications/ApplicationsTable';
+import NetworkProblemsTable from '@/components/pages/admin/Crud/NetworkProblems/NetworkProblemsTable';
 
 const Router = () => {
   return (
@@ -29,7 +34,55 @@ const Router = () => {
             </ProtectedRoute>
           }
         >
-          <Route index element={<AdminPage />} />
+          <Route
+            index
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="feedbacks"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <FeedbacksTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="users"
+            element={
+              <ProtectedRoute allowedRoles={['Admin']}>
+                <UsersTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="faqs"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <FaqsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="applications"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <ApplicationsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="network"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <NetworkProblemsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         <Route path="/login" element={<LoginPage />} />

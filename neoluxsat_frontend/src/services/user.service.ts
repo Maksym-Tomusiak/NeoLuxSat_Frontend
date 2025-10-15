@@ -5,6 +5,9 @@ import type {
   UserUpdateDto,
 } from '@/types/user';
 import { HttpClient } from './HttpClient';
+import type { PaginationParams } from '@/types/paginationParams';
+import { TextService } from './textService';
+import type { PaginatedResult } from '@/types/paginatedResult';
 
 export class UserService {
   static async getAllUsers(signal?: AbortSignal): Promise<UserDto[]> {
@@ -14,6 +17,21 @@ export class UserService {
       signal,
     });
     return await httpClient.get('');
+  }
+
+  static async getAllUsersPaginated(
+    pagination: PaginationParams,
+    signal?: AbortSignal
+  ): Promise<PaginatedResult<UserDto>> {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/users`,
+      signal,
+    });
+    return await httpClient.get(
+      `paginated${TextService.paginationToText(pagination)}`
+    );
   }
 
   /**
@@ -34,17 +52,13 @@ export class UserService {
    * @param {object} user
    * @param {AbortSignal} signal
    */
-  static async updateUser(
-    id: string,
-    user: UserUpdateDto,
-    signal?: AbortSignal
-  ) {
+  static async updateUser(user: UserUpdateDto, signal?: AbortSignal) {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const httpClient = new HttpClient({
       baseURL: `${apiUrl}/users`,
       signal,
     });
-    return await httpClient.put(`/${id}`, user);
+    return await httpClient.put(`/${user.id}`, user);
   }
 
   /**

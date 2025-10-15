@@ -13,7 +13,7 @@ export interface ApplicationDto {
   fullName: string;
   email: string;
   address: string;
-  phoneNumber: string;
+  phone: string;
   typeId: string;
   statusId: string;
   type: ApplicationTypeDto | null;
@@ -25,7 +25,7 @@ export interface ApplicationCreateDto {
   fullName: string;
   email: string;
   address: string;
-  phoneNumber: string;
+  phone: string;
   typeId: string;
 }
 
@@ -34,7 +34,7 @@ export interface ApplicationUpdateDto {
   fullName: string;
   email: string;
   address: string;
-  phoneNumber: string;
+  phone: string;
   typeId: string;
   statusId: string;
 }

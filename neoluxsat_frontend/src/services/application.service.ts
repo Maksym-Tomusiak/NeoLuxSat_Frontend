@@ -4,6 +4,9 @@ import type {
   ApplicationUpdateDto,
 } from '@/types/application';
 import { HttpClient } from './HttpClient';
+import type { PaginationParams } from '@/types/paginationParams';
+import { TextService } from './textService';
+import type { PaginatedResult } from '@/types/paginatedResult';
 
 export class ApplicationService {
   static async getAllApplications(
@@ -15,6 +18,20 @@ export class ApplicationService {
       signal,
     });
     return await httpClient.get('');
+  }
+
+  static async getAllApplicationsPaginated(
+    pagination: PaginationParams,
+    signal?: AbortSignal
+  ): Promise<PaginatedResult<ApplicationDto>> {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/applications`,
+      signal,
+    });
+    return await httpClient.get(
+      `paginated${TextService.paginationToText(pagination)}`
+    );
   }
 
   static async getApplicationsCountByTypes(signal?: AbortSignal) {
