@@ -8,11 +8,22 @@ import ContentIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
 import DateIcon from '@/assets/svgs/admin/dashboard/date-icon.svg';
 import ActionsIcon from '@/assets/svgs/admin/dashboard/actions-icon.svg';
 import AddressIcon from '@/assets/svgs/admin/dashboard/address-icon.svg';
+import ActiveIcon from '@/assets/svgs/admin/dashboard/finished-icon.svg';
 
 const NetworkProblemsTableHeader: React.FC = () => {
   return (
     <TableHeader className="mb-4">
       <TableRow className="border-b-0 hover:bg-transparent">
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <div className="fill-primaryBlue/80">
+              <ActiveIcon />
+            </div>
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              Активна
+            </p>
+          </div>
+        </TableHead>
         <TableHead className="text-primaryBlue">
           <div className="flex gap-[6px] items-center">
             <ContentIcon />

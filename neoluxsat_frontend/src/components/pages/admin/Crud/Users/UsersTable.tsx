@@ -8,8 +8,8 @@ import TablePagination from '@/components/common/admin/TablePagination';
 import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
 import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
-import useUsersTableLogic from './useUsersTableLogic'; // New import
-import UserFormFields from './UserFormFields'; // New import
+import useUsersTableLogic from './useUsersTableLogic';
+import UserFormFields from './UserFormFields';
 import type { UserDto, UserCreateDto, UserUpdateDto } from '@/types/user';
 
 const UsersTable: React.FC = () => {
@@ -35,7 +35,7 @@ const UsersTable: React.FC = () => {
     handleDeleteConfirm,
     reloadData,
     getUserInitialData,
-    validateUser,
+    // 🛑 validateUser is no longer destructured
   } = useUsersTableLogic();
 
   if (initialLoading) {
@@ -52,6 +52,7 @@ const UsersTable: React.FC = () => {
 
   return (
     <div className="w-full max-w-[1000px] mx-auto bg-primaryWhite rounded-[20px] px-[12px] pt-[24px] pb-[12px] shadow-md">
+      {/* ... (Header, Table, and Pagination unchanged) ... */}
       <div className="flex justify-between items-center mb-6 pl-[24px] pr-4">
         <h2 className="text-[24px]/[90%] font-semibold font-manrope text-primaryBlue">
           Користувачі
@@ -61,10 +62,10 @@ const UsersTable: React.FC = () => {
           <button
             onClick={handleAdd}
             className="flex items-center justify-center 
-            h-10 px-4 border border-primaryOrange border-[2px]
-            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-            bg-primaryOrange rounded-full 
-            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+      h-10 px-4 border border-primaryOrange border-[2px]
+      text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+      bg-primaryOrange rounded-full 
+      hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
           >
             Додати
           </button>
@@ -105,8 +106,7 @@ const UsersTable: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
-
-      {/* Delete Modal */}
+      {/* ... (Delete Modal unchanged) ... */}
       {itemToDelete && (
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
@@ -127,16 +127,14 @@ const UsersTable: React.FC = () => {
           service={UserServiceProxy}
           onSuccess={reloadData}
           getInitialData={getUserInitialData}
-          // Use the dedicated form fields component
-          formFields={(formData, handleChange, isReadOnly, errors) => (
+          // 💡 Simplified formFields signature
+          formFields={(isReadOnly) => (
             <UserFormFields
-              formData={formData}
-              handleChange={handleChange}
               isReadOnly={isReadOnly}
-              errors={errors}
+              // RHF handles edit state via useFormContext
             />
           )}
-          validate={validateUser}
+          // 🛑 validate prop is removed
         />
       )}
     </div>

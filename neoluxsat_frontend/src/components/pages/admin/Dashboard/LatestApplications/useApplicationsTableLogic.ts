@@ -2,11 +2,7 @@
 
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { ApplicationService } from '@/services/application.service';
-import type {
-  ApplicationDto,
-  ApplicationCreateDto,
-  ApplicationUpdateDto,
-} from '@/types/application';
+import type { ApplicationDto, ApplicationUpdateDto } from '@/types/application';
 import { ApplicationTypeService } from '@/services/applicationType.service';
 import { ApplicationStatusService } from '@/services/applicationStatus.service';
 
@@ -18,6 +14,8 @@ const useApplicationsTableLogic = () => {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
   const [isReadOnlyModal, setIsReadOnlyModal] = useState(false);
   const [entityToEdit, setEntityToEdit] = useState<ApplicationDto | null>(null);
+
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{
@@ -53,6 +51,7 @@ const useApplicationsTableLogic = () => {
       })
       .finally(() => {
         setLoading(false);
+        setInitialLoading(false);
       });
 
     return () => controller.abort();
@@ -84,48 +83,6 @@ const useApplicationsTableLogic = () => {
     }
   };
 
-  const getApplicationInitialData = (
-    entity: ApplicationDto | null
-  ): ApplicationCreateDto | ApplicationUpdateDto => {
-    return entity
-      ? ({
-          id: entity.id,
-          fullName: entity.fullName,
-          email: entity.email,
-          address: entity.address,
-          phone: entity.phone,
-          typeId: entity.typeId,
-          statusId: entity.statusId,
-        } as ApplicationUpdateDto)
-      : ({
-          fullName: '',
-          email: '',
-          address: '',
-          phone: '',
-          typeId: '',
-        } as ApplicationCreateDto);
-  };
-
-  const validateApplication = (
-    data: ApplicationCreateDto | ApplicationUpdateDto,
-    isEditing: boolean | undefined
-  ): Record<string, string> => {
-    const e: Record<string, string> = {};
-    const len = (v?: string | null) => (v ?? '').trim().length;
-    if (len(data.fullName) < 3 || len(data.fullName) > 255)
-      e.fullName = "Повне ім'я має бути від 3 до 255 символів";
-    if (len(data.email) < 3 || len(data.email) > 255)
-      e.email = 'Email має бути від 3 до 255 символів';
-    if (len(data.phone) < 3 || len(data.phone) > 20)
-      e.phone = 'Телефон має бути від 3 до 20 символів';
-    if (len(data.address) < 3 || len(data.address) > 500)
-      e.address = 'Адреса має бути від 3 до 500 символів';
-    if (!data.typeId) e.typeId = 'Оберіть тип заявки';
-    if (isEditing && !('id' in data && (data as any).statusId))
-      e.statusId = 'Оберіть статус заявки';
-    return e;
-  };
-
   // --- Handlers ---
 
   const toggleMenu = (id: string) => {
@@ -147,7 +104,7 @@ const useApplicationsTableLogic = () => {
     if (!itemToDelete) return;
     try {
       await ApplicationService.deleteApplicationById(itemToDelete.id);
-      setApplications((prev) => prev.filter((a) => a.id !== itemToDelete.id));
+      fetchApplications();
     } catch (e) {
       console.error('Failed to delete application', e);
     } finally {
@@ -193,6 +150,7 @@ const useApplicationsTableLogic = () => {
   return {
     applications,
     loading,
+    initialLoading,
     openMenuId,
     isFormModalOpen,
     isReadOnlyModal,
@@ -210,8 +168,6 @@ const useApplicationsTableLogic = () => {
     handleDetails,
     handleEdit,
     closeFormModal,
-    getApplicationInitialData,
-    validateApplication,
     handleSuccess,
   };
 };

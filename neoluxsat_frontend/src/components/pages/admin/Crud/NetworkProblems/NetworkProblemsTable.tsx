@@ -9,8 +9,8 @@ import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmatio
 import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
 import {
-  renderNetworkProblemFormFields,
-  getNetworkProblemInitialData,
+  NetworkProblemFormFields,
+  getNetworkProblemInitialData, // This function is used for EntityFormModal's prop
 } from './NetworkProblemFormFields';
 
 import useNetworkProblemsTableLogic from './useNetworkProblemsTableLogic';
@@ -18,13 +18,15 @@ import type {
   NetworkProblemDto,
   NetworkProblemCreateDto,
   NetworkProblemUpdateDto,
+  NetworkProblemStatusDto,
+  NetworkProblemServiceDto,
 } from '@/types/networkProblem';
 
 const NetworkProblemsTable: React.FC = () => {
   const {
     paginatedData,
-    statuses,
-    services,
+    statuses, // Keep these to pass to the FormFields component
+    services, // Keep these to pass to the FormFields component
     initialLoading,
     isFetching,
     localSearchTerm,
@@ -46,7 +48,8 @@ const NetworkProblemsTable: React.FC = () => {
     closeDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    validateEntity,
+    // 🛑 validateEntity is removed
+    handleToggleActive,
   } = useNetworkProblemsTableLogic();
 
   if (initialLoading) {
@@ -63,19 +66,20 @@ const NetworkProblemsTable: React.FC = () => {
 
   return (
     <div className="w-full max-w-full mx-auto bg-primaryWhite rounded-[20px] px-[12px] pt-[24px] pb-[12px] shadow-md">
+      {/* ... (Table layout and CRUD handlers unchanged) ... */}
       <div className="flex justify-between items-center mb-6 pl-[24px] pr-4">
         <h2 className="text-[24px]/[90%] font-semibold font-manrope text-primaryBlue">
-          Проблеми мережі
+          Мережеві проблеми
         </h2>
 
         <div className="flex items-center gap-4">
           <button
             onClick={handleAdd}
             className="flex items-center justify-center 
-            h-10 px-4 border border-primaryOrange border-[2px]
-            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-            bg-primaryOrange rounded-full 
-            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+      h-10 px-4 border border-primaryOrange border-[2px]
+      text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+      bg-primaryOrange rounded-full 
+      hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
           >
             Додати
           </button>
@@ -98,6 +102,7 @@ const NetworkProblemsTable: React.FC = () => {
                   onDelete={openDeleteModal}
                   formatDate={formatDate}
                   formatTime={formatTime}
+                  onToggleActive={handleToggleActive}
                 />
               ))
             ) : (
@@ -142,21 +147,30 @@ const NetworkProblemsTable: React.FC = () => {
           service={ServiceProxy}
           onSuccess={reloadData}
           getInitialData={getNetworkProblemInitialData}
-          formFields={(formData, handleChange, isReadOnly, errors) =>
-            renderNetworkProblemFormFields(
-              formData,
-              handleChange,
-              isReadOnly,
-              statuses,
-              services,
-              errors
-            )
-          }
-          validate={validateEntity}
+          // 💡 Simplified formFields signature
+          formFields={(isReadOnly) => (
+            // We create an inline component wrapper to pass the dependencies
+            <NetworkProblemFormFieldsWrapper
+              isReadOnly={isReadOnly}
+              statuses={statuses}
+              services={services}
+            />
+          )}
+          // 🛑 validate prop is removed
         />
       )}
     </div>
   );
+};
+
+// We define a wrapper component that encapsulates the original render function's logic
+// but uses RHF hooks internally. We'll define the content of this wrapper in the FormFields section.
+const NetworkProblemFormFieldsWrapper: React.FC<{
+  isReadOnly: boolean;
+  statuses: NetworkProblemStatusDto[];
+  services: NetworkProblemServiceDto[];
+}> = (props) => {
+  return NetworkProblemFormFields(props);
 };
 
 export default NetworkProblemsTable;

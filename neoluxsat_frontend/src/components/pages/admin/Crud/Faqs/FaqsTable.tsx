@@ -7,8 +7,8 @@ import TablePagination from '@/components/common/admin/TablePagination';
 import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
 import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
-import useFaqsTableLogic from './useFaqsTableLogic'; // New import
-import FaqFormFields from './FaqFormFields'; // New import
+import useFaqsTableLogic from './useFaqsTableLogic';
+import FaqFormFields from './FaqFormFields';
 import type { FaqDto, FaqCreateDto, FaqUpdateDto } from '@/types/faq';
 
 const FaqsTable: React.FC = () => {
@@ -33,8 +33,7 @@ const FaqsTable: React.FC = () => {
     openDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    getFaqInitialData,
-    validateFaq,
+    getFaqInitialData, // 🛑 validateFaq is no longer destructured
     closeDeleteModal,
   } = useFaqsTableLogic();
 
@@ -52,6 +51,7 @@ const FaqsTable: React.FC = () => {
 
   return (
     <div className="w-full max-w-full mx-auto bg-primaryWhite rounded-[20px] px-[12px] pt-[24px] pb-[12px] shadow-md">
+      {/* ... (Header, Table, and Pagination unchanged) ... */}
       <div className="flex justify-between items-center mb-6 pl-[24px] pr-4">
         <h2 className="text-[24px]/[90%] font-semibold font-manrope text-primaryBlue">
           Часті питання
@@ -61,10 +61,10 @@ const FaqsTable: React.FC = () => {
           <button
             onClick={handleAdd}
             className="flex items-center justify-center 
-            h-10 px-4 border border-primaryOrange border-[2px]
-            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-            bg-primaryOrange rounded-full 
-            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+      h-10 px-4 border border-primaryOrange border-[2px]
+      text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+      bg-primaryOrange rounded-full 
+      hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
           >
             Додати
           </button>
@@ -105,8 +105,7 @@ const FaqsTable: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
-
-      {/* Delete Modal */}
+      {/* ... (Delete Modal unchanged) ... */}
       {itemToDelete && (
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
@@ -115,7 +114,6 @@ const FaqsTable: React.FC = () => {
           itemName={`FAQ "${itemToDelete.name}"`}
         />
       )}
-
       {/* Form/Details Modal */}
       {isFormModalOpen && (
         <EntityFormModal<FaqDto, FaqCreateDto, FaqUpdateDto>
@@ -126,18 +124,13 @@ const FaqsTable: React.FC = () => {
           title="FAQ"
           service={FaqServiceProxy}
           onSuccess={reloadData}
-          getInitialData={getFaqInitialData}
-          // Pass the form fields component, including the necessary categories prop
-          formFields={(formData, handleChange, isReadOnly, errors) => (
+          getInitialData={getFaqInitialData} // 💡 Simplified formFields signature
+          formFields={(isReadOnly) => (
             <FaqFormFields
-              formData={formData}
-              handleChange={handleChange}
               isReadOnly={isReadOnly}
-              errors={errors}
-              faqCategories={faqCategories}
+              faqCategories={faqCategories} // Keep passing categories
             />
-          )}
-          validate={validateFaq}
+          )} // 🛑 validate prop is removed
         />
       )}
     </div>

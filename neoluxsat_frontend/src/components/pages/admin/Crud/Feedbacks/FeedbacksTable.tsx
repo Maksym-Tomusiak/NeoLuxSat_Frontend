@@ -8,8 +8,8 @@ import TablePagination from '@/components/common/admin/TablePagination';
 import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
 import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
-import useFeedbacksTableLogic from './useFeedbacksTableLogic'; // New import
-import FeedbackFormFields from './FeedbackFormFields'; // New import
+import useFeedbacksTableLogic from './useFeedbacksTableLogic';
+import FeedbackFormFields from './FeedbackFormFields';
 import type {
   FeedbackDto,
   FeedbackCreateDto,
@@ -39,7 +39,7 @@ const FeedbacksTable: React.FC = () => {
     handleDeleteConfirm,
     reloadData,
     getFeedbackInitialData,
-    validateFeedback,
+    // 🛑 validateFeedback is no longer destructured
   } = useFeedbacksTableLogic();
 
   if (initialLoading) {
@@ -130,17 +130,10 @@ const FeedbacksTable: React.FC = () => {
           title="відгук"
           service={FeedbackServiceProxy}
           onSuccess={reloadData}
-          getInitialData={getFeedbackInitialData}
-          // Use the separate component for form fields
-          formFields={(formData, handleChange, isReadOnly, errors) => (
-            <FeedbackFormFields
-              formData={formData}
-              handleChange={handleChange}
-              isReadOnly={isReadOnly}
-              errors={errors}
-            />
+          getInitialData={getFeedbackInitialData} // 💡 Corrected signature to match the updated EntityFormModal prop
+          formFields={(isReadOnly) => (
+            <FeedbackFormFields isReadOnly={isReadOnly} />
           )}
-          validate={validateFeedback}
         />
       )}
     </div>

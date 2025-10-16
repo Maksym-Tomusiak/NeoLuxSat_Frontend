@@ -12,7 +12,7 @@ import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
 // Keep imports for supporting files (assuming ApplicationFormFields is local)
 import {
-  renderApplicationFormFields,
+  ApplicationFormFields,
   getApplicationInitialData,
 } from './ApplicationFormFields';
 
@@ -48,7 +48,6 @@ const ApplicationsTable: React.FC = () => {
     closeDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    validateApplication, // Validation logic moved to hook
   } = useApplicationsTableLogic();
 
   if (initialLoading) {
@@ -145,17 +144,15 @@ const ApplicationsTable: React.FC = () => {
           service={ApplicationServiceProxy}
           onSuccess={reloadData}
           getInitialData={getApplicationInitialData}
-          formFields={(formData, handleChange, isReadOnly, errors) =>
-            renderApplicationFormFields(
-              formData,
-              handleChange,
-              isReadOnly,
-              applicationTypes,
-              applicationStatuses,
-              errors
-            )
-          }
-          validate={validateApplication}
+          // 💡 New RHF render prop signature
+          formFields={(isReadOnly) => (
+            <ApplicationFormFields
+              isReadOnly={isReadOnly}
+              applicationTypes={applicationTypes}
+              applicationStatuses={applicationStatuses}
+            />
+          )}
+          // 🛑 validate prop removed
         />
       )}
     </div>

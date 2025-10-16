@@ -1,7 +1,15 @@
 import React from 'react';
 import { TableCell, TableRow } from '@/components/common/admin/dashboard-table';
 import OptionsIcon from '@/assets/svgs/admin/dashboard/options-icon.svg';
+import DetailsIcon from '@/assets/svgs/admin/dashboard/details-icon.svg';
+import EditIcon from '@/assets/svgs/admin/dashboard/edit-icon.svg';
+import DeleteIcon from '@/assets/svgs/admin/dashboard/delete-icon.svg';
 import type { ApplicationDto } from '@/types/application';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@/components/ui/popover';
 
 const getStatusStyles = (status: string = '') => {
   const statusLower = status?.toLowerCase();
@@ -31,8 +39,6 @@ interface Props {
 
 const LatestApplicationsRow: React.FC<Props> = ({
   app,
-  openMenuId,
-  onToggleMenu,
   onDetails,
   onEdit,
   onDelete,
@@ -61,34 +67,38 @@ const LatestApplicationsRow: React.FC<Props> = ({
         {formatDate(app.createdAt)}
       </TableCell>
       <TableCell className="text-right pr-[18px] rounded-r-[10px] relative">
-        <button
-          className="hover:cursor-pointer"
-          onClick={() => onToggleMenu(app.id)}
-        >
-          <OptionsIcon />
-        </button>
-        {openMenuId === app.id && (
-          <div className="absolute right-2 top-8 z-10 bg-white border border-gray-200 rounded-md shadow-lg w-40">
+        <Popover>
+          <PopoverTrigger asChild>
+            <button className="hover:cursor-pointer">
+              <OptionsIcon />
+            </button>
+          </PopoverTrigger>
+          <PopoverContent
+            className="p-1 flex space-x-1 space-y-1 w-fit" // Adjusted classes for a cleaner, vertical list of icons
+            align="end" // Align the popover to the end (right) of the trigger
+            sideOffset={8} // Space it out a bit from the trigger
+          >
+            {/* Popover content with buttons */}
             <button
-              className="w-full text-left px-3 py-2 hover:bg-gray-50"
+              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
               onClick={() => onDetails(app)}
             >
-              Деталі
+              <DetailsIcon />
             </button>
             <button
-              className="w-full text-left px-3 py-2 hover:bg-gray-50"
+              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
               onClick={() => onEdit(app)}
             >
-              Редагувати
+              <EditIcon />
             </button>
             <button
-              className="w-full text-left px-3 py-2 text-red-600 hover:bg-gray-50"
+              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
               onClick={() => onDelete(app.id, app.fullName)}
             >
-              Видалити
+              <DeleteIcon />
             </button>
-          </div>
-        )}
+          </PopoverContent>
+        </Popover>
       </TableCell>
     </TableRow>
   );

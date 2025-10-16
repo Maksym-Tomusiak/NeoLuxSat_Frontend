@@ -96,4 +96,16 @@ export class NetworkProblemService {
     });
     return await httpClient.delete(`${id}`);
   }
+
+  static async toggleActiveNetworkProblem(
+    id: string,
+    signal?: AbortSignal
+  ): Promise<NetworkProblemDto> {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/networkProblems`,
+      signal,
+    });
+    return await httpClient.patch(`${id}/toggle-active`);
+  }
 }

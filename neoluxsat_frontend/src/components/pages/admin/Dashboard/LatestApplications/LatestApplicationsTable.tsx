@@ -11,13 +11,16 @@ import type {
   ApplicationDto,
   ApplicationUpdateDto,
 } from '@/types/application';
-import ApplicationFormFields from './LatestApplicationsFormFields';
+import {
+  ApplicationFormFields,
+  getApplicationInitialData,
+} from '../../Crud/Applications/ApplicationFormFields';
 import useApplicationsTableLogic from './useApplicationsTableLogic';
 
 const LatestApplicationsTable: React.FC = () => {
   const {
     applications,
-    loading,
+    initialLoading,
     openMenuId,
     isDeleteModalOpen,
     itemToDelete,
@@ -33,14 +36,12 @@ const LatestApplicationsTable: React.FC = () => {
     handleDetails,
     handleEdit,
     closeFormModal,
-    getApplicationInitialData,
     applicationTypes,
     applicationStatuses,
-    validateApplication, // New from hook
     handleSuccess, // New from hook
   } = useApplicationsTableLogic();
 
-  if (loading) {
+  if (initialLoading) {
     return (
       <div className="w-full lg:flex-1 bg-primaryBlue/10 rounded-[20px] p-4 text-primaryBlue min-h-[380px] flex items-center justify-center shadow-sm">
         Завантаження останніх заявок...
@@ -105,17 +106,15 @@ const LatestApplicationsTable: React.FC = () => {
           service={ApplicationServiceProxy}
           onSuccess={handleSuccess}
           getInitialData={getApplicationInitialData}
-          formFields={(formData, handleChange, isReadOnly, errors) => (
+          // 💡 New RHF render prop signature
+          formFields={(isReadOnly) => (
             <ApplicationFormFields
-              formData={formData}
-              handleChange={handleChange}
               isReadOnly={isReadOnly}
-              errors={errors}
               applicationTypes={applicationTypes}
               applicationStatuses={applicationStatuses}
             />
           )}
-          validate={validateApplication}
+          // 🛑 validate prop removed
         />
       )}
     </div>

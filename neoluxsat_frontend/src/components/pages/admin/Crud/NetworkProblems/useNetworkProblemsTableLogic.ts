@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { PaginationParams } from '@/types/paginationParams';
 import type { PaginatedResult } from '@/types/paginatedResult';
 import type {
-  NetworkProblemCreateDto,
   NetworkProblemDto,
   NetworkProblemStatusDto,
   NetworkProblemUpdateDto,
@@ -75,34 +74,6 @@ const useNetworkProblemsTableLogic = () => {
     }
   };
 
-  const validateEntity = useCallback(
-    (
-      data: NetworkProblemCreateDto | NetworkProblemUpdateDto,
-      _isEditing: boolean | undefined
-    ): Record<string, string> => {
-      const errs: Record<string, string> = {};
-      const d = data as any;
-      const len = (v?: string | null) => (v ?? '').trim().length;
-
-      if (len(d.title) < 3 || len(d.title) > 255)
-        errs.title = 'Заголовок має бути від 3 до 255 символів';
-      if (len(d.address) < 3 || len(d.address) > 255)
-        errs.address = 'Адреса має бути від 3 до 255 символів';
-      if (len(d.currentStatus) < 2 || len(d.currentStatus) > 255)
-        errs.currentStatus = 'Статус має бути від 2 до 255 символів';
-      if (!d.networkProblemStatusId)
-        errs.networkProblemStatusId = 'Оберіть статус';
-      if (
-        !Array.isArray(d.networkProblemServicesIds) ||
-        d.networkProblemServicesIds.length === 0
-      )
-        errs.networkProblemServicesIds = 'Оберіть хоча б одну послугу';
-
-      return errs;
-    },
-    []
-  );
-
   const fetchEntities = useCallback(
     async (currentPagination: PaginationParams, signal: AbortSignal) => {
       if (!initialLoading) setIsFetching(true);
@@ -162,6 +133,32 @@ const useNetworkProblemsTableLogic = () => {
   }, []);
 
   const debouncedSearch = useDebounce(runSearch, 500);
+
+  const handleToggleActive = useCallback(
+    async (id: string, currentIsActive: boolean) => {
+      // 1. Optimistic Update (UI updates immediately)
+      setPaginatedData((prev) => ({
+        ...prev,
+        items: prev.items.map((item) =>
+          item.id === id ? { ...item, isActive: !currentIsActive } : item
+        ),
+      }));
+
+      try {
+        // 2. API Request
+        await NetworkProblemService.toggleActiveNetworkProblem(id); // If successful, the optimistic update is correct. No further action needed.
+      } catch (error) {
+        console.error('Failed to toggle active status:', error); // 3. Revert Optimistic Update (Rollback)
+        setPaginatedData((prev) => ({
+          ...prev,
+          items: prev.items.map((item) =>
+            item.id === id ? { ...item, isActive: currentIsActive } : item
+          ),
+        })); // Optional: Show a toast/error message here
+      }
+    },
+    []
+  );
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLocalSearchTerm(event.target.value);
@@ -259,7 +256,7 @@ const useNetworkProblemsTableLogic = () => {
     closeDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    validateEntity,
+    handleToggleActive,
   };
 };
 

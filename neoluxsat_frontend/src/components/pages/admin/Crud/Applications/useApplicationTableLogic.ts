@@ -3,7 +3,6 @@ import type { PaginationParams } from '@/types/paginationParams';
 import type { PaginatedResult } from '@/types/paginatedResult';
 import type {
   ApplicationDto,
-  ApplicationCreateDto,
   ApplicationUpdateDto,
   ApplicationTypeDto,
   ApplicationStatusDto,
@@ -12,7 +11,6 @@ import { ApplicationService } from '@/services/application.service';
 import { ApplicationTypeService } from '@/services/applicationType.service';
 import { ApplicationStatusService } from '@/services/applicationStatus.service';
 import useDebounce from '@/hooks/useDebounce';
-import { getApplicationInitialData } from './ApplicationFormFields'; // Keep utility function import here if it's external to the hook
 
 const initialPagination: PaginationParams = {
   pageNumber: 1,
@@ -73,32 +71,6 @@ const useApplicationsTableLogic = () => {
       return String(date);
     }
   };
-
-  const validateApplication = useCallback(
-    (
-      data: ApplicationCreateDto | ApplicationUpdateDto,
-      isEditing: boolean | undefined
-    ): Record<string, string> => {
-      const errs: Record<string, string> = {};
-      const d = data as any;
-      const len = (v?: string | null) => (v ?? '').trim().length;
-
-      if (len(d.fullName) < 3 || len(d.fullName) > 255)
-        errs.fullName = "Повне ім'я має бути від 3 до 255 символів";
-      if (len(d.email) < 3 || len(d.email) > 255)
-        errs.email = 'Email має бути від 3 до 255 символів';
-      if (len(d.phone) < 3 || len(d.phone) > 20)
-        errs.phone = 'Телефон має бути від 3 до 20 символів';
-      if (len(d.address) < 3 || len(d.address) > 500)
-        errs.address = 'Адреса має бути від 3 до 500 символів';
-      if (!d.typeId) errs.typeId = 'Оберіть тип заявки';
-
-      if (isEditing && !d.statusId) errs.statusId = 'Оберіть статус заявки';
-
-      return errs;
-    },
-    []
-  );
 
   // --- Data Fetching & Reload ---
 
@@ -261,8 +233,6 @@ const useApplicationsTableLogic = () => {
     closeDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    getApplicationInitialData, // Exported from FormFields file, so we export the function itself
-    validateApplication,
   };
 };
 

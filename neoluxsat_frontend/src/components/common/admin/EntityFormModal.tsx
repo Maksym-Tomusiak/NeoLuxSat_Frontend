@@ -1,4 +1,6 @@
-import React, { useState, useEffect, type FormEvent, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
+// Correct import: FieldValues is sufficient.
+import { useForm, FormProvider, type FieldValues } from 'react-hook-form';
 
 // Placeholder for the simple Modal structure (unchanged)
 interface ModalProps {
@@ -29,15 +31,16 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   );
 };
 
-// --- EntityFormModalProps updated with isReadOnly ---
-
-interface EntityFormModalProps<T extends BaseEntity, C, U extends BaseEntity> {
+// --- EntityFormModalProps (Generics remain the same) ---
+interface EntityFormModalProps<
+  T extends BaseEntity,
+  C extends FieldValues,
+  U extends BaseEntity & FieldValues
+> {
   isOpen: boolean;
   onClose: () => void;
-  entity: T | null; // Null for Add, T for Edit/Details
+  entity: T | null;
   title: string;
-
-  // NEW: Flag for read-only mode (Details view)
   isReadOnly?: boolean;
 
   service: {
@@ -46,30 +49,16 @@ interface EntityFormModalProps<T extends BaseEntity, C, U extends BaseEntity> {
   };
   onSuccess: () => void;
 
-  // Initial data is typically T or C, but for details view we need T's data.
-  // We will use T for the entity prop in Details mode.
   getInitialData: (entity: T | null) => C | U;
 
-  // The change handler passed to formFields is a no-op when read-only
-  formFields: (
-    formData: C | U,
-    handleChange: (
-      e: React.ChangeEvent<
-        HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-      >
-    ) => void,
-    isReadOnly: boolean, // Pass readOnly state to the form field renderer
-    errors: Record<string, string>
-  ) => React.ReactNode;
-
-  // Optional validator; return an object mapping fieldName -> error message
-  validate?: (
-    data: C | U,
-    isEditing: boolean | undefined
-  ) => Record<string, string>;
+  formFields: (isReadOnly: boolean) => React.ReactNode;
 }
 
-const EntityFormModal = <T extends BaseEntity, C, U extends BaseEntity>({
+const EntityFormModal = <
+  T extends BaseEntity,
+  C extends FieldValues,
+  U extends BaseEntity & FieldValues
+>({
   isOpen,
   onClose,
   entity,
@@ -78,15 +67,23 @@ const EntityFormModal = <T extends BaseEntity, C, U extends BaseEntity>({
   onSuccess,
   getInitialData,
   formFields,
-  isReadOnly = false, // Default to false (editable)
-  validate,
+  isReadOnly = false,
 }: EntityFormModalProps<T, C, U>) => {
   const isEditing = !!entity && !isReadOnly;
+  type FormDataType = C | U;
 
-  // When in read-only mode, we still need initial data, so we base state on entity
-  const [formData, setFormData] = useState<C | U>(() => getInitialData(entity));
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
+  const methods = useForm<FormDataType>({
+    // 🚀 FINAL FIX: Use a simple assertion to FieldValues, bypassing the union type complexity.
+    defaultValues: getInitialData(entity) as any,
+    mode: 'onChange',
+    disabled: isReadOnly,
+  });
+
+  const {
+    handleSubmit,
+    reset,
+    formState: { isSubmitting, errors },
+  } = methods;
 
   const memoizedGetInitialData = useCallback(
     () => getInitialData(entity),
@@ -94,65 +91,32 @@ const EntityFormModal = <T extends BaseEntity, C, U extends BaseEntity>({
   );
 
   useEffect(() => {
-    setFormData(memoizedGetInitialData());
-  }, [memoizedGetInitialData, isOpen]);
+    // Similarly, use FieldValues for reset, which is usually safer than 'any'.
+    reset(memoizedGetInitialData() as any, {
+      keepDirty: false,
+    });
+  }, [memoizedGetInitialData, isOpen, reset, entity, isEditing]);
 
-  // Use a no-op handler for read-only mode, or the real handler otherwise
-  const handleChange = isReadOnly
-    ? () => {}
-    : (
-        e: React.ChangeEvent<
-          HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-        >
-      ) => {
-        setFormData(
-          (prev) =>
-            ({
-              ...prev,
-              [e.target.name]: e.target.value,
-            } as C | U)
-        );
-        if (validate) {
-          const next = {
-            ...(formData as any),
-            [e.target.name]: e.target.value,
-          } as C | U;
-          const v = validate(next, isEditing);
-          setErrors(v);
-        }
-      };
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    if (isReadOnly) return; // Prevent submission in details mode
-
-    if (validate) {
-      const v = validate(formData, isEditing);
-      setErrors(v);
-      if (Object.keys(v).length > 0) {
-        return;
-      }
-    }
-
-    setIsSubmitting(true);
+  const onSubmit = async (data: FormDataType) => {
+    if (isReadOnly) return;
 
     try {
       if (isEditing) {
-        await service.update(formData as U);
+        // Assertion back to U for service call
+        await service.update(data as U);
       } else {
-        await service.create(formData as C);
+        // Assertion back to C for service call
+        await service.create(data as C);
       }
       onSuccess();
       onClose();
     } catch (error) {
       console.error('Submission error:', error);
-    } finally {
-      setIsSubmitting(false);
     }
   };
 
   const modalTitle = isReadOnly
-    ? `Деталі` // New title for read-only mode
+    ? `Деталі ${title}`
     : isEditing
     ? `Редагувати ${title}`
     : `Додати новий ${title}`;
@@ -161,36 +125,40 @@ const EntityFormModal = <T extends BaseEntity, C, U extends BaseEntity>({
     <Modal isOpen={isOpen} onClose={onClose}>
       <h3 className="text-2xl font-bold text-primaryBlue mb-4">{modalTitle}</h3>
 
-      {/* Pass the appropriate handleChange and isReadOnly flag to the render prop */}
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        {formFields(formData, handleChange, isReadOnly, errors)}
+      <FormProvider {...methods}>
+        <form
+          // Assertion to 'any' here is standard when dealing with complex generics in handleSubmit
+          onSubmit={handleSubmit(onSubmit as any)}
+          className="flex flex-col gap-4"
+        >
+          {formFields(isReadOnly)}
 
-        <div className="flex justify-end gap-3 pt-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer"
-            disabled={isSubmitting}
-          >
-            Закрити
-          </button>
-
-          {/* Only render the submit button if NOT in read-only mode */}
-          {!isReadOnly && (
+          <div className="flex justify-end gap-3 pt-2">
             <button
-              type="submit"
-              className="px-4 py-2 h-10 border border-primaryOrange border-[2px] text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer bg-primaryOrange rounded-full hover:bg-primaryWhite hover:text-primaryBlue transition-colors disabled:bg-gray-400"
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer"
               disabled={isSubmitting}
             >
-              {isSubmitting
-                ? 'Збереження...'
-                : isEditing
-                ? 'Зберегти зміни'
-                : 'Додати'}
+              Закрити
             </button>
-          )}
-        </div>
-      </form>
+
+            {!isReadOnly && (
+              <button
+                type="submit"
+                disabled={isSubmitting || Object.keys(errors).length > 0}
+                className="px-4 py-2 h-10 border border-primaryOrange border-[2px] text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer bg-primaryOrange rounded-full hover:bg-primaryWhite hover:text-primaryBlue transition-colors disabled:bg-gray-400"
+              >
+                {isSubmitting
+                  ? 'Збереження...'
+                  : isEditing
+                  ? 'Зберегти зміни'
+                  : 'Додати'}
+              </button>
+            )}
+          </div>
+        </form>
+      </FormProvider>
     </Modal>
   );
 };

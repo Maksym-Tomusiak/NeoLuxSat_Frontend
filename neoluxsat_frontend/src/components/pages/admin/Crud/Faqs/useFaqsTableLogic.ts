@@ -184,22 +184,6 @@ const useFaqsTableLogic = () => {
     []
   );
 
-  const validateFaq = useCallback(
-    (data: FaqCreateDto | FaqUpdateDto): Record<string, string> => {
-      const errs: Record<string, string> = {};
-      const d = data as any;
-      const len = (v?: string | null) => (v ?? '').trim().length;
-
-      if (!d.categoryId) errs.categoryId = 'Оберіть категорію';
-      if (len(d.question) < 3 || len(d.question) > 255)
-        errs.question = 'Питання має бути від 3 до 255 символів';
-      if (len(d.answer) < 3 || len(d.answer) > 10000)
-        errs.answer = 'Відповідь має бути від 3 до 10000 символів';
-      return errs;
-    },
-    []
-  );
-
   return {
     paginatedData,
     faqCategories,
@@ -222,7 +206,6 @@ const useFaqsTableLogic = () => {
     handleDeleteConfirm,
     reloadData,
     getFaqInitialData,
-    validateFaq,
     closeDeleteModal,
   };
 };

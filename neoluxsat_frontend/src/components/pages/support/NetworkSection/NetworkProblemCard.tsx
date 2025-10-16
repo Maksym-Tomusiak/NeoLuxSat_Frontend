@@ -83,10 +83,9 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
           className={cn(
             `font-noto font-normal text-[14px]/[120%] tracking-[-0.28px] px-[10px] py-[8px] rounded-full text-center`,
             {
-              'bg-iconsGreen/20 text-iconsGreen': statusTitle === 'Вирішено',
-              'bg-iconsRed/20 text-iconsRed':
-                statusTitle === 'У процесі відновлення',
-              'bg-iconsBlue/20 text-iconsBlue': statusTitle === 'Заплановано',
+              'bg-iconsGreen/20': statusTitle === 'Вирішено',
+              'bg-iconsRed/20': statusTitle === 'У процесі відновлення',
+              'bg-iconsBlue/20': statusTitle === 'Заплановано',
             }
           )}
         >

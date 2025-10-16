@@ -47,6 +47,14 @@ export class HttpClient {
     return this.request<T>({ method: 'PUT', url, data, signal });
   }
 
+  async patch<T = any>(
+    url: string,
+    data?: any,
+    signal?: AbortSignal
+  ): Promise<T> {
+    return this.request<T>({ method: 'PATCH', url, data, signal });
+  }
+
   async delete<T = any>(url: string, signal?: AbortSignal): Promise<T> {
     return this.request<T>({ method: 'DELETE', url, signal });
   }

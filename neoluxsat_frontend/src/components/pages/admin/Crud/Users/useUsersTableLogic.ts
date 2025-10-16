@@ -167,42 +167,6 @@ const useUsersTableLogic = () => {
     []
   );
 
-  const validateUser = useCallback(
-    (
-      data: UserCreateDto | UserUpdateDto,
-      isEditing: boolean | undefined
-    ): Record<string, string> => {
-      const errs: Record<string, string> = {};
-      const d = data as any;
-      const len = (v?: string | null) => (v ?? '').trim().length;
-      const hasWhitespace = (v?: string | null) => /\s/.test(v ?? '');
-
-      // Username validation
-      if (!isEditing || (isEditing && d.username)) {
-        if (
-          len(d.username) < 5 ||
-          len(d.username) > 255 ||
-          hasWhitespace(d.username)
-        ) {
-          errs.username = "Ім'я користувача має бути 5-255 без пробілів";
-        }
-      }
-
-      // Password validation (required for create, optional for edit)
-      if (!isEditing) {
-        if (len(d.password) < 5 || len(d.password) > 255) {
-          errs.password = 'Пароль має бути від 5 до 255 символів';
-        }
-      } else if (d.password && (len(d.password) < 5 || len(d.password) > 255)) {
-        // Only validate if a password is provided during edit
-        errs.password = 'Пароль має бути від 5 до 255 символів';
-      }
-
-      return errs;
-    },
-    []
-  );
-
   return {
     paginatedData,
     initialLoading,
@@ -225,7 +189,6 @@ const useUsersTableLogic = () => {
     handleDeleteConfirm,
     reloadData,
     getUserInitialData,
-    validateUser,
   };
 };
 

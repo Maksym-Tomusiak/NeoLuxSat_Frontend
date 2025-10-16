@@ -174,21 +174,6 @@ const useFeedbacksTableLogic = () => {
     []
   );
 
-  const validateFeedback = useCallback(
-    (data: FeedbackCreateDto | FeedbackUpdateDto): Record<string, string> => {
-      const errs: Record<string, string> = {};
-      const len = (v?: string | null) => (v ?? '').trim().length;
-      const feedbackData = data as any;
-
-      if (len(feedbackData.author) < 3 || len(feedbackData.author) > 255)
-        errs.author = 'Автор має бути від 3 до 255 символів';
-      if (len(feedbackData.content) < 3 || len(feedbackData.content) > 10000)
-        errs.content = 'Зміст має бути від 3 до 10000 символів';
-      return errs;
-    },
-    []
-  );
-
   return {
     paginatedData,
     initialLoading,
@@ -211,7 +196,6 @@ const useFeedbacksTableLogic = () => {
     handleDeleteConfirm,
     reloadData,
     getFeedbackInitialData,
-    validateFeedback,
   };
 };
 

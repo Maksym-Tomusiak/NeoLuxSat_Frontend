@@ -18,7 +18,11 @@ const getStatusIcon = (title: string) => {
     case 'виконується':
       return <PendingApplicationsIcon />;
     case 'завершена':
-      return <FinishedApplicationsIcon />;
+      return (
+        <div className="fill-iconsGreen">
+          <FinishedApplicationsIcon />
+        </div>
+      );
     default:
       return null;
   }

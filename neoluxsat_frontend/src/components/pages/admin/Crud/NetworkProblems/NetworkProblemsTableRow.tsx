@@ -8,13 +8,12 @@ import DeleteIcon from '@/assets/svgs/admin/dashboard/delete-icon.svg';
 const getStatusStyles = (status: string = '') => {
   const statusLower = status?.toLowerCase();
   switch (statusLower) {
-    case 'критичний':
-    case 'критична':
+    case 'у процесі відновлення':
       return 'bg-iconsRed/20 border border-iconsRed/80';
     case 'вирішено':
       return 'bg-iconsGreen/20 border border-iconsGreen/80';
     case 'у процесі':
-    case 'виконується':
+    case 'заплановано':
       return 'bg-iconsBlue/20 border border-iconsBlue/80';
     default:
       return 'bg-primaryOrange/20 border border-primaryOrange/80';
@@ -26,6 +25,7 @@ interface Props {
   onDetails: (e: NetworkProblemDto) => void;
   onEdit: (e: NetworkProblemDto) => void;
   onDelete: (id: string, title: string) => void;
+  onToggleActive: (id: string, currentIsActive: boolean) => void;
   formatDate: (d: Date | string) => string;
   formatTime: (d: string | null) => string;
 }
@@ -61,19 +61,34 @@ const NetworkProblemsTableRow: React.FC<Props> = ({
   onDetails,
   onEdit,
   onDelete,
+  onToggleActive,
   formatDate,
   formatTime,
 }) => {
+  const toggleClasses = entity.isActive ? 'bg-primaryOrange' : 'bg-gray-200';
   return (
     <TableRow
       key={entity.id}
       className={'bg-primaryWhite hover:bg-gray-50 border-b! border-gray-200'}
     >
-      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs truncate">
+      <TableCell className="py-3 pr-2">
+        <button
+          onClick={() => onToggleActive(entity.id, entity.isActive)}
+          className={`relative inline-flex flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 ${toggleClasses}`}
+        >
+          <span
+            aria-hidden="true"
+            className={`pointer-events-none inline-block h-5 w-5 rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200 ${
+              entity.isActive ? 'translate-x-5' : 'translate-x-0'
+            }`}
+          />
+        </button>
+      </TableCell>
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs max-w-[200px] truncate">
         {entity.title}
       </TableCell>
-      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
-        <div>{entity.address || 'N/A'}</div>
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue max-w-[200px] truncate">
+        {entity.address || 'N/A'}
       </TableCell>
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
         <div>
