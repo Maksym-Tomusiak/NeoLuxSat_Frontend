@@ -5,7 +5,7 @@ const HeroSection = () => {
   const leftPart = (
     <div
       className="flex flex-col
-    gap-[12px] xs:gap-[24px] sm:gap-[32px] md:gap-[32px] lg:gap-[40px]
+    gap-[24px] sm:gap-[60px] md:gap-[32px] lg:gap-[40px]
     max-sm:h-full lg:mt-[32px] max-w-full"
     >
       <h1
@@ -56,7 +56,7 @@ const HeroSection = () => {
       >
         <p
           className="z-10 absolute
-        bottom-[82px] md:bottom-[96px] lg:bottom-[116px]
+        bottom-[82px] md:bottom-[101px] lg:bottom-[121px] xl:bottom-[131px]
         left-[50%] translate-x-[-50%] font-noto text-[16px]/[120%] text-primaryWhite/[0.8] tracking-[-0.32px] font-medium"
         >
           Наші партнери

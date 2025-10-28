@@ -4,11 +4,11 @@ const AboutUsSection = () => {
   return (
     <section>
       <SectionHeader isCta={false}>Про нас</SectionHeader>
-      <div className="w-full flex flex-col lg:flex-row justify-between bg-primaryBlue rounded-[20px] h-fit lg:h-[385px] mt-[40px] md:mt-[56px] relative overflow-visible">
+      <div className="w-fit flex flex-col lg:flex-row justify-between bg-primaryBlue rounded-[20px] h-fit lg:h-[385px] mx-auto mt-[40px] md:mt-[56px] relative overflow-visible">
         <div
           className="flex flex-col gap-[32px] text-primaryWhite
           w-full lg:w-[50%]
-          px-[16px] 2xs:px-[24px] sm:px-[60px] md:px-[120px] lg:px-[16px] lg:pl-[24px] xl:pl-[40px] min-[1350px]:pl-[100px]
+          px-[24px] mx-auto max-lg:max-w-[600px] lg:pl-[24px] xl:pl-[40px] min-[1350px]:pl-[100px]
           py-[24px] md:py-[40px] xl:py-[56px]"
         >
           <div className="flex flex-col gap-[24px]">
@@ -29,7 +29,7 @@ const AboutUsSection = () => {
               </p>
             </div>
           </div>
-          <div className="flex gap-[40px] 2xs:gap-[56px] max-lg:justify-center">
+          <div className="flex gap-[40px] 2xs:gap-[56px]">
             <div
               className="items-start flex flex-col text-center gap-[16px]
             "

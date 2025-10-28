@@ -3,6 +3,7 @@ import PendingApplicationsIcon from '@/assets/svgs/admin/dashboard/in-progress-i
 import NewApplicationsIcon from '@/assets/svgs/admin/dashboard/new-icon.svg';
 import FinishedApplicationsIcon from '@/assets/svgs/admin/dashboard/finished-icon.svg';
 import AllApplicationsIcon from '@/assets/svgs/admin/dashboard/all-icon.svg';
+import React from 'react';
 
 interface ApplicationStatusCardProps {
   status: ApplicationStatusDto;
@@ -48,4 +49,4 @@ const ApplicationStatusCard: React.FC<ApplicationStatusCardProps> = ({
   );
 };
 
-export default ApplicationStatusCard;
+export default React.memo(ApplicationStatusCard);

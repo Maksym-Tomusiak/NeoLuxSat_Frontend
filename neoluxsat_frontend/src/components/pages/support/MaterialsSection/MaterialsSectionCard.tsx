@@ -24,7 +24,7 @@ const MaterialsCard: React.FC<MaterialsCardProps> = ({
           bg-primaryBlue
           p-[16px] sm:p-[20px] md:p-[24px]
           gap-[24px]
-          min-h-[220px] sm:min-h-[280px] md:min-h-[350px]
+          min-h-[220px] sm:min-h-[330px]
         `,
         className
       )}

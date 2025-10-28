@@ -1,11 +1,12 @@
 import React from 'react';
-// 💡 Import useFormContext and FieldErrors
 import { useFormContext, type FieldErrors } from 'react-hook-form';
 import type { FaqCreateDto, FaqUpdateDto } from '@/types/faq';
 import type { FaqCategoryDto } from '@/types/faqCategory';
 
+// Type alias for combining DTOs
+type FaqFormType = FaqCreateDto & FaqUpdateDto;
+
 interface FaqFormFieldsProps {
-  // 🛑 Removed formData, handleChange, errors
   isReadOnly: boolean;
   faqCategories: FaqCategoryDto[];
 }
@@ -14,14 +15,60 @@ const FaqFormFields: React.FC<FaqFormFieldsProps> = ({
   isReadOnly,
   faqCategories,
 }) => {
-  // 💡 Use useFormContext to access register and formState.errors
   const {
     register,
     formState: { errors },
-  } = useFormContext<FaqCreateDto & FaqUpdateDto>(); // Type assertion for safer error access
+  } = useFormContext<FaqFormType>();
 
-  const rHFerrors = errors as FieldErrors<FaqCreateDto & FaqUpdateDto>; // RHF Validation Rules
+  const rHFerrors = errors as FieldErrors<FaqFormType>;
 
+  // --- Tailwind Class Definitions ---
+
+  // Base classes (without border color or focus/ring)
+  const defaultBaseClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+
+  // Editable classes with orange focus (includes focus:outline-none)
+  const editableFocusClasses =
+    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+
+  const readOnlySelectClasses =
+    'appearance-none pr-10 bg-gray-100 text-gray-600';
+
+  // --- New Dynamic Class Helper ---
+
+  /**
+   * Generates classes to handle error state (red border when unfocused)
+   * and prioritize selected state (orange border when focused).
+   */
+  const getFieldClasses = (
+    fieldName: keyof FaqFormType,
+    isTextarea: boolean = false
+  ) => {
+    const hasError = rHFerrors[fieldName];
+
+    if (isReadOnly) {
+      return 'border-gray-300';
+    }
+
+    if (hasError) {
+      // If there's an error: Set unfocused border to red, but keep orange focus handlers.
+      // The `editableFocusClasses` will override the base red border when the element is focused.
+      return `border-red-500 ${editableFocusClasses}`;
+    }
+
+    // No error: Set unfocused border to gray-300, and apply orange focus handlers.
+    let baseClasses = 'border-gray-300';
+
+    // Add resize-none for textarea if necessary (since it was removed from defaultBaseClasses)
+    if (isTextarea) {
+      baseClasses += ' resize-none';
+    }
+
+    return `${baseClasses} ${editableFocusClasses}`;
+  };
+
+  // RHF Validation Rules (Unchanged)
   const validationRules = {
     question: {
       required: 'Питання є обовʼязковим',
@@ -52,14 +99,7 @@ const FaqFormFields: React.FC<FaqFormFieldsProps> = ({
     },
   };
 
-  const disabledBaseClasses =
-    'w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
-  const editableSelectClasses =
-    'focus:ring-primaryOrange focus:border-primaryOrange';
-  const readOnlySelectClasses =
-    'appearance-none pr-10 bg-gray-100 text-gray-600'; // Helper function for error display updated for RHF
-
-  const err = (k: keyof (FaqCreateDto & FaqUpdateDto)) =>
+  const err = (k: keyof FaqFormType) =>
     rHFerrors[k] ? (
       <p className="text-xs text-red-600 mt-1">
         {rHFerrors[k]?.message as string}
@@ -79,11 +119,11 @@ const FaqFormFields: React.FC<FaqFormFieldsProps> = ({
 
         <input
           id="question"
-          type="text" // 💡 Use RHF register
+          type="text"
           {...register('question', validationRules.question)}
-          required={!isReadOnly}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          // ✅ Applied dynamic classes
+          className={`${defaultBaseClasses} ${getFieldClasses('question')}`}
         />
         {err('question')}
       </div>
@@ -98,11 +138,11 @@ const FaqFormFields: React.FC<FaqFormFieldsProps> = ({
 
         <textarea
           id="answer"
-          rows={4} // 💡 Use RHF register
+          rows={4}
           {...register('answer', validationRules.answer)}
-          required={!isReadOnly}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange resize-none disabled:bg-gray-100 disabled:text-gray-600"
+          // ✅ Applied dynamic classes (using isTextarea = true)
+          className={`${defaultBaseClasses} ${getFieldClasses('answer', true)}`}
         />
         {err('answer')}
       </div>
@@ -116,14 +156,15 @@ const FaqFormFields: React.FC<FaqFormFieldsProps> = ({
         </label>
 
         <select
-          id="categoryId" // 💡 Use RHF register
+          id="categoryId"
           {...register('categoryId', validationRules.categoryId)}
-          required={!isReadOnly}
           disabled={isReadOnly}
           className={`
-     ${disabledBaseClasses}
-     ${isReadOnly ? readOnlySelectClasses : editableSelectClasses}
-    `}
+            ${defaultBaseClasses}
+            ${
+              isReadOnly ? readOnlySelectClasses : getFieldClasses('categoryId')
+            }
+          `}
         >
           <option value="">Оберіть категорію</option>
           {faqCategories.map((category) => (

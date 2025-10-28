@@ -18,14 +18,17 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className="fixed inset-0 z-2000 flex items-center justify-center bg-black/20 font-noto"
+      className="fixed inset-0 z-2000 flex items-center justify-center bg-black/20 p-4 font-noto" // Added padding for smaller screens
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg"
+        className="bg-white rounded-xl shadow-2xl w-full max-w-lg 
+                   pl-6 py-6" // Apply padding: Left/Top/Bottom=p-6 (1.5rem), Right=p-6 MINUS 10px
         onClick={(e) => e.stopPropagation()}
       >
-        {children}
+        <div className="pr-[10px] max-h-[90vh] overflow-y-auto ">
+          {children}
+        </div>
       </div>
     </div>
   );

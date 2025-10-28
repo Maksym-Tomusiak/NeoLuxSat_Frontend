@@ -18,8 +18,8 @@ const ServicesDropdown = ({ isWhite = true }) => {
     <DropdownMenu>
       <DropdownMenuTrigger
         className={
-          `inline-flex items-center gap-2 font-normal text-[16px]/[120%] !py-0
-        focus:outline-none focus:ring-0 whitespace-nowrap navigation-link ` +
+          `dropdown inline-flex items-center gap-2 font-normal text-[16px] 
+          focus:outline-none focus:ring-0 whitespace-nowrap navigation-link cursor-pointer ` +
           (isWhite ? ' text-primaryWhite' : 'text-primaryBlue')
         }
       >

@@ -1,21 +1,28 @@
-import ShopImage from '@/assets/images/shop/shop-image.png';
+import ShopImage1 from '@/assets/images/shop/shop-image-1.png';
+import ShopImage2 from '@/assets/images/shop/shop-image-2.png';
+import ShopImage3 from '@/assets/images/shop/shop-image-3.png';
 import ShopCard from './ShopCard';
 import SectionHeader from '@/components/common/SectionHeader';
 
 const ShopSection = () => {
   const itemsData = [
     {
-      image: <img src={ShopImage} alt="shop-image" />,
-      title: 'Техніка для дому та офісу',
+      image: <img src={ShopImage1} alt="shop-image" />,
+      title: (
+        <>
+          Техніка для дому <br />
+          та офісу
+        </>
+      ),
       options: ['Телевізори', 'Оргтехніка', 'Інтернет-обладнання'],
     },
     {
-      image: <img src={ShopImage} alt="shop-image" />,
+      image: <img src={ShopImage2} alt="shop-image" />,
       title: 'Гаджети та аксесуари',
       options: ['Різноманітні гаджети', 'Авто та велоаксесуари', 'Ліхтарики'],
     },
     {
-      image: <img src={ShopImage} alt="shop-image" />,
+      image: <img src={ShopImage3} alt="shop-image" />,
       title: 'Безпека та контроль',
       options: ['Охоронні системи', 'Системи відеонагляду'],
     },
@@ -41,7 +48,7 @@ const ShopSection = () => {
           </p>
         </div>
       </div>
-      <div className="flex snap-x snap-mandatory items-stretch gap-[12px] overflow-x-auto sm:-mx-[10px] sm:px-[10px] min-[1090px]:justify-center md:gap-[20px]">
+      <div className="flex snap-x snap-mandatory items-stretch gap-[12px] overflow-x-auto sm:-mx-[10px] sm:px-[10px] min-[1090px]:justify-center md:gap-[20px] scrollbar-hide">
         {itemsData.map((item, index) => (
           <div key={index} className="snap-center shrink-0">
             <ShopCard

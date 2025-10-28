@@ -6,13 +6,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import DropdownIcon from '@/assets/svgs/dropdown-icon.svg';
 import { jwtDecode } from 'jwt-decode';
+
 interface JwtPayload {
   exp: number;
   role?: string;
   [key: string]: any;
 }
 
-const CrudsDropdown = () => {
+export const getCrudsOptions = () => {
   const finalToken = localStorage.getItem('token');
   const decoded = jwtDecode<JwtPayload>(finalToken!);
 
@@ -27,11 +28,16 @@ const CrudsDropdown = () => {
   if (decoded.role && decoded.role === 'Admin') {
     options.push({ name: 'Користувачі', href: '/admin/users' });
   }
+  return options;
+};
+
+const CrudsDropdown = () => {
+  const options = getCrudsOptions(); // Use the new function
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="inline-flex items-center gap-2 font-normal text-[16px]/[120%] !py-0
+        className="dropdown inline-flex items-center gap-2 font-normal text-[16px]/[120%]
           focus:outline-none focus:ring-0 whitespace-nowrap navigation-link text-primaryBlue"
       >
         Редагування

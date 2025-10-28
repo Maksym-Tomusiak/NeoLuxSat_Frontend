@@ -4,15 +4,12 @@ import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 
 const HeroSection = () => {
   const leftPart = (
-    <div className="flex flex-col gap-[12px] xs:gap-[24px] sm:gap-[32px] md:gap-[32px] lg:gap-[40px] max-sm:h-full 2xs:max-sm:justify-between  lg:mt-[62px]">
+    <div className="flex flex-col gap-[12px] xs:gap-[24px] sm:gap-[32px] lg:gap-[40px] max-md:h-full max-md:justify-between  lg:mt-[62px]">
       <h1
         className="
           font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
           text-primaryWhite
-          text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]
-          
-      
-        "
+          text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]"
       >
         Все для вашого комфорту, зв’язку та безпеки
       </h1>
@@ -21,7 +18,7 @@ const HeroSection = () => {
           font-noto
           text-[14px]/[120%] xs:text-[16px]/[120%]
           tracking-[-0.32px]
-          w-full sm:w-[80%] md:w-[90%] lg:w-[475px]
+          w-full sm:w-[60%] md:w-[90%] lg:w-[475px]
         "
       >
         Від надшвидкісного інтернету до мультимедійних платформ і розумних

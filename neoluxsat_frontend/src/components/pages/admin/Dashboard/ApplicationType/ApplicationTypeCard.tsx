@@ -1,4 +1,5 @@
 import type { ApplicationTypeDto } from '@/types/application';
+import React from 'react';
 
 interface ApplicationTypeCardProps {
   type: ApplicationTypeDto;
@@ -32,4 +33,4 @@ const ApplicationTypeCard: React.FC<ApplicationTypeCardProps> = ({
   );
 };
 
-export default ApplicationTypeCard;
+export default React.memo(ApplicationTypeCard);

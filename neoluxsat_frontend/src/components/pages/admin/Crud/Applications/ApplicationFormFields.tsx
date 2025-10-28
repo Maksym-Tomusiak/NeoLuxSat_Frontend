@@ -1,5 +1,3 @@
-// src/components/admin/applications/common/ApplicationFormFields.tsx
-
 import React from 'react';
 import { useFormContext, type FieldErrors } from 'react-hook-form';
 import type {
@@ -9,10 +7,8 @@ import type {
   ApplicationStatusDto,
 } from '@/types/application';
 
-// We need a common type for the form fields
 type ApplicationFormType = ApplicationCreateDto | ApplicationUpdateDto;
 
-// Create a type that represents the union of all keys from both DTOs
 type AllApplicationKeys =
   | keyof ApplicationCreateDto
   | keyof ApplicationUpdateDto;
@@ -36,22 +32,51 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
 
   const rHFerrors = errors as FieldErrors<ApplicationFormType>;
 
-  const isEditing = !!watch('id'); // Base classes for styling (omitted for brevity)
+  const isEditing = !!watch('id');
 
-  const disabledBaseClasses =
-    'w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+  // Base classes for fields
+  const defaultBaseClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+  // Editable text classes with focus state (Orange)
+  const editableTextClasses =
+    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+  // Editable select classes with focus state (Orange) - only used for the select tag
   const editableSelectClasses =
     'focus:ring-primaryOrange focus:border-primaryOrange';
+  // Read-only select classes
   const readOnlySelectClasses =
-    'appearance-none pr-10 bg-gray-100 text-gray-600'; // Helper function to render validation errors // 💡 FIX: Cast the key 'k' to AllApplicationKeys to satisfy the error object access.
+    'appearance-none pr-10 bg-gray-100 text-gray-600';
 
+  const getFieldClasses = (
+    fieldName: keyof ApplicationFormType,
+    isText: boolean = true
+  ) => {
+    const hasError = rHFerrors[fieldName];
+
+    if (isReadOnly) {
+      return 'border-gray-300';
+    }
+
+    if (hasError) {
+      const focusClasses = isText ? editableTextClasses : editableSelectClasses;
+
+      return `border-red-500 ${focusClasses}`;
+    }
+
+    return `border-gray-300 ${
+      isText ? editableTextClasses : editableSelectClasses
+    }`;
+  };
+
+  // Helper function to render validation errors
   const errorText = (k: AllApplicationKeys) =>
     rHFerrors[k as keyof ApplicationFormType] ? (
       <p className="text-xs text-red-600 mt-1">
-        {rHFerrors[k as keyof ApplicationFormType]?.message as string}{' '}
+        {rHFerrors[k as keyof ApplicationFormType]?.message as string}
       </p>
-    ) : null; // --- RHF Validation Rules ---
+    ) : null;
 
+  // --- Validation Rules (Unchanged) ---
   const validationRules = {
     fullName: {
       required: "Повне ім'я є обовʼязковим",
@@ -94,7 +119,6 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
       validate: (value: string) => value.length > 0 || 'Оберіть тип заявки',
     },
     statusId: {
-      // This rule will only apply if register('statusId', ...) is called
       required: isEditing ? 'Оберіть статус заявки' : false,
       validate: (value: string) =>
         (isEditing && value.length > 0) ||
@@ -105,140 +129,141 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
 
   return (
     <>
-      {/* Full Name Field (Unchanged RHF usage) */}{' '}
+      {/* Full Name Field */}
       <div>
-        {' '}
         <label
           htmlFor="fullName"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Повне ім'я
-        </label>{' '}
+        </label>
         <input
           id="fullName"
           type="text"
           {...register('fullName', validationRules.fullName)}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${defaultBaseClasses} ${getFieldClasses('fullName')}`}
         />
-        {errorText('fullName')}{' '}
-      </div>{' '}
-      {/* ... other fields (email, address, phone, typeId) remain the same ... */}
-      {/* Email Field */}{' '}
+        {errorText('fullName')}
+      </div>
+      {/* Email Field */}
       <div>
-        {' '}
         <label
           htmlFor="email"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Email
-        </label>{' '}
+        </label>
         <input
           id="email"
           type="email"
           {...register('email', validationRules.email)}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${defaultBaseClasses} ${getFieldClasses('email')}`}
         />
-        {errorText('email')}{' '}
+        {errorText('email')}
       </div>
-      {/* Address Field */}{' '}
+      {/* Address Field */}
       <div>
-        {' '}
         <label
           htmlFor="address"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Адреса
-        </label>{' '}
+        </label>
         <textarea
           id="address"
           rows={3}
           {...register('address', validationRules.address)}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange resize-none disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${defaultBaseClasses} resize-none ${getFieldClasses(
+            'address'
+          )}`}
         />
-        {errorText('address')}{' '}
+        {errorText('address')}
       </div>
-      {/* Phone Field */}{' '}
+      {/* Phone Field */}
       <div>
-        {' '}
         <label
           htmlFor="phone"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Номер телефону
-        </label>{' '}
+        </label>
         <input
           id="phone"
           type="tel"
           {...register('phone', validationRules.phone)}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${defaultBaseClasses} ${getFieldClasses('phone')}`}
         />
-        {errorText('phone')}{' '}
+        {errorText('phone')}
       </div>
-      {/* Application Type Field */}{' '}
+      {/* Type ID Field (Select) */}
       <div className="relative">
-        {' '}
         <label
           htmlFor="typeId"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
           Тип заявки
-        </label>{' '}
+        </label>
         <select
           id="typeId"
           {...register('typeId', validationRules.typeId)}
           disabled={isReadOnly}
-          className={`${disabledBaseClasses} ${
-            isReadOnly ? readOnlySelectClasses : editableSelectClasses
+          className={`${defaultBaseClasses} ${
+            isReadOnly
+              ? readOnlySelectClasses
+              : getFieldClasses('typeId', false)
           }`}
         >
-          <option value="">Оберіть тип заявки</option>{' '}
+          <option value="">Оберіть тип заявки</option>
           {applicationTypes.map((t: any) => (
             <option key={t.id} value={t.id}>
-              {t.title}{' '}
+              {t.title}
             </option>
-          ))}{' '}
+          ))}
         </select>
-        {errorText('typeId')}{' '}
+        {errorText('typeId')}
       </div>
-      {/* Status Field (Only visible in Edit/Details mode) */}{' '}
+      {/* Status ID Field (Select) */}
       {isEditing && (
         <div className="relative">
-          {' '}
           <label
             htmlFor="statusId"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             Статус заявки
-          </label>{' '}
+          </label>
           <select
-            id="statusId" // 💡 FIX: Type assertion here to satisfy TS, since we know 'id' is present
+            id="statusId"
             {...register('statusId' as 'statusId', validationRules.statusId)}
             disabled={isReadOnly}
-            className={`${disabledBaseClasses} ${
-              isReadOnly ? readOnlySelectClasses : editableSelectClasses
+            className={`${defaultBaseClasses} ${
+              isReadOnly
+                ? readOnlySelectClasses
+                : getFieldClasses(
+                    'statusId' as keyof ApplicationFormType,
+                    false
+                  )
             }`}
           >
-            <option value="">Оберіть статус заявки</option>{' '}
+            <option value="">Оберіть статус заявки</option>
             {applicationStatuses.map((s: any) => (
               <option key={s.id} value={s.id}>
-                {s.title}{' '}
+                {s.title}
               </option>
-            ))}{' '}
+            ))}
           </select>
-          {/* 💡 FIX: Cast the key to the broader union type */}
-          {errorText('statusId')}{' '}
+          {errorText('statusId')}
         </div>
-      )}{' '}
+      )}
     </>
   );
 };
 
 export const getApplicationInitialData = (
-  entity: any | null // Use 'any' here to avoid complex union mapping if types differ slightly
+  entity: any | null
 ): ApplicationCreateDto | ApplicationUpdateDto => {
   return entity
     ? ({

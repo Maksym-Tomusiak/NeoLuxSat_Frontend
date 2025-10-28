@@ -12,7 +12,7 @@ const SectionHeader = ({
 }) => {
   const classes = isCta
     ? 'text-primaryWhite text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%]'
-    : 'text-primaryBlue/20 text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%]';
+    : 'text-primaryBlue/20 text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]';
 
   return (
     <h2

@@ -4,9 +4,10 @@ import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { MapContainer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import SectionHeader from '@/components/common/SectionHeader';
+import MaptilerStyledTileLayer from './MaptilerTileLayer';
 
 const ContactsSection = () => {
   const markerIcon = new L.Icon({
@@ -14,7 +15,7 @@ const ContactsSection = () => {
     iconSize: [32, 32],
   });
 
-  const position: [number, number] = [50.328053775515706, 26.526811168369054];
+  const position: [number, number] = [50.327868073662826, 26.526828402538673];
 
   return (
     <section>
@@ -22,13 +23,16 @@ const ContactsSection = () => {
         Де нас <br className="hidden lg:inline" />
         знайти
       </SectionHeader>
-      <div className="hidden sm:flex justify-center lg:justify-end max-lg:mt-[40px] font-noto mb-[24px] lg:mb-[56px]">
-        <div className="flex flex-wrap max-lg:justify-center items-center gap-x-[59px] lg:gap-y-[32px] h-[175px] w-[680px] text-primaryBlue fill-primaryBlue">
-          <div className="flex gap-[12px] items-center w-fit">
+      <div className="hidden sm:flex justify-end max-lg:mt-[40px] font-noto mb-[24px] lg:mb-[56px]">
+        <div className="flex flex-wrap items-center gap-x-[59px] lg:gap-y-[32px] h-[175px] w-[680px] text-primaryBlue fill-primaryBlue">
+          <div className="flex gap-[12px] items-center w-fit min-w-[290px]">
             <AddressIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Адреса</p>
-              <p className="font-medium">вул. Лесі Українки, Острог</p>
+              <p className="font-medium">
+                вул. Лесі Українки, <br />
+                Острог
+              </p>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
@@ -38,7 +42,7 @@ const ContactsSection = () => {
               <p className="font-medium">093-777-3244</p>
             </div>
           </div>
-          <div className="flex gap-[12px] items-center w-fit">
+          <div className="flex gap-[12px] items-center w-fit min-w-[290px]">
             <EmailIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
@@ -58,7 +62,10 @@ const ContactsSection = () => {
             <AddressIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Адреса</p>
-              <p className="font-medium">вул. Лесі Українки, Острог</p>
+              <p className="font-medium">
+                вул. Лесі Українки, <br />
+                Острог
+              </p>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
@@ -89,10 +96,8 @@ const ContactsSection = () => {
           className="w-full h-full rounded-[20px] overflow-hidden"
           scrollWheelZoom={false}
         >
-          <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          />
+          <MaptilerStyledTileLayer styleId={'dataviz'} />
+
           <Marker position={position} icon={markerIcon}>
             <Popup>Наш магазин</Popup>
           </Marker>

@@ -59,7 +59,6 @@ export class NetworkProblemService {
     networkproblem: NetworkProblemCreateDto,
     signal?: AbortSignal
   ) {
-    console.log(networkproblem);
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const httpClient = new HttpClient({
       baseURL: `${apiUrl}/networkProblems`,

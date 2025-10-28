@@ -12,9 +12,15 @@ import TelegramIcon from '@/assets/svgs/contacts/telegram-icon.svg';
 import ViberIcon from '@/assets/svgs/contacts/viber-icon.svg';
 import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
 
+const HIDE_TIMEOUT_MS = 3000; // 10 seconds
+
 const Header = () => {
+  const [isVisible, setIsVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+  const [isClosing, setIsClosing] = useState(false); // 💡 Ref to store the timer ID
+  const timerRef = useRef<number | null>(null); // 💡 --- NEW --- // Use state for hover instead of a ref, so useEffect can react to it
+
+  const [isHovered, setIsHovered] = useState(false);
 
   const applicationButtonParams = { isOrange: true };
 
@@ -31,54 +37,91 @@ const Header = () => {
       setIsOpen(false);
       setIsClosing(false);
     }, 300); // match animation duration
-  };
-
-  const scrollYRef = useRef(0);
+  }; // This useEffect for scroll-lock is unchanged and correct
 
   useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+
     if (isOpen) {
-      scrollYRef.current = window.scrollY;
-
-      document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollYRef.current}px`;
-      document.body.style.width = '100%';
-      document.body.style.overflow = 'hidden';
-
-      return () => {};
-    } else {
-      // restore position *before* removing fixed
-      const y = scrollYRef.current;
-
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
-
-      // Temporarily disable smooth scroll
-      const html = document.documentElement;
-      const prevScrollBehavior = html.style.scrollBehavior;
-      html.style.scrollBehavior = 'auto';
-
-      window.scrollTo(0, y);
-
-      // Restore previous behavior
-      setTimeout(() => {
-        html.style.scrollBehavior = prevScrollBehavior;
-      }, 0);
+      html.classList.add('scroll-lock-html');
+      body.classList.add('scroll-lock-body');
+    } else if (!isClosing) {
+      html.classList.remove('scroll-lock-html');
+      body.classList.remove('scroll-lock-body');
     }
 
     return () => {
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
+      html.classList.remove('scroll-lock-html');
+      body.classList.remove('scroll-lock-body');
     };
-  }, [isOpen]);
+  }, [isOpen, isClosing]); // 💡 --- LOGIC UPDATED --- // This effect replaces your resetTimer function and the old effect
+
+  useEffect(() => {
+    // Function to handle user activity (scroll or touch)
+    const handleActivity = () => {
+      // 1. Always show header on activity
+      setIsVisible(true); // 2. Clear any pending hide timer
+
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      } // 3. Set a new timer to hide, IF conditions are met // (Not hovered, menu not open, and preferably, scrolled down)
+
+      if (!isHovered && !isOpen && window.scrollY > 0) {
+        timerRef.current = window.setTimeout(() => {
+          setIsVisible(false);
+        }, HIDE_TIMEOUT_MS);
+      }
+    }; // If user is hovering or the mobile menu is open, // keep the header visible and cancel any hide timer.
+
+    if (isHovered || isOpen) {
+      setIsVisible(true);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    } else {
+      // If not hovered and menu is closed (e.g., on mouse leave, or on load),
+      // run the activity handler to set the timer.
+      handleActivity();
+    } // Add listeners for scroll and touch
+
+    window.addEventListener('scroll', handleActivity);
+    window.addEventListener('touchstart', handleActivity); // Cleanup
+
+    return () => {
+      window.removeEventListener('scroll', handleActivity);
+      window.removeEventListener('touchstart', handleActivity);
+      if (timerRef.current) {
+        clearTimeout(timerRef.current);
+      }
+    }; // Re-run this logic whenever hover or menu state changes
+  }, [isOpen, isHovered]); // --- 💡 Mouse Hover Handlers (UPDATED) ---
+
+  const handleMouseEnter = () => {
+    // Just set the state. The useEffect will handle the logic.
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    // Just set the state. The useEffect will handle the logic.
+    setIsHovered(false);
+  }; // --- End of Logic Update --- // CSS Class for smooth transition and hiding
+
+  const headerVisibilityClass = isVisible
+    ? 'opacity-100 translate-y-0'
+    : 'opacity-0 -translate-y-full';
 
   return (
     <>
       {/* Header */}
-      <div className="header-shadow max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto">
+      <div
+        className={`
+                    header-shadow max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto 
+                    transition-all duration-300 ease-in-out ${headerVisibilityClass}
+                `}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         <div className="mx-auto flex w-full max-w-[1380px] justify-between items-center gap-[32px] rounded-[20px] bg-primaryWhite p-[10px]">
           <div className="xl:flex-1">
             <a href="/">

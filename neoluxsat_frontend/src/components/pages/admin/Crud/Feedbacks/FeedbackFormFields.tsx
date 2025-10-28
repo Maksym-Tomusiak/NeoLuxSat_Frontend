@@ -1,39 +1,66 @@
-// src/components/admin/feedbacks/FeedbacksTable/FeedbackFormFields.tsx
 import React from 'react';
-// 💡 Import useFormContext to access register and formState.errors
 import { useFormContext, type FieldErrors } from 'react-hook-form';
 import type { FeedbackCreateDto, FeedbackUpdateDto } from '@/types/feedback';
 
-// 🛑 The component signature changes drastically to use RHF context.
-// We only need isReadOnly and a type-safe errors object if not using useFormContext.
-// Since EntityFormModal uses render props, we'll keep the signature simple and
-// expect RHF's context to be set up by EntityFormModal.
+// Type alias for combining DTOs
+type FeedbackFormType = FeedbackCreateDto | FeedbackUpdateDto;
 
-// We change the props to be simple, relying on useFormContext
 interface FeedbackFormFieldsProps {
-  // We'll keep this for type clarity, but the component should use RHF methods
-  // formData: FeedbackUpdateDto | FeedbackCreateDto; // 🛑 Removed
-  // handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void; // 🛑 Removed
   isReadOnly: boolean;
-  // errors: Record<string, string>; // 🛑 Removed - use RHF formState.errors
 }
 
 const FeedbackFormFields: React.FC<FeedbackFormFieldsProps> = ({
   isReadOnly,
 }) => {
-  // 💡 Use useFormContext to access register and errors
-  // Assumes EntityFormModal wraps this component with <FormProvider>
   const {
     register,
     formState: { errors },
-  } = useFormContext<FeedbackCreateDto | FeedbackUpdateDto>();
+  } = useFormContext<FeedbackFormType>();
 
-  // Use the error types from RHF
-  const rHFerrors = errors as FieldErrors<
-    FeedbackCreateDto | FeedbackUpdateDto
-  >;
+  const rHFerrors = errors as FieldErrors<FeedbackFormType>;
 
-  // RHF Validation Rules
+  // --- Tailwind Class Definitions ---
+
+  // Base classes (without specific border color or focus/ring)
+  const defaultBaseClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+
+  // Editable classes with orange focus (includes focus:outline-none)
+  const editableFocusClasses =
+    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+
+  // --- New Dynamic Class Helper ---
+
+  /**
+   * Generates classes to handle error state (red border when unfocused)
+   * and prioritize selected state (orange border when focused).
+   */
+  const getFieldClasses = (
+    fieldName: keyof FeedbackFormType,
+    isTextarea: boolean = false
+  ) => {
+    const hasError = rHFerrors[fieldName];
+
+    if (isReadOnly) {
+      // Read-only fields get the default gray border
+      return 'border-gray-300';
+    }
+
+    if (hasError) {
+      // If there's an error: Set unfocused border to red, but keep orange focus handlers.
+      // Orange focus will override the red border when the element is active.
+      let classes = `border-red-500 ${editableFocusClasses}`;
+      if (isTextarea) classes += ' resize-none';
+      return classes;
+    }
+
+    // No error: Set unfocused border to gray-300, and apply orange focus handlers.
+    let classes = `border-gray-300 ${editableFocusClasses}`;
+    if (isTextarea) classes += ' resize-none';
+    return classes;
+  };
+
+  // RHF Validation Rules (Unchanged)
   const validationRules = {
     author: {
       required: 'Автор є обовʼязковим',
@@ -73,13 +100,11 @@ const FeedbackFormFields: React.FC<FeedbackFormFieldsProps> = ({
         <input
           id="author"
           type="text"
-          // 💡 Connect with RHF register and add validation rules
           {...register('author', validationRules.author)}
-          required={!isReadOnly} // Required attribute is primarily for semantics/browser
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          // ✅ Applied dynamic classes
+          className={`${defaultBaseClasses} ${getFieldClasses('author')}`}
         />
-        {/* 💡 Display error from RHF errors object */}
         {rHFerrors.author && (
           <p className="text-xs text-red-600 mt-1">
             {rHFerrors.author.message}
@@ -98,13 +123,14 @@ const FeedbackFormFields: React.FC<FeedbackFormFieldsProps> = ({
         <textarea
           id="content"
           rows={4}
-          // 💡 Connect with RHF register and add validation rules
           {...register('content', validationRules.content)}
-          required={!isReadOnly}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange resize-none disabled:bg-gray-100 disabled:text-gray-600"
+          // ✅ Applied dynamic classes (isTextarea = true)
+          className={`${defaultBaseClasses} ${getFieldClasses(
+            'content',
+            true
+          )}`}
         />
-        {/* 💡 Display error from RHF errors object */}
         {rHFerrors.content && (
           <p className="text-xs text-red-600 mt-1">
             {rHFerrors.content.message}

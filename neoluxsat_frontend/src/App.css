@@ -5,14 +5,44 @@
 }
 
 html {
-  /* Reserve scrollbar space to prevent layout shifts when overlays open */
   overflow-y: scroll;
   scrollbar-gutter: stable both-edges;
 }
 
-/* Neutralize scrollbar padding commonly injected by scroll-lock libraries */
+.scroll-lock-html {
+  overflow-y: hidden;
+}
+
+.scroll-lock-body {
+  overflow-y: hidden;
+}
+
+body {
+  overflow-x: hidden; /* Keep this */
+}
+
 body[style*='padding-right'] {
   padding-right: 0 !important;
+}
+
+.scrollbar-hide {
+  /* For Firefox */
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  /* For Chrome, Safari, and Opera */
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.scrollbar-fade {
+  scrollbar-width: none;
+}
+
+.scrollbar-fade:hover {
+  scrollbar-width: thin;
 }
 
 section {
@@ -38,9 +68,46 @@ section {
   scroll-behavior: smooth;
 }
 
-.trust-badges-slider .slick-track {
-  display: flex !important;
-  animation: scroll 20s linear infinite; /* adjust speed here */
+@keyframes scroll-seamless-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-seamless-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.continuous-slider-slide-wrapper {
+  margin-right: var(--slide-gap, 16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.continuous-slider-track {
+  display: flex;
+  width: max-content;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--slider-duration, 20s);
+}
+
+.continuous-slider-track--left {
+  animation-name: scroll-seamless-left;
+}
+
+.continuous-slider-track--right {
+  animation-name: scroll-seamless-right;
 }
 
 .navigation-link {
@@ -60,6 +127,14 @@ section {
   transition: all 0.3s ease-in-out;
 }
 
+.dropdown.navigation-link {
+  transform: translateY(2px);
+}
+
+.dropdown.navigation-link::after {
+  transform: translateY(-2px);
+}
+
 .navigation-link:hover::after {
   left: calc(50% - 25px);
   width: 50px;
@@ -75,9 +150,6 @@ section {
   height: auto;
 }
 
-.animate-slide-in {
-  animation: slideIn 0.3s ease-out forwards;
-}
 .animate-slide-in {
   animation: slideIn 0.3s ease-out forwards;
 }
@@ -102,17 +174,15 @@ section {
   }
 }
 
-@keyframes scroll {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-10%); /* move by half since we duplicated slides */
-  }
-}
-
 .areas-map-container svg {
   margin: 0 auto;
   max-width: 100%;
   height: auto;
+}
+
+@media screen and (max-width: 480px) {
+  .why-us-icon-container svg {
+    width: 50px;
+    height: 50px;
+  }
 }

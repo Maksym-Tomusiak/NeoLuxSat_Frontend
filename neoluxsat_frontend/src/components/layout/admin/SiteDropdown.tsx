@@ -6,8 +6,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 import DropdownIcon from '@/assets/svgs/dropdown-icon.svg';
 
-const SiteDropdown = () => {
-  const options = [
+export const getSiteOptions = () => {
+  return [
     { name: 'Головна', href: '/' },
     { name: 'Про нас', href: '/about' },
     { name: 'Підтримка', href: '/support' },
@@ -16,11 +16,15 @@ const SiteDropdown = () => {
     { name: 'Налаштування телебачення', href: '/services/tv' },
     { name: 'IoT та M2M', href: '/services/iot' },
   ];
+};
+
+const SiteDropdown = () => {
+  const options = getSiteOptions(); // Use the new function
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        className="inline-flex items-center gap-2 font-normal text-[16px]/[120%] !py-0
+        className="dropdown inline-flex items-center gap-2 font-normal text-[16px]/[120%]
           focus:outline-none focus:ring-0 whitespace-nowrap navigation-link text-primaryBlue"
       >
         Сайт

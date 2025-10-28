@@ -10,6 +10,7 @@ import type {
 import { ApplicationService } from '@/services/application.service';
 import { ApplicationTypeService } from '@/services/applicationType.service';
 import { ApplicationStatusService } from '@/services/applicationStatus.service';
+import { webSocketService } from '@/services/websocketService';
 import useDebounce from '@/hooks/useDebounce';
 
 const initialPagination: PaginationParams = {
@@ -129,6 +130,25 @@ const useApplicationsTableLogic = () => {
     fetchApplicationTypes();
     fetchApplicationStatuses();
   }, [fetchApplicationTypes, fetchApplicationStatuses]);
+
+  useEffect(() => {
+    webSocketService.start();
+
+    const handleDataChange = () => {
+      const controller = new AbortController();
+      fetchApplications(pagination, controller.signal);
+    };
+
+    webSocketService.onApplicationCreated(handleDataChange);
+    webSocketService.onApplicationUpdated(handleDataChange);
+    webSocketService.onApplicationDeleted(handleDataChange);
+
+    return () => {
+      webSocketService.offApplicationCreated(handleDataChange);
+      webSocketService.offApplicationUpdated(handleDataChange);
+      webSocketService.offApplicationDeleted(handleDataChange);
+    };
+  }, [fetchApplications]);
 
   // --- Pagination & Search Handlers ---
 

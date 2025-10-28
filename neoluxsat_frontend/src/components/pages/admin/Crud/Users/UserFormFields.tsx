@@ -1,8 +1,9 @@
-// src/components/admin/users/UsersTable/UserFormFields.tsx
-
 import React from 'react';
 import { useFormContext, type FieldErrors } from 'react-hook-form';
 import type { UserCreateDto, UserUpdateDto } from '@/types/user';
+
+// Type alias for combining DTOs
+type UserFormType = UserCreateDto | UserUpdateDto;
 
 interface UserFormFieldsProps {
   isReadOnly: boolean;
@@ -13,9 +14,9 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
     register,
     watch,
     formState: { errors },
-  } = useFormContext<UserCreateDto | UserUpdateDto>();
+  } = useFormContext<UserFormType>();
 
-  const rHFerrors = errors as FieldErrors<UserCreateDto | UserUpdateDto>;
+  const rHFerrors = errors as FieldErrors<UserFormType>;
 
   const entityId = watch('id');
   const isEditing = !!entityId;
@@ -24,7 +25,41 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
     ? 'Залиште порожнім, щоб не змінювати'
     : '';
 
-  // Username validation rule logic
+  // --- Tailwind Class Definitions ---
+
+  // Base classes (w/o border color, w/o focus/ring)
+  const coreBaseClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+
+  // Editable classes with orange focus (includes focus:outline-none)
+  const editableFocusClasses =
+    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+
+  // --- New Dynamic Class Helper ---
+
+  /**
+   * Generates classes to handle error state (red border when unfocused)
+   * and prioritize selected state (orange border when focused).
+   */
+  const getFieldClasses = (fieldName: keyof UserFormType) => {
+    const hasError = rHFerrors[fieldName];
+
+    if (isReadOnly) {
+      // Read-only fields get the default gray border
+      return 'border-gray-300';
+    }
+
+    if (hasError) {
+      // If error: Set unfocused border to red, but keep orange focus handlers.
+      // Orange focus will override the red border when the element is active.
+      return `border-red-500 ${editableFocusClasses}`;
+    }
+
+    // No error: Set unfocused border to gray-300, and apply orange focus handlers.
+    return `border-gray-300 ${editableFocusClasses}`;
+  };
+
+  // --- Validation Rules (Unchanged) ---
   const usernameRules = {
     required: "Ім'я користувача є обовʼязковим",
     minLength: {
@@ -39,10 +74,8 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
       value: /^\S+$/,
       message: "Ім'я користувача має бути без пробілів",
     },
-    // 🚀 FIX: Explicitly define the function's return type as the RHF expected union.
   };
 
-  // Password validation rule logic (Conditional)
   const passwordRules = {
     required: isEditing ? false : 'Пароль є обовʼязковим',
     minLength: {
@@ -54,9 +87,9 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
       message: 'Пароль має бути від 5 до 255 символів',
     },
   };
+  // --- END Validation Rules ---
 
-  // Helper function for error display updated for RHF
-  const err = (k: keyof (UserCreateDto | UserUpdateDto)) =>
+  const err = (k: keyof UserFormType) =>
     rHFerrors[k] ? (
       <p className="text-xs text-red-600 mt-1">
         {rHFerrors[k]?.message as string}
@@ -78,9 +111,9 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
           type="text"
           autoComplete="username"
           {...register('username', usernameRules)}
-          required={!isReadOnly}
           disabled={isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          // ✅ Applied dynamic classes
+          className={`${coreBaseClasses} ${getFieldClasses('username')}`}
         />
         {err('username')}
       </div>
@@ -100,7 +133,8 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
           autoComplete="new-password"
           disabled={isReadOnly}
           placeholder={passwordPlaceholder}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          // ✅ Applied dynamic classes
+          className={`${coreBaseClasses} ${getFieldClasses('password')}`}
         />
         {err('password')}
       </div>

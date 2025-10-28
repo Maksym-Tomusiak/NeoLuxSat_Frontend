@@ -1,5 +1,3 @@
-// src/components/admin/dashboard/LatestApplicationsTable/ApplicationFormFields.tsx
-
 import React from 'react';
 import type {
   ApplicationCreateDto,
@@ -27,23 +25,57 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
   applicationTypes,
   applicationStatuses,
 }) => {
-  // Type casting for simpler access to formData
   const data = formData as any;
 
-  // Base classes for styling
-  const disabledBaseClasses =
-    'w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
-  const editableSelectClasses =
-    'focus:ring-primaryOrange focus:border-primaryOrange';
+  // --- Tailwind Class Definitions ---
+
+  // Base classes (w/o border color, w/o focus/ring, w/o resize-none)
+  const coreBaseClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+
+  // Editable classes with orange focus (includes focus:outline-none)
+  const editableFocusClasses =
+    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+
   const readOnlySelectClasses =
     'appearance-none pr-10 bg-gray-100 text-gray-600';
 
-  // Helper function to render validation errors
+  // --- Dynamic Class Helper ---
+
+  /**
+   * Generates classes for inputs/selects: red border when unfocused error, orange focus.
+   * @param fieldName The string key used to check the errors prop.
+   * @param isTextarea Flag to add resize-none utility.
+   */
+  const getFieldClasses = (fieldName: string, isTextarea: boolean = false) => {
+    const hasError = errors[fieldName];
+
+    if (isReadOnly) {
+      return 'border-gray-300';
+    }
+
+    let dynamicClasses;
+    if (hasError) {
+      // Error: Red border when unfocused, Orange focus overrides red on focus.
+      dynamicClasses = `border-red-500 ${editableFocusClasses}`;
+    } else {
+      // No error: Gray border when unfocused, Orange focus on focus.
+      dynamicClasses = `border-gray-300 ${editableFocusClasses}`;
+    }
+
+    if (isTextarea) {
+      dynamicClasses += ' resize-none';
+    }
+
+    return dynamicClasses;
+  };
+
   const err = (k: string) =>
     errors[k] ? <p className="text-xs text-red-600 mt-1">{errors[k]}</p> : null;
 
   return (
     <>
+      {/* Full Name Field */}
       <div>
         <label
           htmlFor="fullName"
@@ -58,11 +90,11 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
           value={data.fullName}
           onChange={handleChange}
           disabled={isReadOnly}
-          required={!isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${coreBaseClasses} ${getFieldClasses('fullName')}`}
         />
         {err('fullName')}
       </div>
+      {/* Email Field */}
       <div>
         <label
           htmlFor="email"
@@ -77,11 +109,11 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
           value={data.email}
           onChange={handleChange}
           disabled={isReadOnly}
-          required={!isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${coreBaseClasses} ${getFieldClasses('email')}`}
         />
         {err('email')}
       </div>
+      {/* Address Field */}
       <div>
         <label
           htmlFor="address"
@@ -95,12 +127,12 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
           value={data.address}
           onChange={handleChange}
           disabled={isReadOnly}
-          required={!isReadOnly}
           rows={3}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange resize-none disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${coreBaseClasses} ${getFieldClasses('address', true)}`}
         />
         {err('address')}
       </div>
+      {/* Phone Field */}
       <div>
         <label
           htmlFor="phone"
@@ -115,11 +147,11 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
           value={data.phone}
           onChange={handleChange}
           disabled={isReadOnly}
-          required={!isReadOnly}
-          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-primaryOrange focus:border-primaryOrange disabled:bg-gray-100 disabled:text-gray-600"
+          className={`${coreBaseClasses} ${getFieldClasses('phone')}`}
         />
         {err('phone')}
       </div>
+      {/* Type ID Field (Select) */}
       <div className="relative">
         <label
           htmlFor="typeId"
@@ -133,9 +165,8 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
           value={data.typeId}
           onChange={handleChange}
           disabled={isReadOnly}
-          required={!isReadOnly}
-          className={`${disabledBaseClasses} ${
-            isReadOnly ? readOnlySelectClasses : editableSelectClasses
+          className={`${coreBaseClasses} ${
+            isReadOnly ? readOnlySelectClasses : getFieldClasses('typeId')
           }`}
         >
           <option value="">Оберіть тип заявки</option>
@@ -147,7 +178,8 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         </select>
         {err('typeId')}
       </div>
-      {'id' in data && ( // Status field only available for existing entities
+      {/* Status ID Field (Select) */}
+      {'id' in data && (
         <div className="relative">
           <label
             htmlFor="statusId"
@@ -161,9 +193,8 @@ const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
             value={data.statusId}
             onChange={handleChange}
             disabled={isReadOnly}
-            required={!isReadOnly}
-            className={`${disabledBaseClasses} ${
-              isReadOnly ? readOnlySelectClasses : editableSelectClasses
+            className={`${coreBaseClasses} ${
+              isReadOnly ? readOnlySelectClasses : getFieldClasses('statusId')
             }`}
           >
             <option value="">Оберіть статус заявки</option>

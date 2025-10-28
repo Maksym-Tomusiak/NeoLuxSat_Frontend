@@ -1,4 +1,4 @@
-import ContactsSection from '@/components/common/sections/ContactsSection';
+import ContactsSection from '@/components/common/sections/ContactsSection/ContactsSection';
 import WhyUsSection from '@/components/common/sections/WhyUsSection/WhyUsSection';
 import WorkAreasSection from '@/components/common/sections/WorkAreasSection';
 import StatsSection from './StatsSection/StatsSection';

@@ -1,10 +1,9 @@
-// src/components/admin/dashboard/LatestApplicationsTable/useApplicationTableLogic.ts
-
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { ApplicationService } from '@/services/application.service';
 import type { ApplicationDto, ApplicationUpdateDto } from '@/types/application';
 import { ApplicationTypeService } from '@/services/applicationType.service';
 import { ApplicationStatusService } from '@/services/applicationStatus.service';
+import { webSocketService } from '@/services/websocketService';
 
 const useApplicationsTableLogic = () => {
   const [applications, setApplications] = useState<ApplicationDto[]>([]);
@@ -16,6 +15,7 @@ const useApplicationsTableLogic = () => {
   const [entityToEdit, setEntityToEdit] = useState<ApplicationDto | null>(null);
 
   const [initialLoading, setInitialLoading] = useState(true);
+  const [fetchError, setFetchError] = useState<string>('');
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{
@@ -36,18 +36,30 @@ const useApplicationsTableLogic = () => {
       setApplications(data);
     } catch (error) {
       console.error('Failed to fetch latest applications:', error);
+      setFetchError('Не вдалось завантажити дані для цієї таблиці');
     } finally {
       setLoading(false);
     }
   }, []);
 
+  const refetchApplications = useCallback(async (limit: number = 4) => {
+    try {
+      const data: ApplicationDto[] =
+        await ApplicationService.getLatestApplications(limit);
+      setApplications(data);
+    } catch (error) {
+      console.error('Failed to fetch latest applications:', error);
+      setFetchError('Не вдалось завантажити дані для цієї таблиці');
+    }
+  }, []);
+
   useEffect(() => {
-    // Initial fetch, includes cleanup for race conditions/unmount
     const controller = new AbortController();
     ApplicationService.getLatestApplications(4, controller.signal)
       .then(setApplications)
       .catch((error: any) => {
         console.error('Failed to fetch latest applications:', error);
+        setFetchError('Не вдалось завантажити дані для цієї таблиці');
       })
       .finally(() => {
         setLoading(false);
@@ -65,6 +77,24 @@ const useApplicationsTableLogic = () => {
       .then(setApplicationStatuses)
       .catch(() => {});
   }, []);
+
+  useEffect(() => {
+    webSocketService.start();
+
+    const handleAppChange = () => {
+      refetchApplications();
+    };
+
+    webSocketService.onApplicationCreated(handleAppChange);
+    webSocketService.onApplicationUpdated(handleAppChange);
+    webSocketService.onApplicationDeleted(handleAppChange);
+
+    return () => {
+      webSocketService.offApplicationCreated(handleAppChange);
+      webSocketService.offApplicationUpdated(handleAppChange);
+      webSocketService.offApplicationDeleted(handleAppChange);
+    };
+  });
 
   // --- Utility Functions ---
 
@@ -151,6 +181,7 @@ const useApplicationsTableLogic = () => {
     applications,
     loading,
     initialLoading,
+    fetchError,
     openMenuId,
     isFormModalOpen,
     isReadOnlyModal,

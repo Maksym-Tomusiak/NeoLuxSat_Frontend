@@ -1,3 +1,4 @@
+import React from 'react';
 import ApplicationsChartComponent from './Dashboard/ApplicationsChart/ApplicationsChartComponent';
 import ApplicationsByStatusComponent from './Dashboard/ApplicationStatus/ApplicationsByStatusComponent';
 import ApplicationsByTypeComponent from './Dashboard/ApplicationType/ApplicationsByTypeComponent';
@@ -10,7 +11,7 @@ const AdminPage = () => {
         Інформаційна панель
       </h1>
       <div className="flex flex-col lg:flex-row gap-[20px] items-center justify-center">
-        <div className="flex flex-col lg:flex-row gap-[20px] max-lg:items-center">
+        <div className="flex flex-col lg:flex-row gap-[20px] max-lg:items-center w-full">
           <ApplicationsByTypeComponent />
           <ApplicationsByStatusComponent />
         </div>
@@ -23,4 +24,4 @@ const AdminPage = () => {
   );
 };
 
-export default AdminPage;
+export default React.memo(AdminPage);

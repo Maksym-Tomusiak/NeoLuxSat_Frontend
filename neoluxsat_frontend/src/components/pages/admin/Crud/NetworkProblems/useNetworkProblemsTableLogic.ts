@@ -8,6 +8,7 @@ import type {
   NetworkProblemServiceDto,
 } from '@/types/networkProblem';
 import { NetworkProblemService } from '@/services/networkProblem.service';
+import { webSocketService } from '@/services/websocketService';
 import useDebounce from '@/hooks/useDebounce';
 
 const initialPagination: PaginationParams = {
@@ -119,6 +120,33 @@ const useNetworkProblemsTableLogic = () => {
   useEffect(() => {
     fetchStatusesAndServices();
   }, [fetchStatusesAndServices]);
+
+  useEffect(() => {
+    // Підключаємось до хабу
+    webSocketService.start();
+
+    // Створюємо обробник, який просто перезавантажує дані таблиці
+    const handleDataChange = () => {
+      console.log(
+        'SignalR: Data changed by another source, reloading paginated data...'
+      );
+      // reloadData() - це ваша існуюча функція, яка
+      // викликає refetch поточної сторінки
+      reloadData();
+    };
+
+    // Підписуємось на події
+    webSocketService.onNetworkProblemCreated(handleDataChange);
+    webSocketService.onNetworkProblemUpdated(handleDataChange);
+    webSocketService.onNetworkProblemDeleted(handleDataChange);
+
+    // Відписуємось при виході зі сторінки
+    return () => {
+      webSocketService.offNetworkProblemCreated(handleDataChange);
+      webSocketService.offNetworkProblemUpdated(handleDataChange);
+      webSocketService.offNetworkProblemDeleted(handleDataChange);
+    };
+  }, [reloadData]); // Залежимо від вашої функції reloadData
 
   const handlePageChange = useCallback((page: number) => {
     setPagination((prev) => ({ ...prev, pageNumber: page }));

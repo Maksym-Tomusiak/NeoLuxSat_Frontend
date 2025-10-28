@@ -21,6 +21,7 @@ const LatestApplicationsTable: React.FC = () => {
   const {
     applications,
     initialLoading,
+    fetchError,
     openMenuId,
     isDeleteModalOpen,
     itemToDelete,
@@ -38,13 +39,21 @@ const LatestApplicationsTable: React.FC = () => {
     closeFormModal,
     applicationTypes,
     applicationStatuses,
-    handleSuccess, // New from hook
+    handleSuccess,
   } = useApplicationsTableLogic();
 
   if (initialLoading) {
     return (
-      <div className="w-full lg:flex-1 bg-primaryBlue/10 rounded-[20px] p-4 text-primaryBlue min-h-[380px] flex items-center justify-center shadow-sm">
+      <div className="flex items-center justify-center w-full max-lg:min-w-full lg:flex-1 max-w-[680px] text-primaryBlue bg-primaryBlue/10 rounded-[20px] px-[12px] pt-[24px] pb-[12px] min-h-[380px]">
         Завантаження останніх заявок...
+      </div>
+    );
+  }
+
+  if (fetchError) {
+    return (
+      <div className="text-[16px]/[120%] font-semibold font-noto flex items-center max-sm:min-h-[120px] max-lg:min-h-[240px] justify-center w-full max-lg:min-w-full lg:flex-1 max-w-[680px] text-iconsRed/70 bg-iconsRed/10 rounded-[20px] min-h-[380px]">
+        Помилка: {fetchError}
       </div>
     );
   }
@@ -106,7 +115,6 @@ const LatestApplicationsTable: React.FC = () => {
           service={ApplicationServiceProxy}
           onSuccess={handleSuccess}
           getInitialData={getApplicationInitialData}
-          // 💡 New RHF render prop signature
           formFields={(isReadOnly) => (
             <ApplicationFormFields
               isReadOnly={isReadOnly}
@@ -114,11 +122,10 @@ const LatestApplicationsTable: React.FC = () => {
               applicationStatuses={applicationStatuses}
             />
           )}
-          // 🛑 validate prop removed
         />
       )}
     </div>
   );
 };
 
-export default LatestApplicationsTable;
+export default React.memo(LatestApplicationsTable);

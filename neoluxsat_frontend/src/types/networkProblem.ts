@@ -13,6 +13,7 @@ export interface NetworkProblemDto {
   title: string;
   address: string;
   currentStatus: string;
+  lifeTime: string | null;
   fixStartTime: string | null;
   fixEndTime: string | null;
   createdAt: Date;
@@ -26,6 +27,7 @@ export interface NetworkProblemCreateDto {
   title: string;
   address: string;
   currentStatus: string;
+  lifeTime: string | null;
   fixStartTime: Date | null;
   fixEndTime: Date | null;
   networkProblemStatusId: string;
@@ -37,6 +39,7 @@ export interface NetworkProblemUpdateDto {
   title: string;
   address: string;
   currentStatus: string;
+  lifeTime: string | null;
   fixStartTime: Date | null;
   fixEndTime: Date | null;
   networkProblemStatusId: string;

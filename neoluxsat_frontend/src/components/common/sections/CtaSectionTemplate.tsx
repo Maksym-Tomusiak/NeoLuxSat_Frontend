@@ -4,8 +4,8 @@ import SectionHeader from '@/components/common/SectionHeader';
 
 type CtaSectionTemplateProps = {
   icon: React.ReactNode;
-  title: string;
-  description: string;
+  title: React.ReactNode;
+  description: React.ReactNode;
   onApplicationClick?: () => void;
 };
 
@@ -27,11 +27,8 @@ const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
       <SectionHeader isCta={true} className="xl:max-w-[60%]">
         {title}
       </SectionHeader>
-      <div className="bg-primaryWhite p-[10px] rounded-[10px] flex gap-[16px] flex-col sm:flex-row justify-between items-center z-1">
-        <p
-          className="text-primaryBlue/80 text-[16px]/[120%] font-noto font-medium
-        md:max-w-[50%] xl:max-w-[30%]"
-        >
+      <div className="bg-primaryWhite p-[10px] rounded-[10px] flex gap-[16px] flex-col sm:flex-row justify-between items-start sm:items-center z-1">
+        <p className="text-primaryBlue/80 text-[16px]/[120%] font-noto font-medium">
           {description}
         </p>
         <LeaveApplicationButton

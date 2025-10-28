@@ -57,15 +57,16 @@ const MaterialsSection = () => {
         </SectionHeader>
         <p className="font-noto max-w-[330px] text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
           Тут ви знайдете практичні рішення, покрокові інструкції та
-          рекомендації від наших спеціалістів.
+          рекомендації <br className="hidden 2xs:block" />
+          від наших спеціалістів.
         </p>
       </div>
-      <div className="flex flex-wrap justify-center min-[1440px]:justify-between max-[1440px]:items-center min-[1440px]:items-start gap-[20px]">
+      <div className="flex flex-wrap justify-center max-[1440px]:mx-auto max-[1440px]:max-w-[1000px]  min-[1440px]:justify-between max-[1440px]:items-center min-[1440px]:items-start gap-[20px]">
         {data.map((item, index) => (
           <div
             key={index}
             className={`
-        w-fit min-md:max-[1440px]:min-w-[40%] flex justify-center items-center
+        w-fit flex justify-center items-center
         min-[1440px]:h-fit
         ${item.marginTop === '56px' ? 'min-[1440px]:mt-[56px]' : ''}
         ${item.marginTop === '220px' ? 'min-[1440px]:mt-[220px]' : ''}

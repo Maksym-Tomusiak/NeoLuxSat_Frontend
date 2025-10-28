@@ -41,7 +41,7 @@ const ApplicationsTableRow: React.FC<Props> = ({
       key={application.id}
       className={'bg-primaryWhite hover:bg-gray-50 border-b! border-gray-200'}
     >
-      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs truncate">
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs truncate max-width-[300px] truncate">
         {application.fullName}
       </TableCell>
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
@@ -64,7 +64,9 @@ const ApplicationsTableRow: React.FC<Props> = ({
         <div>{application.type?.title || 'N/A'}</div>
       </TableCell>
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
-        <div>{application.address || 'N/A'}</div>
+        <div className="max-w-[300px] truncate">
+          {application.address || 'N/A'}
+        </div>
       </TableCell>
       <TableCell className="text-right py-3 space-x-2 flex justify-end gap-[8px]">
         <button

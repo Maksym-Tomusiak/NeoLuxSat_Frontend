@@ -4,14 +4,13 @@ import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 
 const HeroSection = () => {
   const leftPart = (
-    <div className="flex flex-col gap-[12px] xs:gap-[24px] sm:gap-[32px] md:gap-[32px] lg:gap-[40px] max-sm:h-full lg:mt-[62px]">
+    <div className="flex flex-col gap-[24px] xs:gap-[60px] sm:gap-[60px] md:gap-[32px] lg:gap-[40px] max-sm:h-full sm:mt-[32px] md:mt-[32px] lg:mt-[62px]">
       <h1
         className="
           font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
           text-primaryWhite
-          text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]
-          
-      
+          text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]
+          max-2xs:text-[40px]/[90%]
         "
       >
         Потрібна допомога? Ми завжди на зв’язку
@@ -19,14 +18,14 @@ const HeroSection = () => {
       <p
         className="
           font-noto
-          text-[14px]/[120%] xs:text-[16px]/[120%]
+          max-2xs:text-[14px]/[120%] text-[16px]/[120%]
           tracking-[-0.32px]
           w-full sm:w-[80%] md:w-[90%] lg:w-[475px]
         "
       >
         Отримайте швидку підтримку та відповіді на всі питання щодо підключення,
-        тарифів чи налаштувань. Залиште заявку — наш спеціаліст зв’яжеться з
-        вами найближчим часом.
+        тарифів чи налаштувань. <br />
+        Залиште заявку — наш спеціаліст зв’яжеться з вами найближчим часом.
       </p>
       <LeaveApplicationButton
         isOrange

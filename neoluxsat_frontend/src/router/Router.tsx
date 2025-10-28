@@ -13,6 +13,10 @@ import UsersTable from '@/components/pages/admin/Crud/Users/UsersTable';
 import FaqsTable from '@/components/pages/admin/Crud/Faqs/FaqsTable';
 import ApplicationsTable from '@/components/pages/admin/Crud/Applications/ApplicationsTable';
 import NetworkProblemsTable from '@/components/pages/admin/Crud/NetworkProblems/NetworkProblemsTable';
+import InternetPage from '@/components/pages/services/Internet/InternetPage';
+import IoTPage from '@/components/pages/services/IoT/IoTPage';
+import TVPage from '@/components/pages/services/TV/TVPage';
+import SecurityPage from '@/components/pages/services/Security/SecurityPage';
 
 const Router = () => {
   return (
@@ -23,6 +27,10 @@ const Router = () => {
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="support" element={<SupportPage />} />
+          <Route path="services/internet" element={<InternetPage />} />
+          <Route path="services/iot" element={<IoTPage />} />
+          <Route path="services/tv" element={<TVPage />} />
+          <Route path="services/security" element={<SecurityPage />} />
         </Route>
 
         {/* Admin layout (protected) */}

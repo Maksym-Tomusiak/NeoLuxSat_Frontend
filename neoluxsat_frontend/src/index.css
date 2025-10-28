@@ -28,6 +28,10 @@ body {
   background-color: #fafcf7;
 }
 
+html {
+  scrollbar-color: #e76715 #fafcf7;
+}
+
 p,
 span,
 h1,
