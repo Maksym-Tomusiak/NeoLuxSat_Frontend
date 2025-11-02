@@ -1,6 +1,6 @@
 # Stage 1: Build the React app
 FROM node:20-alpine AS build
-WORKDIR /app
+WORKDIR /app/neoluxsat_frontend
 COPY package*.json ./
 RUN npm install
 COPY . .
