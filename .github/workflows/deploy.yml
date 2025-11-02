@@ -24,9 +24,6 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }} # This is a special, built-in secret
 
-      - name: List files
-        run: ls -lR
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v5
         with:
