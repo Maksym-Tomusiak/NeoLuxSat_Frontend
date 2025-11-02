@@ -1,0 +1,64 @@
+name: Build and Deploy
+
+# This workflow runs on any push to the 'main' branch
+on:
+  push:
+    branches:
+      - main # Change this if your main branch is 'master'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write # Permission to push to GitHub Container Registry
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }} # This is a special, built-in secret
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: . # Use the Dockerfile from the repo root
+          push: true
+          # This tag is what you need to change for each repo
+          tags: ghcr.io/Maksym-Tomusiak/NeoLuxSat_Frontend:latest
+
+  deploy:
+    # This job waits for the 'build-and-push' job to finish
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to Server
+        # This action lets us run commands on our server
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT }}
+          
+          # This is the script that runs on your server
+          script: |
+            # Go to the directory where your compose file is
+            cd /opt/my-app 
+            
+            # Log in to GitHub Registry to pull private images
+            # We use the GHCR_PAT secret you created
+            echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
+            
+            # Pull the new image from the registry
+            docker-compose pull frontend 
+            
+            # Restart *only* the service that was updated
+            # --no-deps stops it from restarting other services
+            docker-compose up -d --no-deps frontend
