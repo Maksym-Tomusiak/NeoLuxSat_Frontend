@@ -40,11 +40,11 @@ const WhyUsSection = () => {
           Чому <br className="hidden md:inline" />
           саме ми
         </SectionHeader>
-        <div className="flex flex-col items-center gap-[24px] xl:mr-[250px] lg:flex-row md:items-center md:justify-between md:gap-[32px]">
+        <div className="flex flex-col items-center gap-[24px] lg:flex-row md:justify-evenly md:gap-[32px]">
           <img
             src={'/images/why-us-image.png'}
             alt="why us"
-            className="h-auto w-full max-w-[520px] md:aspect-square md:h-[525px] md:w-[525px]"
+            className="h-auto w-[300px] sm:w-[400px] md:h-[525px] md:w-[525px]"
           />
           <div className="flex w-full max-w-[700px] xl:max-w-[620px] flex-col gap-[24px] md:gap-[40px] lg:gap-[56px]">
             {blocksData.map((block, index) => (

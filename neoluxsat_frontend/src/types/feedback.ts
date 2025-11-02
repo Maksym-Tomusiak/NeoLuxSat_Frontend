@@ -10,6 +10,7 @@ export interface FeedbackCreateDto {
 }
 
 export interface FeedbackUpdateDto {
+  id: string;
   author: string;
   content: string;
 }

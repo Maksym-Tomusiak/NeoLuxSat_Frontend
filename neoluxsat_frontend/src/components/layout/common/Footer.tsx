@@ -5,11 +5,11 @@ import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
-import ServicesDropdown from '../common/ServicesDropdown';
+import ServicesDropdown from '../../common/ServicesDropdown';
 
 const Footer = () => {
   return (
-    <div className="h-[fit] xs:h-[550px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
+    <div className="h-[fit] xs:h-[600px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
       {/* Wrapper that switches direction */}
       <div className="flex flex-col md:flex-row justify-between text-primaryWhite pt-[40px] md:pt-[100px] font-noto gap-[40px] md:gap-0">
         {/* Messengers: first on mobile, middle on desktop */}
@@ -51,14 +51,14 @@ const Footer = () => {
           <div className="flex flex-col w-fit gap-[24px] text-[16px]/[120%] text-left">
             <div className="flex gap-[12px] items-center w-fit">
               <AddressIcon />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">Адреса</p>
                 <p className="font-medium">вул. Лесі Українки, Острог</p>
               </div>
             </div>
             <div className="flex gap-[12px] items-center w-fit">
               <PhoneIcon />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">
                   Номер телефону
                 </p>
@@ -69,7 +69,7 @@ const Footer = () => {
             </div>
             <div className="flex gap-[12px] items-center w-fit">
               <EmailIcon />
-              <div className="flex flex-col">
+              <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">Пошта</p>
                 <a href="mailto:neoluxsat@example.com" className="font-medium">
                   neoluxsat@example.com

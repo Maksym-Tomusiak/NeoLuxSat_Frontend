@@ -6,27 +6,43 @@ import FeedbacksSection from './FeedbacksSection/FeedbacksSection';
 import ServicesSection from './ServicesSection/ServicesSection';
 import HeroSection from './HeroSection/HeroSection';
 import ShopSection from './ShopSection/ShopSection';
-import ContactsSection from '@/components/common/sections/ContactsSection';
+import ContactsSection from '@/components/common/sections/ContactsSection/ContactsSection';
 import FaqSection from './FaqSection/FaqSection';
 import CtaSectionTemplate from '@/components/common/sections/CtaSectionTemplate';
+import PropositionsSection from './PropositionsSection/PropositionsSection';
 
 const HomePage = () => {
   const ctaData = [
     {
       icon: <CtaIcon1 />,
       title: 'Інтернет-підключення: швидко, стабільно, надійно!',
-      description: 'Не зволікай — підключай швидкісний інтернет уже сьогодні!',
+      description: (
+        <>
+          Не зволікай — підключай швидкісний <br className="hidden xs:block" />
+          інтернет уже сьогодні!
+        </>
+      ),
     },
     {
       icon: <CtaIcon2 />,
       title: 'Захист, що працює завжди!',
-      description:
-        'Будь на крок попереду — підключи безперервну систему безпеки вже сьогодні!',
+      description: (
+        <>
+          Будь на крок попереду — підключи <br className="hidden xs:block" />
+          безперервну систему безпеки вже сьогодні!
+        </>
+      ),
     },
     {
       icon: <CtaIcon3 />,
       title: 'Усі ваші “А якщо…” зникнуть',
-      description: 'Залиште заявку — і ми детально пояснимо, що і як працює.',
+      description: (
+        <>
+          Залиште заявку — і ми детально пояснимо,{' '}
+          <br className="hidden min-[670px]:block" />
+          що і як працює.
+        </>
+      ),
     },
   ];
 
@@ -34,6 +50,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <ServicesSection />
+      <PropositionsSection />
       <ShopSection />
       <CtaSectionTemplate {...ctaData[0]} />
       <WhyUsSection />

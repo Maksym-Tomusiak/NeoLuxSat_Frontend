@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useState, useEffect } from 'react';
 import {
   Accordion,
   AccordionItem,
@@ -8,12 +9,36 @@ import {
 import SectionHeader from '@/components/common/SectionHeader';
 
 import type { FaqDto } from '@/types/faq';
+import { FaqService } from '@/services/faq.service';
 
 type FaqSectionTemplateProps = {
-  faqs: FaqDto[];
+  categoryTitle: string;
 };
 
-const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({ faqs }) => {
+const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({
+  categoryTitle,
+}) => {
+  const [faqs, setFaqs] = useState<FaqDto[]>([]);
+
+  useEffect(() => {
+    const fetchFaqs = async () => {
+      try {
+        const data = await FaqService.getAllFaqs();
+        setFaqs(
+          data.filter(
+            (faq) =>
+              faq.category?.title.toLowerCase() == categoryTitle.toLowerCase()
+          )
+        );
+      } catch (error) {
+        console.error('Failed to fetch faqs', error);
+      }
+    };
+    fetchFaqs();
+  }, []);
+
+  if (faqs.length === 0) return null;
+
   return (
     <section className="relative flex justify-center">
       {/* Left-aligned title */}
@@ -33,8 +58,7 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({ faqs }) => {
 
         {/* Accordion */}
         <Accordion
-          type="single"
-          collapsible
+          type="multiple"
           className="relative w-full max-w-[680px] space-y-4 sm:space-y-5 md:space-y-6 lg:min-w-[680px]"
         >
           {faqs.map((faq) => (

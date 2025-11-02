@@ -3,7 +3,7 @@ import CheckedIcon from '@/assets/svgs/shop/checked-icon.svg';
 
 type ShopCardProps = {
   image: React.ReactNode;
-  title: string;
+  title: React.ReactNode;
   options: string[];
 };
 
@@ -31,13 +31,15 @@ const ShopCard: React.FC<ShopCardProps> = ({ image, title, options }) => {
       </div>
 
       {/* Content */}
-      <div className="relative flex flex-col gap-[24px] text-primaryWhite z-10">
-        <p className="font-manrope text-[24px]/[90%] font-semibold">{title}</p>
+      <div className="relative flex flex-col gap-[24px] text-primaryWhite z-10 min-h-[215px]">
+        <p className="font-manrope text-[24px]/[90%] font-semibold min-h-[40px]">
+          {title}
+        </p>
         <ul className="font-noto text-[16px]/[120%] font-normal tracking-[-0.32px] flex flex-col gap-[16px]">
           {options.map((option, index) => (
             <div
               key={index}
-              className="flex gap-[8px] w-full px-[10px] py-[8px] rounded-[10px] bg-primaryWhite/10"
+              className="flex gap-[8px] w-full px-[10px] py-[8px] rounded-[10px] bg-primaryWhite/10 fill-primaryWhite"
             >
               <CheckedIcon />
               <li>{option}</li>

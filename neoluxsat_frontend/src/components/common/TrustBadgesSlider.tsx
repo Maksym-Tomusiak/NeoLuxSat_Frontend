@@ -1,7 +1,5 @@
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import ContinuousSliderTemplate from '@/components/common/ContinuousSliderTemplate';
 
-import Slider from 'react-slick';
 import Badge1 from '@/assets/images/trust-badges/trust-badge-1.png';
 import Badge2 from '@/assets/images/trust-badges/trust-badge-2.png';
 import Badge3 from '@/assets/images/trust-badges/trust-badge-3.png';
@@ -10,17 +8,7 @@ import Badge5 from '@/assets/images/trust-badges/trust-badge-5.png';
 import Badge6 from '@/assets/images/trust-badges/trust-badge-6.png';
 
 const TrustBadgesSlider = () => {
-  const settings = {
-    infinite: true,
-    arrows: false,
-    dots: false,
-    swipe: false,
-    draggable: false,
-    variableWidth: true, // needed for smooth scroll
-    autoplay: false, // ❌ disable autoplay, we’ll use CSS
-    speed: 0,
-  };
-
+  // The content of the original slides
   const slides = [
     <img src={Badge1} alt="Trust badge 1" />,
     <img src={Badge2} alt="Trust badge 2" />,
@@ -30,19 +18,13 @@ const TrustBadgesSlider = () => {
     <img src={Badge6} alt="Trust badge 6" />,
   ];
 
-  // duplicate slides for seamless loop
-  const duplicatedSlides = [...slides, ...slides];
-
   return (
-    <div className="w-[300px] sm:w-[350px] md:w-[500px] xl:w-[700px] h-[50px] xl:h-[60px] overflow-hidden">
-      <Slider {...settings} className="trust-badges-slider">
-        {duplicatedSlides.map((s, idx) => (
-          <div key={idx} className="flex justify-center items-center px-4">
-            {s}
-          </div>
-        ))}
-      </Slider>
-    </div>
+    <ContinuousSliderTemplate
+      slides={slides}
+      durationSeconds={15} // Animation cycle time
+      className="w-[400px] sm:w-[350px] md:w-[600px] xl:w-[700px] h-[50px] xl:h-[60px]" // Viewport size
+      slideGap="56px"
+    />
   );
 };
 

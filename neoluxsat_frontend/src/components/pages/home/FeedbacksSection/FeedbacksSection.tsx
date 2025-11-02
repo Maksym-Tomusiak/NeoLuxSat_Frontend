@@ -43,7 +43,7 @@ const FeedbacksSection = () => {
         </p>
       </div>
 
-      <div className="-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px] min-[1360px]:justify-center overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px]">
+      <div className="-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px] min-[1360px]:justify-center overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px] scrollbar-hide">
         {(() => {
           const slides = [];
           const half = Math.ceil(feedbacks.length / 2);
