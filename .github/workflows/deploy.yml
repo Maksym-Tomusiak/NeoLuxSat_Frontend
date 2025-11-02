@@ -53,17 +53,21 @@ jobs:
           
           # This is the script that runs on your server
           script: |
-            # Go to the directory where your compose file is
-            cd opt/
-            cd site/
+            # Go to the directory
+            cd /opt/site
             
-            # Log in to GitHub Registry to pull private images
-            # We use the GHCR_PAT secret you created
+            # Log in to GitHub Registry
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
             
-            # Pull the new image from the registry
-            docker-compose pull frontend 
+            # Pull the new image
+            docker-compose pull frontend
             
-            # Restart *only* the service that was updated
-            # --no-deps stops it from restarting other services
+            # --- New Robust Steps ---
+            # 1. Stop the running container (if it exists)
+            docker-compose stop frontend
+            
+            # 2. Remove the (potentially corrupted) container
+            docker-compose rm -f frontend
+            
+            # 3. Create a fresh container with the new image
             docker-compose up -d --no-deps frontend
