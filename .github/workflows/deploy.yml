@@ -54,7 +54,8 @@ jobs:
           # This is the script that runs on your server
           script: |
             # Go to the directory
-            cd /opt/site
+            cd opt
+            cd site
             
             # Log in to GitHub Registry
             echo ${{ secrets.GHCR_PAT }} | docker login ghcr.io -u ${{ github.repository_owner }} --password-stdin
