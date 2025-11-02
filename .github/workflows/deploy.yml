@@ -30,7 +30,7 @@ jobs:
           context: . # Use the Dockerfile from the repo root
           push: true
           # This tag is what you need to change for each repo
-          tags: ghcr.io/Maksym-Tomusiak/NeoLuxSat_Frontend:latest
+          tags: ghcr.io/maksym-tomusiak/neoluxsat_frontend:latest
 
   deploy:
     # This job waits for the 'build-and-push' job to finish
