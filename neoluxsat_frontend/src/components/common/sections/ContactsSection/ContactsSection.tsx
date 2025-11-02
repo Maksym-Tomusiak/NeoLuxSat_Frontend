@@ -8,10 +8,11 @@ import { MapContainer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import SectionHeader from '@/components/common/SectionHeader';
 import MaptilerStyledTileLayer from './MaptilerTileLayer';
+import iconUrl from '@/assets/svgs/contacts/address-icon-orange.svg?url';
 
 const ContactsSection = () => {
   const markerIcon = new L.Icon({
-    iconUrl: '../src/assets/svgs/contacts/address-icon-orange.svg',
+    iconUrl: iconUrl,
     iconSize: [32, 32],
   });
 
