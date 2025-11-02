@@ -33,7 +33,7 @@ const StableStatusCard: React.FC<{ data: StablePlaceholderProps }> = ({
         <p className="font-noto text-primaryBlue/80 text-[14px]/[120%] tracking-[-0.28px]">
           Статус
         </p>
-        <p className="font-noto text-[18px]/[120%] text-iconsGreen tracking-[-2%] font-medium">
+        <p className="font-noto text-[18px]/[120%] text-iconsGreen tracking-[-0.36px] font-medium">
           {data.status}
         </p>
       </div>
@@ -41,7 +41,7 @@ const StableStatusCard: React.FC<{ data: StablePlaceholderProps }> = ({
         <p className="font-noto text-primaryBlue/80 text-[14px]/[120%] tracking-[-0.28px]">
           Оновлено
         </p>
-        <p className="font-noto text-[18px]/[120%] text-primaryBlue tracking-[-2%] font-medium">
+        <p className="font-noto text-[18px]/[120%] text-primaryBlue tracking-[-0.36px] font-medium">
           {data.updated}
         </p>
       </div>

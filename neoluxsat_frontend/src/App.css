@@ -186,3 +186,178 @@ section {
     height: 50px;
   }
 }
+
+.close-notification-button svg {
+  width: 32px !important;
+  height: 32px !important ;
+}
+
+.notification-icon-container svg {
+  width: 40px !important;
+  height: 40px !important ;
+}
+
+@property --progress {
+  syntax: '<percentage>';
+  inherits: false;
+  initial-value: 100%; /* 💡 CHANGED: Initial value */
+}
+
+/*
+  Define the CSS animation keyframes
+*/
+@keyframes progress-fill-counter-clockwise {
+  from {
+    --progress: 100%; /* 💡 CHANGED: Start at 100% (empty) */
+  }
+  to {
+    --progress: 0%; /* 💡 CHANGED: End at 0% (full) */
+  }
+}
+
+.progress-border-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-border-animator {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 3px;
+  /* 💡 CHANGED: This gradient now "empties" the transparent part,
+     which reveals the orange part, appearing as a counter-clockwise fill.
+  */
+  background: conic-gradient(
+    transparent var(--progress, 100%),
+    #ff6b00 var(--progress, 100%)
+  );
+
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0;
+  animation-play-state: running;
+}
+
+.progress-border-container.is-active .progress-border-animator {
+  animation: progress-fill-counter-clockwise 8s linear forwards; /* 💡 Using new animation */
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.progress-border-container.is-active.is-paused .progress-border-animator {
+  animation-play-state: paused;
+}
+
+/* Crossfade animation for absolute positioned elements (images) */
+.crossfade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.crossfade-enter-active {
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.crossfade-exit {
+  opacity: 1;
+  z-index: 0;
+}
+
+.crossfade-exit-active {
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.crossfade-enter-done {
+  z-index: 1;
+}
+
+/* Crossfade animation for inline content (text) */
+.crossfade-inline-enter {
+  opacity: 0;
+}
+
+.crossfade-inline-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.crossfade-inline-exit {
+  opacity: 1;
+}
+
+.crossfade-inline-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+/* Custom Pagination Styles */
+.custom-pagination-wrapper {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .custom-pagination-wrapper {
+    display: block;
+    position: absolute;
+    bottom: 16px;
+    z-index: 10;
+    pointer-events: auto;
+    left: 25%;
+    transform: translateX(-50%);
+    overflow: hidden;
+  }
+}
+
+.custom-pagination-track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.custom-pagination-bullet {
+  width: 60px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #1a267c;
+  opacity: 0.4;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  transform: scale(1);
+}
+
+.custom-pagination-bullet.active {
+  opacity: 1;
+  background-color: #ff6b00;
+}
+
+.custom-pagination-bullet:hover {
+  opacity: 0.7;
+}
+
+.custom-pagination-bullet:focus {
+  outline: none;
+}
+
+.propositions-pagination {
+  display: none !important;
+}
+
+.leave-application-modal-backdrop {
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 38, 124, 0.1),
+    rgba(26, 38, 124, 0.8)
+  );
+}

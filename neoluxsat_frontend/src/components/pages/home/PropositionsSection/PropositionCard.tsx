@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
+import React, { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 import type { PropositionDto } from '@/types/proposition';
 import { ApplicationService } from '@/services/application.service';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
@@ -43,24 +43,13 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const imageNodeRef = useRef<HTMLImageElement>(null);
-  const contentNodeRef = useRef<HTMLDivElement>(null);
-
-  // --- MODIFICATION HERE ---
-  // Validation now runs on every change to clear the error
-  // as soon as the input becomes valid.
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPhone = e.target.value;
     setPhone(newPhone);
-
-    // If the new value is valid, clear any existing error.
     if (validatePhone(newPhone)) {
       setSubmitError(null);
     }
-    // We don't SET the error here, as that would show an error
-    // for a partially typed number. The error is only set on submit.
   };
-  // --- END MODIFICATION ---
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -81,11 +70,10 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
     }
   };
 
-  // --- Tailwind Class Definitions ---
   const baseInputClasses =
     'h-[40px] w-full font-noto pl-11 pr-4 bg-white border rounded-lg text-primaryBlue';
   const focusInputClasses =
-    'focus:outline-none focus:ring-2 focus:ring-primaryOrange';
+    'focus:outline-none focus:ring-[1.4px] focus:ring-primaryOrange';
 
   const getFieldClasses = () => {
     if (submitError) {
@@ -98,21 +86,18 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
     <div className="flex flex-col lg:flex-row rounded-2xl overflow-hidden w-full gap-[20px] lg:justify-center">
       {/* Image Section with Crossfade */}
       <div className="w-full lg:w-1/2 order-first lg:order-last aspect-square max-w-[680px] mx-auto overflow-hidden relative rounded-[20px]">
-        <TransitionGroup component={null}>
-          <CSSTransition
+        <AnimatePresence mode="popLayout">
+          <motion.img
             key={data.id}
-            timeout={300}
-            classNames="crossfade"
-            nodeRef={imageNodeRef}
-          >
-            <img
-              ref={imageNodeRef}
-              src={data.imageUrl}
-              alt={data.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </CSSTransition>
-        </TransitionGroup>
+            src={data.imageUrl}
+            alt={data.title}
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          />
+        </AnimatePresence>
       </div>
 
       {/* Content Section */}
@@ -127,49 +112,49 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
       >
         <div key={animationKey} className="progress-border-animator" />
 
-        {/* Content with Crossfade */}
-        <div className="relative min-h-[300px]">
-          <TransitionGroup component={null}>
-            <CSSTransition
-              key={data.id}
-              timeout={300}
-              classNames="crossfade"
-              nodeRef={contentNodeRef}
+        {/* Static badge */}
+        <span
+          className="w-fit px-[8px] py-[10px] bg-primaryOrange/40 rounded-full
+          font-noto text-[14px]/[120%] tracking-[-0.28px] text-primaryBlue mb-[24px]"
+        >
+          Спеціальна пропозиція
+        </span>
+
+        {/* Animated content with Framer Motion */}
+        <AnimatePresence mode="popLayout">
+          <motion.div
+            key={data.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, ease: 'easeInOut' }}
+          >
+            <h3
+              className="font-manrope text-[36px]/[90%] xs:text-[48px]/[90%] xl:text-[64px]/[90%] text-primaryBlue tracking-[-2px] font-semibold mb-[24px] 
+            lg:max-w-[75%]"
             >
-              <div ref={contentNodeRef} className="absolute inset-0">
-                <div className="flex flex-col gap-[24px]">
-                  <span
-                    className="w-fit px-[8px] py-[10px] bg-primaryOrange/40 rounded-full
-                    font-noto text-[14px]/[120%] tracking-[-0.28px] text-primaryBlue"
-                  >
-                    Спеціальна пропозиція
-                  </span>
-                  <h3 className="font-manrope text-[36px]/[90%] xs:text-[48px]/[90%] xl:text-[64px]/[90%] text-primaryBlue tracking-[-2px] font-semibold">
-                    {data.title}
-                  </h3>
-                  <p className="font-noto text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
-                    {data.content.split('\n').map((line, index, array) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        {index < array.length - 1 && (
-                          <br className="hidden lg:block" />
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </p>
-                </div>
-                <div className="flex items-center gap-[8px] mt-[12px] fill-primaryOrange mb-[12px] xs:mb-[20px] md:mb-[40px] lg:mb-[20px] xl:mb-[40px]">
-                  <div>
-                    <DateIcon />
-                  </div>
-                  <p className="font-noto text-primaryOrange text-[14px]/[120%] tracking-[-0.28px]">
-                    Акція діє до {formatDate(data.endDate)}
-                  </p>
-                </div>
+              {data.title}
+            </h3>
+            <p className="font-noto text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
+              {data.content.split('\n').map((line, index, array) => (
+                <React.Fragment key={index}>
+                  {line}
+                  {index < array.length - 1 && (
+                    <br className="hidden lg:block" />
+                  )}
+                </React.Fragment>
+              ))}
+            </p>
+            <div className="flex items-center gap-[8px] mt-[12px] fill-primaryOrange mb-[12px] xs:mb-[20px] md:mb-[40px] lg:mb-[20px] xl:mb-[40px]">
+              <div>
+                <DateIcon />
               </div>
-            </CSSTransition>
-          </TransitionGroup>
-        </div>
+              <p className="font-noto text-primaryOrange text-[14px]/[120%] tracking-[-0.28px]">
+                Акція діє до {formatDate(data.endDate)}
+              </p>
+            </div>
+          </motion.div>
+        </AnimatePresence>
 
         {/* Form Section (stays static) */}
         <form onSubmit={handleSubmit}>

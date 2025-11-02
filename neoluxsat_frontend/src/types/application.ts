@@ -38,3 +38,7 @@ export interface ApplicationUpdateDto {
   typeId: string;
   statusId: string;
 }
+
+export interface ApplicationCreatePropositionDto {
+  phone: string;
+}

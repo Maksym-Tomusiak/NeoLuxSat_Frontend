@@ -32,7 +32,9 @@ const ApplicationsTableHeader: React.FC = () => {
         </TableHead>
         <TableHead className="text-primaryBlue">
           <div className="flex gap-[6px] items-center">
-            <DateIcon />
+            <div className="fill-primaryBlue/80">
+              <DateIcon />
+            </div>
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
               Дата створення
             </p>

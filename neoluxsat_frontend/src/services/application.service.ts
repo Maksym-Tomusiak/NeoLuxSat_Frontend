@@ -1,5 +1,6 @@
 import type {
   ApplicationCreateDto,
+  ApplicationCreatePropositionDto,
   ApplicationDto,
   ApplicationUpdateDto,
 } from '@/types/application';
@@ -85,6 +86,18 @@ export class ApplicationService {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const httpClient = new HttpClient({
       baseURL: `${apiUrl}/applications`,
+      signal,
+    });
+    return await httpClient.post('', application);
+  }
+
+  static async createApplicationProposition(
+    application: ApplicationCreatePropositionDto,
+    signal?: AbortSignal
+  ) {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/applications/proposition`,
       signal,
     });
     return await httpClient.post('', application);

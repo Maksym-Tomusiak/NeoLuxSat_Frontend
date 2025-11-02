@@ -11,7 +11,7 @@ const IoTSectionCard: React.FC<IoTSectionCardProps> = ({ title, content }) => {
       <p className="font-manrope text-primaryOrange text-[24px]/[90%] font-semibold">
         {title}
       </p>
-      <div className="fill-primaryBlue text-primaryBlue font-noto text-[16px]/[120%] tracking-[-2%]">
+      <div className="fill-primaryBlue text-primaryBlue font-noto text-[16px]/[120%] tracking-[-0.32px]">
         {content}
       </div>
     </div>

@@ -1,8 +1,12 @@
-import React, { useEffect, useCallback } from 'react';
-// Correct import: FieldValues is sufficient.
+import React, { useEffect, useCallback, Fragment } from 'react';
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react';
 import { useForm, FormProvider, type FieldValues } from 'react-hook-form';
 
-// Placeholder for the simple Modal structure (unchanged)
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -14,27 +18,51 @@ interface BaseEntity {
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  if (!isOpen) return null;
-
   return (
-    <div
-      className="fixed inset-0 z-2000 flex items-center justify-center bg-black/20 p-4 font-noto" // Added padding for smaller screens
-      onClick={onClose}
-    >
-      <div
-        className="bg-white rounded-xl shadow-2xl w-full max-w-lg 
-                   pl-6 py-6" // Apply padding: Left/Top/Bottom=p-6 (1.5rem), Right=p-6 MINUS 10px
-        onClick={(e) => e.stopPropagation()}
-      >
-        <div className="pr-[10px] max-h-[90vh] overflow-y-auto ">
-          {children}
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-2000 font-noto" onClose={onClose}>
+        <TransitionChild
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-primaryBlue/40" aria-hidden="true" />
+        </TransitionChild>
+
+        <div className="fixed inset-0 p-4">
+          <div className="flex min-h-full items-center justify-center">
+            <TransitionChild
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 translate-y-full"
+              enterTo="opacity-100 translate-y-0"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 translate-y-0"
+              leaveTo="opacity-0 translate-y-full"
+            >
+              <DialogPanel
+                as="div"
+                className="bg-white rounded-xl shadow-2xl w-full max-w-lg pl-3 py-6"
+              >
+                <div className="pr-[10px] max-h-[90vh] overflow-y-auto">
+                  {children}
+                </div>
+              </DialogPanel>
+            </TransitionChild>
+          </div>
         </div>
-      </div>
-    </div>
+      </Dialog>
+    </Transition>
   );
 };
 
-// --- EntityFormModalProps (Generics remain the same) ---
+//
+// --- EntityFormModalProps (NO CHANGES) ---
+//
 interface EntityFormModalProps<
   T extends BaseEntity,
   C extends FieldValues,
@@ -57,6 +85,9 @@ interface EntityFormModalProps<
   formFields: (isReadOnly: boolean) => React.ReactNode;
 }
 
+//
+// --- EntityFormModal (NO CHANGES) ---
+//
 const EntityFormModal = <
   T extends BaseEntity,
   C extends FieldValues,
@@ -76,7 +107,6 @@ const EntityFormModal = <
   type FormDataType = C | U;
 
   const methods = useForm<FormDataType>({
-    // 🚀 FINAL FIX: Use a simple assertion to FieldValues, bypassing the union type complexity.
     defaultValues: getInitialData(entity) as any,
     mode: 'onChange',
     disabled: isReadOnly,
@@ -94,7 +124,6 @@ const EntityFormModal = <
   );
 
   useEffect(() => {
-    // Similarly, use FieldValues for reset, which is usually safer than 'any'.
     reset(memoizedGetInitialData() as any, {
       keepDirty: false,
     });
@@ -105,10 +134,8 @@ const EntityFormModal = <
 
     try {
       if (isEditing) {
-        // Assertion back to U for service call
         await service.update(data as U);
       } else {
-        // Assertion back to C for service call
         await service.create(data as C);
       }
       onSuccess();
@@ -130,7 +157,6 @@ const EntityFormModal = <
 
       <FormProvider {...methods}>
         <form
-          // Assertion to 'any' here is standard when dealing with complex generics in handleSubmit
           onSubmit={handleSubmit(onSubmit as any)}
           className="flex flex-col gap-4"
         >

@@ -3,29 +3,39 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/common/admin/dashboard-table';
-import UserIcon from '@/assets/svgs/admin/dashboard/person-icon.svg';
-import StatusIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
+} from '@/components/common/admin/crud-table';
+
 import DateIcon from '@/assets/svgs/admin/dashboard/date-icon.svg';
+import TitleIcon from '@/assets/svgs/admin/dashboard/person-icon.svg'; // Example icon
+import ContentIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
+import ImageIcon from '@/assets/svgs/admin/dashboard/status-icon.svg'; // Example icon
 import ActionsIcon from '@/assets/svgs/admin/dashboard/actions-icon.svg';
 
-const LatestApplicationsHeader: React.FC = () => {
+const PropositionsTableHeader: React.FC = () => {
   return (
-    <TableHeader>
-      <TableRow className="border-b-0">
+    <TableHeader className="mb-4">
+      <TableRow className="border-b-0 hover:bg-transparent">
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center pl-[12px]">
-            <UserIcon />
+          <div className="flex gap-[6px] items-center">
+            <ImageIcon /> {/* Example */}
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-              ПІБ
+              Зображення
             </p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
           <div className="flex gap-[6px] items-center">
-            <StatusIcon />
+            <TitleIcon /> {/* Example */}
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-              Статус
+              Заголовок
+            </p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <ContentIcon />
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              Зміст
             </p>
           </div>
         </TableHead>
@@ -35,12 +45,12 @@ const LatestApplicationsHeader: React.FC = () => {
               <DateIcon />
             </div>
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-              Дата створення
+              Дата завершення
             </p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue text-right">
-          <div className="flex gap-[6px] items-center justify-end pr-[12px]">
+          <div className="flex gap-[6px] items-center justify-end mr-[8px]">
             <ActionsIcon />
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
               Дії
@@ -52,4 +62,4 @@ const LatestApplicationsHeader: React.FC = () => {
   );
 };
 
-export default LatestApplicationsHeader;
+export default PropositionsTableHeader;

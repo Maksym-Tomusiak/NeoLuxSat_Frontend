@@ -39,6 +39,7 @@ const OurServicesCard: React.FC<OurServicesCardProps> = ({
   className,
   children,
 }) => {
+  const serviceTitle = window.location.pathname.split('/').pop();
   return (
     <div
       className={cn(
@@ -89,7 +90,7 @@ const OurServicesCard: React.FC<OurServicesCardProps> = ({
           <>
             <LeaveApplicationButton
               isOrange
-              onApplicationClick={() => {}}
+              preselectedServiceTitle={serviceTitle}
               className="min-w-full justify-center hover:text-primaryWhite!"
             />
           </>

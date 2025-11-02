@@ -9,6 +9,7 @@ import ShopSection from './ShopSection/ShopSection';
 import ContactsSection from '@/components/common/sections/ContactsSection/ContactsSection';
 import FaqSection from './FaqSection/FaqSection';
 import CtaSectionTemplate from '@/components/common/sections/CtaSectionTemplate';
+import PropositionsSection from './PropositionsSection/PropositionsSection';
 
 const HomePage = () => {
   const ctaData = [
@@ -49,6 +50,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <ServicesSection />
+      <PropositionsSection />
       <ShopSection />
       <CtaSectionTemplate {...ctaData[0]} />
       <WhyUsSection />

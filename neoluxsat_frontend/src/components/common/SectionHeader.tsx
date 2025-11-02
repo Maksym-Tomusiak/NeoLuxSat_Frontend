@@ -27,4 +27,4 @@ const SectionHeader = ({
   );
 };
 
-export default SectionHeader;
+export default React.memo(SectionHeader);

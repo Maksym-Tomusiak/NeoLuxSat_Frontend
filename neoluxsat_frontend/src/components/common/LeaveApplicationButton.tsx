@@ -1,19 +1,30 @@
+// src/components/common/LeaveApplicationButton.tsx
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { useModal } from '@/contexts/modalContext'; // Import the hook
 
 type LeaveApplicationButtonProps = {
   isOrange?: boolean;
-  onApplicationClick?: () => void;
   className?: string;
+  // 💡 NEW: Optional prop to pass preselected service title
+  preselectedServiceTitle?: string | null;
 };
 
 const LeaveApplicationButton: React.FC<LeaveApplicationButtonProps> = ({
   isOrange,
-  onApplicationClick,
   className,
+  preselectedServiceTitle = 'consult',
 }) => {
+  const { openModal } = useModal(); // Get the openModal function from context
+
   const orangeClasses = `bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue`;
   const blueClasses = `bg-primaryBlue border-primaryBlue text-primaryWhite hover:text-primaryBlue`;
+
+  // 💡 Call openModal with the preselected title on click
+  const handleClick = () => {
+    openModal(preselectedServiceTitle);
+  };
+
   return (
     <button
       className={cn(
@@ -21,7 +32,7 @@ const LeaveApplicationButton: React.FC<LeaveApplicationButtonProps> = ({
         className,
         isOrange ? orangeClasses : blueClasses
       )}
-      onClick={onApplicationClick}
+      onClick={handleClick} // Use the internal handler
     >
       Залишити заявку
     </button>

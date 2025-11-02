@@ -21,8 +21,8 @@ export const getCrudsOptions = () => {
     { name: 'Заявки', href: '/admin/applications' },
     { name: 'Часті питання', href: '/admin/faqs' },
     { name: 'Відгуки', href: '/admin/feedbacks' },
-    { name: 'Акції', href: '/admin/sales' },
     { name: 'Мережеві проблеми', href: '/admin/network' },
+    { name: 'Акції', href: '/admin/propositions' },
   ];
 
   if (decoded.role && decoded.role === 'Admin') {

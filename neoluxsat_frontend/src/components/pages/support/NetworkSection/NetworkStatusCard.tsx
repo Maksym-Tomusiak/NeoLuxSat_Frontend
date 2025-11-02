@@ -37,7 +37,7 @@ const NetworkStatusCard: React.FC<{ data: NetworkStatusData }> = ({ data }) => (
           Статус
         </p>
         <p
-          className={`font-noto text-[18px]/[120%] tracking-[-2%] font-medium ${data.statusColorClass}`}
+          className={`font-noto text-[18px]/[120%] tracking-[-0.36px] font-medium ${data.statusColorClass}`}
         >
           {data.status}
         </p>
@@ -46,7 +46,7 @@ const NetworkStatusCard: React.FC<{ data: NetworkStatusData }> = ({ data }) => (
         <p className="font-noto text-primaryBlue/80 text-[14px]/[120%] tracking-[-0.28px]">
           Оновлено
         </p>
-        <p className="font-noto text-[18px]/[120%] text-primaryBlue tracking-[-2%] font-medium">
+        <p className="font-noto text-[18px]/[120%] text-primaryBlue tracking-[-0.36px] font-medium">
           {data.updated}
         </p>
       </div>

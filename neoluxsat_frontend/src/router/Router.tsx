@@ -17,6 +17,7 @@ import InternetPage from '@/components/pages/services/Internet/InternetPage';
 import IoTPage from '@/components/pages/services/IoT/IoTPage';
 import TVPage from '@/components/pages/services/TV/TVPage';
 import SecurityPage from '@/components/pages/services/Security/SecurityPage';
+import PropositionsTable from '@/components/pages/admin/Crud/Propositions/PropositionsTable';
 
 const Router = () => {
   return (
@@ -87,6 +88,14 @@ const Router = () => {
             element={
               <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
                 <NetworkProblemsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="propositions"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <PropositionsTable />
               </ProtectedRoute>
             }
           />

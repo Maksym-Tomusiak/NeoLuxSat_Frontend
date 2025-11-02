@@ -1,10 +1,13 @@
 import './App.css';
 import Router from '@/router/Router';
+import { ModalProvider } from './contexts/modalContext';
 
 function App() {
   return (
     <>
-      <Router />
+      <ModalProvider>
+        <Router />
+      </ModalProvider>
     </>
   );
 }

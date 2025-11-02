@@ -70,7 +70,6 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
   sliderKey,
 }) => {
   const data = SLIDER_CONTENT_MAP[sliderKey];
-  console.log(data);
 
   // Convert string arrays to React Nodes once
   const orangeSlides = createSlideNodes(data.orange);
