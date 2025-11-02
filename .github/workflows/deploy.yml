@@ -50,7 +50,8 @@ jobs:
           # This is the script that runs on your server
           script: |
             # Go to the directory where your compose file is
-            cd /opt/my-app 
+            cd opt/
+            cd site/
             
             # Log in to GitHub Registry to pull private images
             # We use the GHCR_PAT secret you created
