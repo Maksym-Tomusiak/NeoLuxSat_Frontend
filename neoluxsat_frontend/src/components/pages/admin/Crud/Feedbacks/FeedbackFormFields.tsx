@@ -1,228 +1,143 @@
-import React, { useState, useRef } from 'react';
-import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import type { PropositionDto } from '@/types/proposition';
-import { ApplicationService } from '@/services/application.service';
-import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
-import DateIcon from '@/assets/svgs/admin/dashboard/date-icon.svg';
-import InfoIcon from '@/assets/svgs/info-icon.svg';
+import React from 'react';
+import { useFormContext, type FieldErrors } from 'react-hook-form';
+import type { FeedbackCreateDto, FeedbackUpdateDto } from '@/types/feedback';
 
-type PropositionCardProps = {
-  data: PropositionDto;
-  onPause: () => void;
-  onResume: () => void;
-  isPaused: boolean;
-  animationKey: number;
-};
+// Type alias for combining DTOs
+type FeedbackFormType = FeedbackCreateDto | FeedbackUpdateDto;
 
-const validatePhone = (phone: string): boolean => {
-  return /^\+?[\d\s-]{10,20}$/.test(phone);
-};
+interface FeedbackFormFieldsProps {
+  isReadOnly: boolean;
+}
 
-const formatDate = (date: Date | string): string => {
-  try {
-    const d = new Date(date);
-    return d.toLocaleDateString('uk-UA', {
-      day: '2-digit',
-      month: 'long',
-      year: 'numeric',
-      timeZone: 'Europe/Kyiv',
-    });
-  } catch {
-    return String(date);
-  }
-};
-
-const PropositionCard: React.FC<PropositionCardProps> = ({
-  data,
-  onPause,
-  onResume,
-  isPaused,
-  animationKey,
+const FeedbackFormFields: React.FC<FeedbackFormFieldsProps> = ({
+  isReadOnly,
 }) => {
-  const [phone, setPhone] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitError, setSubmitError] = useState<string | null>(null);
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext<FeedbackFormType>();
 
-  const imageNodeRef = useRef<HTMLImageElement>(null);
-  const contentNodeRef = useRef<HTMLDivElement>(null);
-
-  // --- MODIFICATION HERE ---
-  // Validation now runs on every change to clear the error
-  // as soon as the input becomes valid.
-  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newPhone = e.target.value;
-    setPhone(newPhone);
-
-    // If the new value is valid, clear any existing error.
-    if (validatePhone(newPhone)) {
-      setSubmitError(null);
-    }
-    // We don't SET the error here, as that would show an error
-    // for a partially typed number. The error is only set on submit.
-  };
-  // --- END MODIFICATION ---
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validatePhone(phone)) {
-      setSubmitError('Введіть коректний номер телефону.');
-      return;
-    }
-    setSubmitError(null);
-    setIsSubmitting(true);
-    try {
-      await ApplicationService.createApplicationProposition({ phone });
-      setPhone('');
-    } catch (err) {
-      console.error(err);
-      setSubmitError('Не вдалося відправити. Спробуйте ще раз.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const rHFerrors = errors as FieldErrors<FeedbackFormType>;
 
   // --- Tailwind Class Definitions ---
-  const baseInputClasses =
-    'h-[40px] w-full font-noto pl-11 pr-4 bg-white border rounded-lg text-primaryBlue';
-  const focusInputClasses =
-    'focus:outline-none focus:ring-2 focus:ring-primaryOrange';
 
-  const getFieldClasses = () => {
-    if (submitError) {
-      return `border-red-600 ${focusInputClasses}`;
+  // Base classes (without specific border color or focus/ring)
+  const defaultBaseClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+
+  // Editable classes with orange focus (includes focus:outline-none)
+  const editableFocusClasses =
+    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+
+  // --- New Dynamic Class Helper ---
+
+  /**
+   * Generates classes to handle error state (red border when unfocused)
+   * and prioritize selected state (orange border when focused).
+   */
+  const getFieldClasses = (
+    fieldName: keyof FeedbackFormType,
+    isTextarea: boolean = false
+  ) => {
+    const hasError = rHFerrors[fieldName];
+
+    if (isReadOnly) {
+      // Read-only fields get the default gray border
+      return 'border-gray-300';
     }
-    return `border-gray-300 ${focusInputClasses}`;
+
+    if (hasError) {
+      // If there's an error: Set unfocused border to red, but keep orange focus handlers.
+      // Orange focus will override the red border when the element is active.
+      let classes = `border-red-500 ${editableFocusClasses}`;
+      if (isTextarea) classes += ' resize-none';
+      return classes;
+    }
+
+    // No error: Set unfocused border to gray-300, and apply orange focus handlers.
+    let classes = `border-gray-300 ${editableFocusClasses}`;
+    if (isTextarea) classes += ' resize-none';
+    return classes;
+  };
+
+  // RHF Validation Rules (Unchanged)
+  const validationRules = {
+    author: {
+      required: 'Автор є обовʼязковим',
+      minLength: {
+        value: 3,
+        message: 'Автор має бути від 3 до 255 символів',
+      },
+      maxLength: {
+        value: 255,
+        message: 'Автор має бути від 3 до 255 символів',
+      },
+    },
+    content: {
+      required: 'Зміст є обовʼязковим',
+      minLength: {
+        value: 3,
+        message: 'Зміст має бути від 3 до 10000 символів',
+      },
+      maxLength: {
+        value: 10000,
+        message: 'Зміст має бути від 3 до 10000 символів',
+      },
+    },
   };
 
   return (
-    <div className="flex flex-col lg:flex-row rounded-2xl overflow-hidden w-full gap-[20px] lg:justify-center">
-      {/* Image Section with Crossfade */}
-      <div className="w-full lg:w-1/2 order-first lg:order-last aspect-square max-w-[680px] mx-auto overflow-hidden relative rounded-[20px]">
-        <TransitionGroup component={null}>
-          <CSSTransition
-            key={data.id}
-            timeout={300}
-            classNames="crossfade"
-            nodeRef={imageNodeRef}
-          >
-            <img
-              ref={imageNodeRef}
-              src={data.imageUrl}
-              alt={data.title}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
-          </CSSTransition>
-        </TransitionGroup>
+    <>
+      {/* Author Field */}
+      <div>
+        <label
+          htmlFor="author"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Автор
+        </label>
+
+        <input
+          id="author"
+          type="text"
+          {...register('author', validationRules.author)}
+          disabled={isReadOnly}
+          // ✅ Applied dynamic classes
+          className={`${defaultBaseClasses} ${getFieldClasses('author')}`}
+        />
+        {rHFerrors.author && (
+          <p className="text-xs text-red-600 mt-1">
+            {rHFerrors.author.message}
+          </p>
+        )}
       </div>
+      {/* Content Field */}
+      <div>
+        <label
+          htmlFor="content"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Зміст
+        </label>
 
-      {/* Content Section */}
-      <div
-        className={`w-full lg:w-1/2 order-last lg:order-first flex flex-col justify-center
-          p-[24px]
-          rounded-[20px] bg-primaryBlue/10
-          lg:aspect-square max-w-[680px] mx-auto
-          progress-border-container 
-          is-active
-          ${isPaused ? 'is-paused' : ''}`}
-      >
-        <div key={animationKey} className="progress-border-animator" />
-
-        {/* Content with Crossfade */}
-        <div className="relative min-h-[300px]">
-          <TransitionGroup component={null}>
-            <CSSTransition
-              key={data.id}
-              timeout={300}
-              classNames="crossfade"
-              nodeRef={contentNodeRef}
-            >
-              <div ref={contentNodeRef} className="absolute inset-0">
-                <div className="flex flex-col gap-[24px]">
-                  <span
-                    className="w-fit px-[8px] py-[10px] bg-primaryOrange/40 rounded-full
-                    font-noto text-[14px]/[120%] tracking-[-0.28px] text-primaryBlue"
-                  >
-                    Спеціальна пропозиція
-                  </span>
-                  <h3 className="font-manrope text-[36px]/[90%] xs:text-[48px]/[90%] xl:text-[64px]/[90%] text-primaryBlue tracking-[-2px] font-semibold">
-                    {data.title}
-                  </h3>
-                  <p className="font-noto text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
-                    {data.content.split('\n').map((line, index, array) => (
-                      <React.Fragment key={index}>
-                        {line}
-                        {index < array.length - 1 && (
-                          <br className="hidden lg:block" />
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </p>
-                </div>
-                <div className="flex items-center gap-[8px] mt-[12px] fill-primaryOrange mb-[12px] xs:mb-[20px] md:mb-[40px] lg:mb-[20px] xl:mb-[40px]">
-                  <div>
-                    <DateIcon />
-                  </div>
-                  <p className="font-noto text-primaryOrange text-[14px]/[120%] tracking-[-0.28px]">
-                    Акція діє до {formatDate(data.endDate)}
-                  </p>
-                </div>
-              </div>
-            </CSSTransition>
-          </TransitionGroup>
-        </div>
-
-        {/* Form Section (stays static) */}
-        <form onSubmit={handleSubmit}>
-          <label
-            htmlFor={`phone-${data.id}`}
-            className="font-noto text-primaryBlue text-[16px]/[120%] tracking-[-0.32px] ml-2"
-          >
-            Номер телефону
-          </label>
-          <div className="relative flex flex-col sm:flex-row sm:gap-4 mt-2">
-            <div className="relative w-full">
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 fill-primaryBlue/40 pointer-events-none">
-                <PhoneIcon />
-              </div>
-              <input
-                id={`phone-${data.id}`}
-                type="tel"
-                placeholder="+380937773244"
-                value={phone}
-                onChange={handlePhoneChange}
-                onFocus={onPause}
-                onBlur={onResume}
-                disabled={isSubmitting}
-                className={`${baseInputClasses} ${getFieldClasses()}`}
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full sm:w-auto mt-3 sm:mt-0 px-6 py-3 rounded-lg border-primaryOrange border-[2px] bg-primaryOrange text-primaryWhite font-semibold font-noto whitespace-nowrap hover:bg-transparent hover:text-primaryBlue transition-colors disabled:opacity-70 cursor-pointer"
-            >
-              {isSubmitting ? 'Відправка...' : 'Залишити заявку'}
-            </button>
-          </div>
-
-          <div className="mt-2 ml-2 text-sm">
-            {submitError && (
-              <p className="text-red-600 font-medium">{submitError}</p>
-            )}
-          </div>
-          <div className="flex items-center gap-[8px] mt-[16px]">
-            <div className="w-[24px] h-[24px]">
-              <InfoIcon />
-            </div>
-            <p className="text-primaryBlue/80 font-noto text-[14px]/[120%] tracking-[-0.28px] max-w-[380px]">
-              Вказавши номер телефону, ви отримаєте персональну пропозицію та
-              консультацію спеціаліста протягом 15 хвилин
-            </p>
-          </div>
-        </form>
+        <textarea
+          id="content"
+          rows={4}
+          {...register('content', validationRules.content)}
+          disabled={isReadOnly}
+          className={`${defaultBaseClasses} ${getFieldClasses(
+            'content',
+            true
+          )}`}
+        />
+        {rHFerrors.content && (
+          <p className="text-xs text-red-600 mt-1">
+            {rHFerrors.content.message}
+          </p>
+        )}
       </div>
-    </div>
+    </>
   );
 };
 
-export default PropositionCard;
+export default FeedbackFormFields;
