@@ -13,7 +13,6 @@ const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
   icon,
   title,
   description,
-  onApplicationClick,
 }) => {
   const applicationButtonParams = {
     color: 'primaryWhite',
@@ -33,7 +32,6 @@ const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
         </p>
         <LeaveApplicationButton
           {...applicationButtonParams}
-          onApplicationClick={onApplicationClick}
           className="sm:min-w-fit min-w-full justify-center"
         />
       </div>

@@ -25,11 +25,7 @@ const HeroSection = () => {
         систем безпеки. Обирайте технології, що працюють на вас 24/7.
       </p>
       <div className="flex flex-col sm:flex-row gap-[16px] sm:gap-[20px] lg:gap-[24px]">
-        <LeaveApplicationButton
-          isOrange
-          onApplicationClick={() => {}}
-          className="max-w-fit"
-        />
+        <LeaveApplicationButton isOrange className="max-w-fit" />
         <a
           onClick={(e) => {
             e.preventDefault();

@@ -27,11 +27,7 @@ const HeroSection = () => {
         тарифів чи налаштувань. <br />
         Залиште заявку — наш спеціаліст зв’яжеться з вами найближчим часом.
       </p>
-      <LeaveApplicationButton
-        isOrange
-        onApplicationClick={() => {}}
-        className="max-w-fit"
-      />
+      <LeaveApplicationButton isOrange className="max-w-fit" />
     </div>
   );
 
