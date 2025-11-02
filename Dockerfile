@@ -2,6 +2,13 @@
 FROM node:20-alpine AS build
 WORKDIR /app
 
+# Declare the build argument
+ARG VITE_API_BASE_URL
+ARG VITE_MAPTILER_API_KEY
+# Set it as an environment variable for the 'npm run build' step
+ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
+ENV VITE_MAPTILER_API_KEY=$VITE_MAPTILER_API_KEY
+
 # Copy the package files from the subdirectory
 COPY neoluxsat_frontend/package*.json ./
 
