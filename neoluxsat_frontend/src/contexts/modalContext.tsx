@@ -1,6 +1,6 @@
-// src/contexts/ModalContext.tsx (or wherever you saved your provider)
+// src/contexts/ModalContext.tsx
 import LeaveApplicationModal from '@/components/common/LeaveApplicationModal';
-import Notification from '@/components/common/Notification'; // ADDED
+import Notification from '@/components/common/Notification';
 import React, {
   useState,
   useCallback,
@@ -12,6 +12,8 @@ import React, {
 interface ModalContextValue {
   openModal: (preselectedServiceTitle?: string | null) => void;
   closeModal: () => void;
+  // --- ADDED ---
+  showNotification: (message: string, type: 'success' | 'error') => void;
 }
 
 const ModalContext = createContext<ModalContextValue | undefined>(undefined);
@@ -53,8 +55,9 @@ export const ModalProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const value = useMemo(
-    () => ({ openModal, closeModal }),
-    [openModal, closeModal]
+    // --- UPDATED (added showNotification) ---
+    () => ({ openModal, closeModal, showNotification }),
+    [openModal, closeModal, showNotification] // <-- Dependency added
   );
 
   return (

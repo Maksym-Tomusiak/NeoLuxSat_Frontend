@@ -317,10 +317,31 @@ section {
   }
 }
 
+/* For 2 slides - simple track */
 .custom-pagination-track {
   display: flex;
   gap: 16px;
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* For 3+ slides - Swiper container */
+.custom-pagination-swiper {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.custom-pagination-swiper .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Align to start so first bullet appears at left edge */
+  justify-content: flex-start;
+}
+
+.custom-pagination-swiper .swiper-slide {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .custom-pagination-bullet {

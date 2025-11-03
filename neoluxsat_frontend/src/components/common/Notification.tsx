@@ -53,7 +53,7 @@ const Notification: React.FC<NotificationProps> = ({
       leaveTo="translate-x-full opacity-0"
     >
       <div
-        className={`fixed bottom-4 right-4 z-2010 flex items-center p-4 pr-6 rounded-lg shadow-lg text-primaryWhite ${bgColor}`}
+        className={`max-w-[90vw] fixed bottom-4 right-4 z-2010 flex items-center p-4 pr-6 rounded-lg shadow-lg text-primaryWhite ${bgColor}`}
         role="alert"
       >
         <div
