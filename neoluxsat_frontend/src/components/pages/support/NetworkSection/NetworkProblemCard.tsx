@@ -129,8 +129,8 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
 
       <div className="min-h-[1.4px] bg-primaryBlue/20 rounded-full"></div>
 
-      <div className="flex justify-between items-start flex-wrap gap-[24px]">
-        <div className="flex gap-[24px] items-start flex-wrap">
+      <div className="flex justify-between items-start max-md:flex-col max-md:flex-wrap gap-[24px]">
+        <div className="flex gap-[24px] items-start max-sm:flex-col max-md:flex-wrap">
           <div className="flex gap-[12px] items-center">
             <div className="min-w-[24px] min-h-[24px]">
               <NetworkTimeIcon />
@@ -145,7 +145,7 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
             </div>
           </div>
 
-          <div className="flex gap-[12px] items-center max-w-[230px]">
+          <div className="flex gap-[12px] items-center max-w-[300px]">
             <div className="min-w-[24px] min-h-[24px]">
               <NetworkStatusIcon />
             </div>
