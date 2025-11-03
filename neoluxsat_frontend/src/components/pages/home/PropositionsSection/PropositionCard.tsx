@@ -5,6 +5,7 @@ import { ApplicationService } from '@/services/application.service';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import DateIcon from '@/assets/svgs/admin/dashboard/date-icon.svg';
 import InfoIcon from '@/assets/svgs/info-icon.svg';
+import { useModal } from '@/contexts/modalContext'; // <-- 1. IMPORT THE HOOK
 
 type PropositionCardProps = {
   data: PropositionDto;
@@ -43,6 +44,9 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  // --- 2. GET THE FUNCTION FROM THE CONTEXT ---
+  const { showNotification } = useModal();
+
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newPhone = e.target.value;
     setPhone(newPhone);
@@ -62,9 +66,14 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
     try {
       await ApplicationService.createApplicationProposition({ phone });
       setPhone('');
+      // --- 3. CALL NOTIFICATION ON SUCCESS ---
+      showNotification('Заявку успішно відправлено!', 'success');
     } catch (err) {
       console.error(err);
-      setSubmitError('Не вдалося відправити. Спробуйте ще раз.');
+      // --- 4. CALL NOTIFICATION ON ERROR ---
+      showNotification('Не вдалося відправити. Спробуйте ще раз.', 'error');
+      // We no longer need this, as the notification handles the error
+      // setSubmitError('Не вдалося відправити. Спробуйте ще раз.');
     } finally {
       setIsSubmitting(false);
     }

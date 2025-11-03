@@ -1,4 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, Fragment } from 'react'; // 💡 --- UPDATED ---
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react'; // 💡 --- ADD ---
 import Logo from '@/assets/svgs/logos/logo-neoluxsat-header.svg';
 import Divider from '@/assets/svgs/header/header-divider.svg';
 import MenuIcon from '@/assets/svgs/header/menu-icon.svg';
@@ -17,9 +23,8 @@ const HIDE_TIMEOUT_MS = 3000; // 10 seconds
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false); // 💡 Ref to store the timer ID
-  const timerRef = useRef<number | null>(null); // 💡 --- NEW --- // Use state for hover instead of a ref, so useEffect can react to it
-
+  // const [isClosing, setIsClosing] = useState(false); // 💡 --- REMOVE (Headless UI handles this) ---
+  const timerRef = useRef<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
 
   const applicationButtonParams = { isOrange: true };
@@ -31,14 +36,16 @@ const Header = () => {
     { name: 'IoT та M2M', href: '/services/iot' },
   ];
 
+  // 💡 --- UPDATED ---
+  // Simplified close handler. Headless UI's <Transition> handles the exit animation.
   const handleClose = () => {
-    setIsClosing(true);
-    setTimeout(() => {
-      setIsOpen(false);
-      setIsClosing(false);
-    }, 300); // match animation duration
-  }; // This useEffect for scroll-lock is unchanged and correct
+    setIsOpen(false);
+  };
 
+  // 💡 --- REMOVE ---
+  // This manual scroll-lock logic is no longer needed.
+  // The Headless UI <Dialog> component handles this automatically.
+  /*
   useEffect(() => {
     const html = document.documentElement;
     const body = document.body;
@@ -55,24 +62,22 @@ const Header = () => {
       html.classList.remove('scroll-lock-html');
       body.classList.remove('scroll-lock-body');
     };
-  }, [isOpen, isClosing]); // 💡 --- LOGIC UPDATED --- // This effect replaces your resetTimer function and the old effect
+  }, [isOpen, isClosing]);
+  */
 
+  // This useEffect for header visibility logic remains unchanged
   useEffect(() => {
-    // Function to handle user activity (scroll or touch)
     const handleActivity = () => {
-      // 1. Always show header on activity
-      setIsVisible(true); // 2. Clear any pending hide timer
-
+      setIsVisible(true);
       if (timerRef.current) {
         clearTimeout(timerRef.current);
-      } // 3. Set a new timer to hide, IF conditions are met // (Not hovered, menu not open, and preferably, scrolled down)
-
+      }
       if (!isHovered && !isOpen && window.scrollY > 0) {
         timerRef.current = window.setTimeout(() => {
           setIsVisible(false);
         }, HIDE_TIMEOUT_MS);
       }
-    }; // If user is hovering or the mobile menu is open, // keep the header visible and cancel any hide timer.
+    };
 
     if (isHovered || isOpen) {
       setIsVisible(true);
@@ -80,13 +85,11 @@ const Header = () => {
         clearTimeout(timerRef.current);
       }
     } else {
-      // If not hovered and menu is closed (e.g., on mouse leave, or on load),
-      // run the activity handler to set the timer.
       handleActivity();
-    } // Add listeners for scroll and touch
+    }
 
     window.addEventListener('scroll', handleActivity);
-    window.addEventListener('touchstart', handleActivity); // Cleanup
+    window.addEventListener('touchstart', handleActivity);
 
     return () => {
       window.removeEventListener('scroll', handleActivity);
@@ -94,18 +97,16 @@ const Header = () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current);
       }
-    }; // Re-run this logic whenever hover or menu state changes
-  }, [isOpen, isHovered]); // --- 💡 Mouse Hover Handlers (UPDATED) ---
+    };
+  }, [isOpen, isHovered]);
 
   const handleMouseEnter = () => {
-    // Just set the state. The useEffect will handle the logic.
     setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    // Just set the state. The useEffect will handle the logic.
     setIsHovered(false);
-  }; // --- End of Logic Update --- // CSS Class for smooth transition and hiding
+  };
 
   const headerVisibilityClass = isVisible
     ? 'opacity-100 translate-y-0'
@@ -116,8 +117,8 @@ const Header = () => {
       {/* Header */}
       <div
         className={`
-                    header-shadow max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto 
-                    transition-all duration-300 ease-in-out ${headerVisibilityClass}
+                  header-shadow max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto 
+                  transition-all duration-300 ease-in-out ${headerVisibilityClass}
                 `}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -167,7 +168,7 @@ const Header = () => {
 
           <button
             aria-label="Open menu"
-            onClick={() => setIsOpen(true)}
+            onClick={() => setIsOpen(true)} // This just opens the dialog
             className="ml-auto flex size-[40px] items-center justify-center rounded-[10px] min-[900px]:hidden"
           >
             <MenuIcon />
@@ -175,101 +176,125 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile menu modal */}
-      {isOpen && (
-        <>
-          <div className="fixed inset-0 z-[1999]" />
-          <div
-            className={`fixed inset-0 z-[2000] bg-primaryWhite text-primaryBlue h-full w-full flex flex-col ${
-              isClosing ? 'animate-slide-out' : 'animate-slide-in'
-            }`}
+      {/* 💡 --- MOBILE MENU MODAL (UPDATED) --- 💡 */}
+      {/*
+        This block replaces the old `{isOpen && ...}` logic.
+        - <Transition> controls the mount/unmount.
+        - <Dialog> handles the accessibility and scroll-lock.
+        - <TransitionChild> controls the slide-in/out animation.
+      */}
+      <Transition appear show={isOpen} as={Fragment}>
+        <Dialog as="div" className="relative z-2000" onClose={handleClose}>
+          {/*
+            This <TransitionChild> is the sliding panel itself.
+            We translate the 'animate-slide-in' and 'animate-slide-out'
+            classes into Headless UI's transition props.
+            (Assuming a slide-in from the right)
+          */}
+          <TransitionChild
+            as={Fragment}
+            enter="transform transition ease-in-out duration-300"
+            enterFrom="-translate-x-full"
+            enterTo="translate-x-0"
+            leave="transform transition ease-in-out duration-300"
+            leaveFrom="translate-x-0"
+            leaveTo="-translate-x-full"
           >
-            <div className="flex-1 min-h-0 overflow-y-auto flex flex-col">
-              <div className="flex items-center justify-between p-6">
-                <div>
-                  <Logo />
-                </div>
-                <button
-                  aria-label="Close menu"
-                  onClick={handleClose}
-                  className="p-2 fill-primaryOrange"
-                >
-                  <CloseIcon />
-                </button>
-              </div>
-
-              <nav className="flex flex-col gap-[40px] px-6 mb-[40px]">
-                <div className="flex flex-col gap-[24px]">
-                  <a href="/" className="text-[18px]/[120%] font-medium">
-                    Головна
-                  </a>
-                  <a href="/about" className="text-[18px]/[120%] font-medium">
-                    Про нас
-                  </a>
-                  <a href="/support" className="text-[18px]/[120%] font-medium">
-                    Підтримка
-                  </a>
+            {/*
+              This <DialogPanel> replaces your old full-screen div.
+              Note that the animation classes are gone from here.
+            */}
+            <DialogPanel className="fixed inset-0 z-[2000] flex h-full w-full flex-col bg-primaryWhite text-primaryBlue">
+              <div className="flex-1 min-h-0 overflow-y-auto flex flex-col">
+                <div className="flex items-center justify-between p-6">
+                  <div>
+                    <Logo />
+                  </div>
+                  <button
+                    aria-label="Close menu"
+                    onClick={handleClose}
+                    className="p-2 fill-primaryOrange"
+                  >
+                    <CloseIcon />
+                  </button>
                 </div>
 
-                <div>
-                  <p className="text-[14px] font-normal text-primaryBlue/80 mb-[12px]">
-                    Послуги
-                  </p>
+                <nav className="flex flex-col gap-[40px] px-6 mb-[40px]">
                   <div className="flex flex-col gap-[24px]">
-                    {services.map((s) => (
-                      <a
-                        key={s.name}
-                        href={s.href}
-                        className="text-[18px]/[120%] text-primaryBlue font-semibold"
-                      >
-                        {s.name}
-                      </a>
-                    ))}
-                  </div>
-                </div>
-              </nav>
-
-              <div className="px-6 flex flex-col w-fit gap-[40px] text-[16px]/[120%] text-left fill-primaryBlue">
-                <div className="flex gap-[12px] items-center w-fit">
-                  <AddressIcon />
-                  <div className="flex flex-col gap-[8px]">
-                    <p className="font-normal text-primaryBlue/80">Адреса</p>
-                    <p className="font-medium">вул. Лесі Українки, Острог</p>
-                  </div>
-                </div>
-                <div className="flex gap-[12px] items-center w-fit">
-                  <PhoneIcon />
-                  <div className="flex flex-col gap-[8px]">
-                    <p className="font-normal text-primaryBlue/80">
-                      Номер телефону
-                    </p>
-                    <a href="tel:0937773244" className="font-medium">
-                      093-777-3244
+                    <a href="/" className="text-[18px]/[120%] font-medium">
+                      Головна
                     </a>
-                  </div>
-                </div>
-                <div className="flex gap-[12px] items-center w-fit">
-                  <EmailIcon />
-                  <div className="flex flex-col gap-[8px]">
-                    <p className="font-normal text-primaryBlue/80">Пошта</p>
+                    <a href="/about" className="text-[18px]/[120%] font-medium">
+                      Про нас
+                    </a>
                     <a
-                      href="mailto:neoluxsat@example.com"
-                      className="font-medium"
+                      href="/support"
+                      className="text-[18px]/[120%] font-medium"
                     >
-                      neoluxsat@example.com
+                      Підтримка
                     </a>
                   </div>
-                </div>
-                <div className="flex gap-[24px] justify-start fill-primaryOrange mb-[20px]">
-                  <TelegramIcon />
-                  <ViberIcon />
-                  <FacebookIcon />
+
+                  <div>
+                    <p className="text-[14px] font-normal text-primaryBlue/80 mb-[12px]">
+                      Послуги
+                    </p>
+                    <div className="flex flex-col gap-[24px]">
+                      {services.map((s) => (
+                        <a
+                          key={s.name}
+                          href={s.href}
+                          className="text-[18px]/[120%] text-primaryBlue font-semibold"
+                        >
+                          {s.name}
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                </nav>
+
+                <div className="px-6 flex flex-col w-fit gap-[40px] text-[16px]/[120%] text-left fill-primaryBlue">
+                  <div className="flex gap-[12px] items-center w-fit">
+                    <AddressIcon />
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="font-normal text-primaryBlue/80">Адреса</p>
+                      <p className="font-medium">вул. Лесі Українки, Острог</p>
+                    </div>
+                  </div>
+                  <div className="flex gap-[12px] items-center w-fit">
+                    <PhoneIcon />
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="font-normal text-primaryBlue/80">
+                        Номер телефону
+                      </p>
+                      <a href="tel:0937773244" className="font-medium">
+                        093-777-3244
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex gap-[12px] items-center w-fit">
+                    <EmailIcon />
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="font-normal text-primaryBlue/80">Пошта</p>
+                      <a
+                        href="mailto:neoluxsat@example.com"
+                        className="font-medium"
+                      >
+                        neoluxsat@example.com
+                      </a>
+                    </div>
+                  </div>
+                  <div className="flex gap-[24px] justify-start fill-primaryOrange mb-[20px]">
+                    <TelegramIcon />
+                    <ViberIcon />
+                    <FacebookIcon />
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </>
-      )}
+            </DialogPanel>
+          </TransitionChild>
+        </Dialog>
+      </Transition>
     </>
   );
 };

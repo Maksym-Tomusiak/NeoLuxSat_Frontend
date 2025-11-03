@@ -33,7 +33,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
           <div className="fixed inset-0 bg-primaryBlue/40" aria-hidden="true" />
         </TransitionChild>
 
-        <div className="fixed inset-0 p-4">
+        {/* 💡 CHANGE 1: 
+          - Added `overflow-y-auto` to make this the scrolling container.
+          - Combined `p-4` and `py-12` into `px-4 py-12`.
+        */}
+        <div className="fixed inset-0 overflow-y-auto px-4 py-12">
           <div className="flex min-h-full items-center justify-center">
             <TransitionChild
               as={Fragment}
@@ -48,9 +52,11 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
                 as="div"
                 className="bg-white rounded-xl shadow-2xl w-full max-w-lg pl-3 py-6"
               >
-                <div className="pr-[10px] max-h-[90vh] overflow-y-auto">
-                  {children}
-                </div>
+                {/* 💡 CHANGE 2: 
+                  - Removed `max-h-[90vh]` and `overflow-y-auto`.
+                  - The whole panel now scrolls, not just this inner div.
+                */}
+                <div className="pr-[10px]">{children}</div>
               </DialogPanel>
             </TransitionChild>
           </div>
