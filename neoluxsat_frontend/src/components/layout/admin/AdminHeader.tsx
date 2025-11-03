@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from 'react'; // 💡 --- UPDATED ---
+import { useState, Fragment } from 'react'; // 💡 --- UPDATED ---
 import {
   Dialog,
   DialogPanel,
