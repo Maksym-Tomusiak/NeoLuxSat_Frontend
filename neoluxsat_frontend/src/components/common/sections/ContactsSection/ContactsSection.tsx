@@ -18,6 +18,36 @@ const ContactsSection = () => {
 
   const position: [number, number] = [50.327868073662826, 26.526828402538673];
 
+  const handleGetDirections = () => {
+    // Перевіряємо, чи браузер підтримує геолокацію
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (userPosition) => {
+          const { latitude, longitude } = userPosition.coords;
+          const destination = position; // Координати магазину
+
+          // Формуємо URL для Google Maps
+          // Формат: /dir/lat_початку,lng_початку/lat_кінця,lng_кінця
+          const url = `https://www.google.com/maps/dir/${latitude},${longitude}/${destination[0]},${destination[1]}`;
+
+          // Відкриваємо URL у новій вкладці
+          window.open(url, '_blank', 'noopener,noreferrer');
+        },
+        (error) => {
+          // Обробка помилок (наприклад, користувач не дав дозвіл)
+          console.error('Помилка отримання геолокації:', error);
+          alert(
+            'Не вдалося отримати вашу геолокацію. Будь ласка, перевірте налаштування та надайте дозвіл.'
+          );
+        },
+        { enableHighAccuracy: true } // Опція для точнішої геолокації
+      );
+    } else {
+      // Якщо геолокація не підтримується
+      alert('Геолокація не підтримується вашим браузером.');
+    }
+  };
+
   return (
     <section>
       <SectionHeader isCta={false}>
@@ -100,7 +130,17 @@ const ContactsSection = () => {
           <MaptilerStyledTileLayer styleId={'dataviz'} />
 
           <Marker position={position} icon={markerIcon}>
-            <Popup>Наш магазин</Popup>
+            <Popup>
+              <div className="flex flex-col items-center font-noto gap-2">
+                <span>Наш магазин</span>
+                <button
+                  onClick={handleGetDirections}
+                  className="px-3 py-3 bg-blue-600 text-primaryWhite rounded-md font-noto text-[14px]/[120%] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  Прокласти маршрут
+                </button>
+              </div>
+            </Popup>
           </Marker>
         </MapContainer>
       </div>
