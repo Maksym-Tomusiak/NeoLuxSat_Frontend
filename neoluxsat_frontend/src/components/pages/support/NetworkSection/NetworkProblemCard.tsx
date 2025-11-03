@@ -9,15 +9,38 @@ type NetworkProblemCardProps = {
   problem: NetworkProblemDto;
 };
 
+// 💡 --- NEW: Style map for consistent classes ---
+// This assumes 'iconsRed', 'iconsBlue', and 'iconsGreen' are defined
+// as colors in your tailwind.config.js
+const statusStyles: Record<
+  string,
+  { cardBg: string; badgeBg: string; border: string }
+> = {
+  'У процесі відновлення': {
+    cardBg: 'bg-iconsRed/10',
+    badgeBg: 'bg-iconsRed/20',
+    border: 'border-iconsRed',
+  },
+  Заплановано: {
+    cardBg: 'bg-iconsBlue/10',
+    badgeBg: 'bg-iconsBlue/20',
+    border: 'border-iconsBlue',
+  },
+  Вирішено: {
+    cardBg: 'bg-iconsGreen/10',
+    badgeBg: 'bg-iconsGreen/20',
+    border: 'border-iconsGreen',
+  },
+};
+// 💡 --- END NEW ---
+
 const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
   icon,
   problem,
 }) => {
   const parseUtcTimeToLocal = (timeStr: string) => {
     const [hours, minutes, seconds] = timeStr.split(':').map(Number);
-    // create a date in UTC
     const utcDate = new Date(Date.UTC(1970, 0, 1, hours, minutes, seconds));
-    // return local time string
     return utcDate.toLocaleTimeString([], {
       hour: '2-digit',
       minute: '2-digit',
@@ -25,6 +48,12 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
   };
 
   const statusTitle = problem.networkProblemStatus.title;
+
+  // 💡 --- NEW: Get styles from the map ---
+  // Default to 'Заплановано' (blue) if status is unknown
+  const styles = statusStyles[statusTitle] || statusStyles['Заплановано'];
+  // 💡 --- END NEW ---
+
   const start = problem.fixStartTime
     ? parseUtcTimeToLocal(problem.fixStartTime)
     : null;
@@ -45,27 +74,28 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
     else if (start) formattedTime = `після ${start}`;
   }
 
-  // Choose color by status
-  const colorMap: Record<string, string> = {
-    'У процесі відновлення': 'var(--color-iconsRed)',
-    Заплановано: 'var(--color-iconsBlue)',
-    Вирішено: 'var(--color-iconsGreen)',
-  };
-  const color = colorMap[statusTitle] || 'var(--color-iconsBlue)';
+  // 💡 --- REMOVED: Old color map logic ---
+  // const colorMap: Record<string, string> = {
+  //   'У процесі відновлення': 'var(--color-iconsRed)',
+  //   Заплановано: 'var(--color-iconsBlue)',
+  //   Вирішено: 'var(--color-iconsGreen)',
+  // };
+  // const color = colorMap[statusTitle] || 'var(--color-iconsBlue)';
+  // 💡 --- END REMOVED ---
 
   return (
     <div
+      // 💡 --- UPDATED: Use styles from map ---
       className={cn(
         `flex flex-col text-primaryBlue p-[24px] gap-[24px] rounded-[20px] border border-[1.4px] max-w-[1030px] h-fit md:h-fit lg:h-[200px]`,
-        {
-          'bg-iconsGreen/10': statusTitle === 'Вирішено',
-          'bg-iconsRed/10': statusTitle === 'У процесі відновлення',
-          'bg-iconsBlue/10': statusTitle === 'Заплановано',
-        }
+        styles.cardBg, // e.g., 'bg-iconsRed/10'
+        styles.border // e.g., 'border-iconsRed'
       )}
-      style={{
-        borderColor: color,
-      }}
+      // 💡 --- REMOVED: Inline style prop ---
+      // style={{
+      //   borderColor: color,
+      // }}
+      // 💡 --- END REMOVED ---
     >
       <div className="flex flex-col md:flex-row gap-[16px] justify-between items-start md:items-center">
         <div className="flex gap-[16px] items-center">
@@ -80,14 +110,18 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
           </div>
         </div>
         <p
+          // 💡 --- UPDATED: Use style from map ---
           className={cn(
             `font-noto font-normal text-[14px]/[120%] tracking-[-0.28px] px-[10px] py-[8px] rounded-full text-center`,
-            {
-              'bg-iconsGreen/20': statusTitle === 'Вирішено',
-              'bg-iconsRed/20': statusTitle === 'У процесі відновлення',
-              'bg-iconsBlue/20': statusTitle === 'Заплановано',
-            }
+            styles.badgeBg // e.g., 'bg-iconsRed/20'
           )}
+          // 💡 --- REMOVED: Old conditional object ---
+          // {
+          //   'bg-iconsGreen/20': statusTitle === 'Вирішено',
+          //   'bg-iconsRed/20': statusTitle === 'У процесі відновлення',
+          //   'bg-iconsBlue/20': statusTitle === 'Заплановано',
+          // }
+          // 💡 --- END REMOVED ---
         >
           {statusTitle}
         </p>
