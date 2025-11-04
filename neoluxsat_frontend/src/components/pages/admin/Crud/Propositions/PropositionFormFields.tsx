@@ -180,6 +180,9 @@ const PropositionFormFields: React.FC<PropositionFormFieldsProps> = ({
     }
   };
 
+  let apiUrl = import.meta.env.VITE_API_BASE_URL as string;
+  apiUrl = apiUrl.slice(0, apiUrl.length - 4);
+
   return (
     <>
       {/* Title Field */}
@@ -339,7 +342,7 @@ const PropositionFormFields: React.FC<PropositionFormFieldsProps> = ({
               {isReadOnly ? 'Зображення:' : 'Попередній перегляд / Поточне:'}
             </p>
             <img
-              src={imagePreview}
+              src={apiUrl + imagePreview}
               alt="Попередній перегляд"
               className="max-h-32 rounded border border-gray-300 object-contain"
             />

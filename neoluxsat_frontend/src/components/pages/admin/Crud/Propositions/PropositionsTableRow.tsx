@@ -21,6 +21,9 @@ const PropositionsTableRow: React.FC<Props> = ({
   onDelete,
   formatDate,
 }) => {
+  let apiUrl = import.meta.env.VITE_API_BASE_URL as string;
+  apiUrl = apiUrl.slice(0, apiUrl.length - 4);
+
   return (
     <TableRow
       key={proposition.id}
@@ -30,7 +33,7 @@ const PropositionsTableRow: React.FC<Props> = ({
       <TableCell className="py-3 w-20">
         {proposition.imageUrl && (
           <img
-            src={proposition.imageUrl}
+            src={apiUrl + proposition.imageUrl}
             alt={proposition.title}
             className="h-10 w-10 object-cover rounded" // Adjust size as needed
             loading="lazy" // Add lazy loading for images
