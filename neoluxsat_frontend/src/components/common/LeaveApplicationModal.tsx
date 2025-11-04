@@ -25,7 +25,6 @@ import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
 import DropdownIcon from '@/assets/svgs/dropdown-icon.svg';
 
-// ... (type ApplicationFormData remains the same)
 type ApplicationFormData = {
   fullName: string;
   phone: string;
@@ -34,7 +33,6 @@ type ApplicationFormData = {
   typeId: string;
 };
 
-// ... (interface LeaveApplicationModalProps remains the same)
 interface LeaveApplicationModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -74,7 +72,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     formState: { errors, isSubmitting },
   } = methods;
 
-  // ... (Styling helpers getFieldClasses and coreInputClasses remain the same)
   const coreInputClasses =
     'w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border text-primaryBlue/40 placeholder-gray-400 focus:outline-none ';
   const focusClasses =
@@ -92,7 +89,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     return dynamicClasses;
   };
 
-  // ... (getServiceByTitle hook remains the same)
   const getServiceByTitle = useCallback((title: string) => {
     const services = {
       internet: 'Підключення інтернету',
@@ -104,7 +100,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     return services[title.toLowerCase() as keyof typeof services];
   }, []);
 
-  // ... (All useEffect hooks remain the same)
   useEffect(() => {
     if (isOpen && applicationTypes.length === 0) {
       setIsLoadingTypes(true);
@@ -156,9 +151,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     }
   }, [isOpen, reset]);
 
-  // 4. Remove the manual handleClose function
-  // const handleClose = useCallback(() => { ... }, [onClose]);
-
   // Handle form submission
   const onSubmit = async (data: ApplicationFormData) => {
     setFetchError(null);
@@ -172,7 +164,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     try {
       await ApplicationService.createApplication(createDto);
       onShowNotification('Заявку успішно відправлено!', 'success');
-      // 5. Call onClose directly
       onClose();
     } catch (error) {
       console.error('Failed to submit application:', error);
@@ -183,10 +174,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     }
   };
 
-  // 6. Remove the manual render null check
-  // if (!isOpen && !isClosing) return null;
-
-  // 7. Replace the entire return with the Headless UI structure
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog as="div" className="relative z-2000 font-noto" onClose={onClose}>
@@ -206,8 +193,10 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
           />
         </TransitionChild>
 
-        {/* Panel Container */}
-        <div className="fixed inset-0 p-[24px]">
+        {/* 💡 CHANGE 1: 
+           - Added `overflow-y-auto` to make this the scrolling container.
+        */}
+        <div className="fixed inset-0 overflow-y-auto p-[24px]">
           <div className="flex min-h-full items-center justify-center">
             {/* Panel Animation (Slide + Fade) */}
             <TransitionChild
@@ -224,9 +213,13 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                 className="bg-primaryOrange rounded-xl shadow-2xl w-full max-w-[656px] relative" // 'relative' is for the close button
               >
                 <FormProvider {...methods}>
+                  {/* 💡 CHANGE 2: 
+                     - Removed `max-h-[90vh]` and `overflow-y-auto`.
+                     - The whole panel now scrolls, not just this form.
+                  */}
                   <form
                     onSubmit={handleSubmit(onSubmit)}
-                    className="p-[24px] max-h-[90vh] overflow-y-auto relative mr-[10px]"
+                    className="p-[24px] relative mr-[10px]"
                   >
                     {/* Close Button */}
                     <button
