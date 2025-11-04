@@ -45,7 +45,7 @@ const HeroSection = () => {
   );
 
   return (
-    <section>
+    <section id="main-content-start">
       {/* Desktop layout → phone on the right */}
       <HeroSectionTemplate
         leftPart={leftPart}

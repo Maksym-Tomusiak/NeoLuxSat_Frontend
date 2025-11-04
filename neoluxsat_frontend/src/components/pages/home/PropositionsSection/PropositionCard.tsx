@@ -209,8 +209,11 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
               <InfoIcon />
             </div>
             <p className="text-primaryBlue/80 font-noto text-[14px]/[120%] tracking-[-0.28px] max-w-[380px]">
-              Вказавши номер телефону, ви отримаєте персональну пропозицію та
-              консультацію спеціаліста протягом 15 хвилин
+              Вказавши номер телефону, ви отримаєте персональну пропозицію{' '}
+              <br className="hidden min-[368px]:max-[385px]:block" />
+              та консультацію спеціаліста протягом{' '}
+              <br className="hidden min-[368px]:max-[384px]:block min-[472px]:block" />
+              15 хвилин
             </p>
           </div>
         </form>

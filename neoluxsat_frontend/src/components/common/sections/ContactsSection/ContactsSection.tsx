@@ -26,7 +26,7 @@ const ContactsSection = () => {
           const { latitude, longitude } = userPosition.coords;
           const destination = position; // Координати магазину
 
-          // Формуємо URL для Google Maps
+          // Формуємо ПРАВИЛЬНИЙ URL для Google Maps
           // Формат: /dir/lat_початку,lng_початку/lat_кінця,lng_кінця
           const url = `https://www.google.com/maps/dir/${latitude},${longitude}/${destination[0]},${destination[1]}`;
 
@@ -34,10 +34,10 @@ const ContactsSection = () => {
           window.open(url, '_blank', 'noopener,noreferrer');
         },
         (error) => {
-          // Обробка помилок (наприклад, користувач не дав дозвіл)
+          // Обробка помилок (наприклад, користувач не дав дозвіл або сайт на HTTP)
           console.error('Помилка отримання геолокації:', error);
           alert(
-            'Не вдалося отримати вашу геолокацію. Будь ласка, перевірте налаштування та надайте дозвіл.'
+            'Не вдалося отримати вашу геолокацію. Будь ласка, перевірте налаштування та надайте дозвіл. (Також переконайтеся, що сайт завантажено через HTTPS).'
           );
         },
         { enableHighAccuracy: true } // Опція для точнішої геолокації

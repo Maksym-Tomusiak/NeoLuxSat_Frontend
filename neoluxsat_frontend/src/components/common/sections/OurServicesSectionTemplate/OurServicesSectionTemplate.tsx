@@ -17,7 +17,7 @@ const OurServicesSectionTemplate: React.FC<OurServicesSectionTemplateProps> = ({
   };
 
   return (
-    <section>
+    <section id="main-content-start">
       <div className="flex flex-col gap-[24px] min-[900px]:flex-row justify-between items-start max-[1440px]:mb-[40px]">
         <SectionHeader isCta={false}>
           Наші <br className="hidden lg:inline" />
@@ -30,10 +30,12 @@ const OurServicesSectionTemplate: React.FC<OurServicesSectionTemplateProps> = ({
           <div
             key={index}
             className={`
-        w-fit flex justify-center items-center
-        min-[1440px]:h-fit max-[712px]:min-w-full
-        ${getMarginTop(index)}
-    `}
+              w-fit flex justify-center items-center
+              min-[1440px]:h-fit max-[712px]:min-w-full
+              ${getMarginTop(index)}
+              ${/* --- THIS IS THE ADDED LINE --- */ ''}
+              ${item.isTarif ? 'max-[1440px]:order-first' : ''}
+            `}
           >
             <OurServicesCard {...item} />
           </div>

@@ -35,7 +35,7 @@ const SiteDropdown = () => {
         {options.map((opt, index) => (
           <DropdownMenuItem
             key={index}
-            className="hover:bg-primaryBlue/10 font-normal text-[16px]/[120%] focus:outline-none text-primaryBlue"
+            className="hover:text-primaryOrange font-normal text-[16px]/[120%] focus:outline-none text-primaryBlue"
           >
             <a
               href={opt.href}

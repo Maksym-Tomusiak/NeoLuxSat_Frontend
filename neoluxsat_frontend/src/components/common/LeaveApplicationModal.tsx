@@ -232,7 +232,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                     <button
                       type="button"
                       onClick={onClose} // Use onClose directly
-                      className="absolute top-[16px] xs:top-[24px] md:top-[30px] right-[16px] xs:right-[24px] hover:text-gray-200 p-1 fill-primaryWhite/80 hover:fill-primaryWhite transition-colors cursor-pointer"
+                      className="absolute top-[16px] xs:top-[24px] md:top-[30px] right-[16px] xs:right-[24px] hover:text-gray-200 p-1 fill-primaryWhite/80 hover:fill-primaryWhite transition-colors cursor-pointer w-fit h-fit close-button"
                       aria-label="Закрити"
                     >
                       <CloseIcon />

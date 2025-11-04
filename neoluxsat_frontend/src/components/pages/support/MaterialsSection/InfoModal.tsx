@@ -88,7 +88,10 @@ const InfoModal = ({ isOpen, onClose, data }: InfoModalProps) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-primaryBlue/40" aria-hidden="true" />
+          <div
+            className="fixed inset-0 leave-application-modal-backdrop"
+            aria-hidden="true"
+          />
         </TransitionChild>
 
         <div className="fixed inset-0 px-4">
@@ -121,7 +124,7 @@ const InfoModal = ({ isOpen, onClose, data }: InfoModalProps) => {
                         </p>
                       </div>
                       <button
-                        className="fill-primaryOrange cursor-pointer"
+                        className="fill-primaryOrange cursor-pointer close-button"
                         onClick={onClose}
                       >
                         <CloseIcon />
