@@ -342,7 +342,7 @@ const PropositionFormFields: React.FC<PropositionFormFieldsProps> = ({
               {isReadOnly ? 'Зображення:' : 'Попередній перегляд / Поточне:'}
             </p>
             <img
-              src={apiUrl + imagePreview}
+              src={!isReadOnly ? imagePreview : apiUrl + imagePreview}
               alt="Попередній перегляд"
               className="max-h-32 rounded border border-gray-300 object-contain"
             />
