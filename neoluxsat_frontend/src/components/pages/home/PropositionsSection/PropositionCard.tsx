@@ -44,6 +44,9 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
+  let apiUrl = import.meta.env.VITE_API_BASE_URL as string;
+  apiUrl = apiUrl.slice(0, apiUrl.length - 4);
+
   // --- 2. GET THE FUNCTION FROM THE CONTEXT ---
   const { showNotification } = useModal();
 
@@ -98,7 +101,7 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
         <AnimatePresence mode="popLayout">
           <motion.img
             key={data.id}
-            src={data.imageUrl}
+            src={apiUrl + data.imageUrl}
             alt={data.title}
             className="absolute inset-0 w-full h-full object-cover"
             initial={{ opacity: 0 }}
