@@ -18,12 +18,13 @@ import IoTPage from '@/components/pages/services/IoT/IoTPage';
 import TVPage from '@/components/pages/services/TV/TVPage';
 import SecurityPage from '@/components/pages/services/Security/SecurityPage';
 import PropositionsTable from '@/components/pages/admin/Crud/Propositions/PropositionsTable';
+import HeaderOnlyLayout from '@/components/layout/common/HeaderOnlyLayout'; // <-- 1. Import the new layout
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {/* Public layout */}
+        {/* Public layout (Header, Content, Footer) */}
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
@@ -34,7 +35,7 @@ const Router = () => {
           <Route path="services/security" element={<SecurityPage />} />
         </Route>
 
-        {/* Admin layout (protected) */}
+        {/* Admin layout (Admin Header, Content) */}
         <Route
           path="/admin"
           element={
@@ -99,11 +100,19 @@ const Router = () => {
               </ProtectedRoute>
             }
           />
+          {/* This route handles /admin/not-found-page */}
           <Route path="*" element={<NotFoundPage />} />
         </Route>
 
+        {/* Standalone pages (No layout) */}
         <Route path="/login" element={<LoginPage />} />
-        <Route path="*" element={<NotFoundPage />} />
+
+        {/* --- MODIFIED SECTION --- */}
+        {/* Public 404 layout (Header Only) */}
+        {/* This route handles /not-found-page */}
+        <Route path="*" element={<HeaderOnlyLayout />}>
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

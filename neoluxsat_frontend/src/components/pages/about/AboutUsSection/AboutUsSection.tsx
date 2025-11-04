@@ -4,7 +4,7 @@ const AboutUsSection = () => {
   return (
     <section>
       <SectionHeader isCta={false}>Про нас</SectionHeader>
-      <div className="w-fit flex flex-col lg:flex-row justify-between bg-primaryBlue rounded-[20px] h-fit lg:h-[385px] mx-auto mt-[40px] md:mt-[56px] relative overflow-visible">
+      <div className="w-fit flex flex-col lg:flex-row justify-between about-us-container rounded-[20px] h-fit lg:h-[385px] mx-auto mt-[40px] md:mt-[56px] relative overflow-visible">
         <div
           className="flex flex-col gap-[32px] text-primaryWhite
           w-full lg:w-[50%]

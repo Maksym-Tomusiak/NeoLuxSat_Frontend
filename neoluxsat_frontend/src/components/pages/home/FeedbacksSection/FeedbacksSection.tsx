@@ -43,7 +43,7 @@ const FeedbacksSection = () => {
         </p>
       </div>
 
-      <div className="-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px] min-[1360px]:justify-center overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px] scrollbar-hide">
+      <div className="-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px] min-[1440px]:justify-center overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px] scrollbar-hide">
         {(() => {
           const slides = [];
           const half = Math.ceil(feedbacks.length / 2);
@@ -53,7 +53,7 @@ const FeedbacksSection = () => {
 
             slides.push(
               <div key={i} className="snap-center shrink-0 min-h-fit">
-                <div className="flex w-[90vw] 2xs:w-[400px] max-w-[90vw] flex-col gap-[12px] md:w-[420px] md:max-w-[450px]">
+                <div className="flex w-[90vw] 2xs:w-[400px] max-w-[90vw] flex-col gap-[12px] xl:w-fit md:max-w-[447px]">
                   {top && (
                     <FeebackCard
                       key={top.id}

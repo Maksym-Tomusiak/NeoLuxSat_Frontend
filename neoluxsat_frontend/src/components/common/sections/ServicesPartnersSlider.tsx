@@ -63,7 +63,7 @@ const createSlideNodes = (sources: string[]) => {
     </div>
   );
 
-  return [result, result, result, result, result, result];
+  return [result, result, result, result, result, result, result];
 };
 
 const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
@@ -80,7 +80,7 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
   const SLIDE_GAP = '56px'; // Corresponds to the original Swiper padding
 
   return (
-    <div className="relative w-[100vw] h-[140px] md:h-[270px]">
+    <div className="relative w-[100%] h-[140px] md:h-[270px] mx-auto">
       {/* GREY BAND - Scroll Right */}
       <div
         className="absolute w-[120vw] min-h-[70px] top-[30px] lg:top-[70px] left-[calc(50%-60vw)] z-10 bg-primaryBlue/20 flex items-center justify-center rotate-5"

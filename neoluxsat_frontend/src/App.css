@@ -382,3 +382,29 @@ section {
     rgba(26, 38, 124, 0.8)
   );
 }
+
+.cta-container {
+  background: linear-gradient(
+    180deg,
+    var(--Colors-Primary-1000, #e76715) 0%,
+    var(--Colors-Primary-200, rgba(231, 103, 21, 0.2)) 315.25%
+  );
+}
+
+.about-us-container {
+  background: linear-gradient(
+    180deg,
+    var(--Colors-Secondary-1000, #1a267c) 0%,
+    #2f45e2 150.78%
+  );
+}
+
+.close-button svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.scroll-button svg {
+  width: 24px !important;
+  height: 24px !important;
+}

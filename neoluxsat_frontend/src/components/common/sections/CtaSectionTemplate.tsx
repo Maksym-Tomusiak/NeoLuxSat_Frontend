@@ -21,7 +21,7 @@ const CtaSectionTemplate: React.FC<CtaSectionTemplateProps> = ({
   };
 
   return (
-    <section className="relative bg-primaryOrange rounded-[20px] pt-[32px] pb-[24px] px-[24px] flex flex-col justify-between h-[400px]">
+    <section className="cta-container relative bg-primaryOrange rounded-[20px] pt-[32px] pb-[24px] px-[24px] flex flex-col justify-between h-[400px]">
       <div className="absolute right-0 top-0 cta-icon-container">{icon}</div>
       <SectionHeader isCta={true} className="xl:max-w-[60%]">
         {title}

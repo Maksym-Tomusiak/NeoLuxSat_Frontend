@@ -9,7 +9,7 @@ import ServicesDropdown from '../../common/ServicesDropdown';
 
 const Footer = () => {
   return (
-    <div className="h-[fit] xs:h-[600px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between">
+    <div className="h-[fit] xs:h-[600px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between mb-[16px] md:mb-[24px]">
       {/* Wrapper that switches direction */}
       <div className="flex flex-col md:flex-row justify-between text-primaryWhite pt-[40px] md:pt-[100px] font-noto gap-[40px] md:gap-0">
         {/* Messengers: first on mobile, middle on desktop */}

@@ -38,13 +38,16 @@ const ShopSection = () => {
         <div className="flex w-full max-w-[360px] flex-col gap-[12px] font-noto text-primaryBlue sm:gap-[16px] md:w-[330px] text-[16px]/[120%] tracking-[-0.32px]">
           <p>
             Ми пропонуємо широкий асортимент сучасних гаджетів,
-            інтернет-обладнання та аксесуарів.
+            <br className="hidden max-[335px]:block" /> інтернет-обладнання{' '}
+            <br className="block min-[354px]:max-[389px]:block max-[768px]:hidden" />
+            та аксесуарів.
           </p>
           <p>
             <span className="font-semibold text-primaryOrange text-[18px]/[120%]">
               Зверніть увагу:
             </span>{' '}
-            придбати товари можна безпосередньо на місці, у нашому магазині.
+            придбати товари можна безпосередньо на місці,{' '}
+            <br className="hidden max-[344px]:block" />у нашому магазині.
           </p>
         </div>
       </div>

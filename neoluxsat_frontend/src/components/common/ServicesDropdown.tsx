@@ -32,7 +32,7 @@ const ServicesDropdown = ({ isWhite = true }) => {
           <DropdownMenuItem
             key={index}
             className="
-              hover:bg-primaryBlue/10 font-normal text-[16px]/[120%] focus:outline-none text-primaryBlue"
+              hover:bg-primaryBlue/10 font-normal text-[16px]/[120%] focus:outline-none text-primaryBlue hover:text-primaryOrange"
           >
             <a href={service.href} className="block w-full h-full">
               {service.name}
