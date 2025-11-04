@@ -9,7 +9,7 @@ const ScrollToSectionButton = ({ targetId = 'main-content-start' }: Props) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => {
-    if (window.scrollY > window.innerHeight) {
+    if (window.scrollY > window.innerHeight * 1.5) {
       setIsVisible(true);
     } else {
       setIsVisible(false);
