@@ -18,7 +18,7 @@ const Layout = () => {
       {/* This wrapper is fixed 8 units (32px) from the bottom.
         It spans the full width and is invisible to mouse clicks.
       */}
-      <div className="pointer-events-none fixed bottom-8 z-50 w-full">
+      <div className="pointer-events-none fixed bottom-8 z-1000 w-full">
         {/* This inner div matches your <main> element's layout
           (max-width, centered, and padding).
         */}
