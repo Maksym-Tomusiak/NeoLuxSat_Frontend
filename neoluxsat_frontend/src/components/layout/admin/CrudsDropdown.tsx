@@ -23,6 +23,7 @@ export const getCrudsOptions = () => {
     { name: 'Відгуки', href: '/admin/feedbacks' },
     { name: 'Мережеві проблеми', href: '/admin/network' },
     { name: 'Акції', href: '/admin/propositions' },
+    { name: 'Ремонти', href: '/admin/repairs' },
   ];
 
   if (decoded.role && decoded.role === 'Admin') {

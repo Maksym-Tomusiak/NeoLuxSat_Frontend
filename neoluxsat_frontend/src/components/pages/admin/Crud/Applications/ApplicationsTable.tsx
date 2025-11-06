@@ -64,7 +64,7 @@ const ApplicationsTable: React.FC = () => {
 
   return (
     <div className="w-full max-w-full mx-auto bg-primaryWhite rounded-[20px] px-[12px] pt-[24px] pb-[12px] shadow-md">
-      <div className="flex justify-between items-center mb-6 pl-[24px] pr-4">
+      <div className="flex justify-between items-center max-sm:flex-col gap-[24px] mb-6 pl-[24px] pr-4">
         <h2 className="text-[24px]/[90%] font-semibold font-manrope text-primaryBlue">
           Заявки
         </h2>
