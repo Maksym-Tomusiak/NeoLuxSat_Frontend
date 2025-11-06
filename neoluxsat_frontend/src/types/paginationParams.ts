@@ -5,3 +5,8 @@ export interface PaginationParams {
   sortBy: string | null;
   sortDescending: boolean | null;
 }
+
+export interface RepairPaginationParams extends PaginationParams {
+  statusId: string | null;
+  paymentId: string | null;
+}

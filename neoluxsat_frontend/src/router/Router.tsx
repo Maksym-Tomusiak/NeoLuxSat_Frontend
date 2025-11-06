@@ -1,3 +1,5 @@
+// src/Router.tsx
+
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminPage from '@/components/pages/admin/AdminPage';
 import HomePage from '@/components/pages/home/HomePage';
@@ -18,7 +20,9 @@ import IoTPage from '@/components/pages/services/IoT/IoTPage';
 import TVPage from '@/components/pages/services/TV/TVPage';
 import SecurityPage from '@/components/pages/services/Security/SecurityPage';
 import PropositionsTable from '@/components/pages/admin/Crud/Propositions/PropositionsTable';
-import HeaderOnlyLayout from '@/components/layout/common/HeaderOnlyLayout'; // <-- 1. Import the new layout
+import HeaderOnlyLayout from '@/components/layout/common/HeaderOnlyLayout';
+import RepairFormPage from '@/components/pages/admin/Crud/Repairs/RepairFormPage';
+import RepairsTable from '@/components/pages/admin/Crud/Repairs/RepairsTable';
 
 const Router = () => {
   return (
@@ -100,16 +104,48 @@ const Router = () => {
               </ProtectedRoute>
             }
           />
-          {/* This route handles /admin/not-found-page */}
+
+          {/* --- 2. Add new Repair routes --- */}
+          <Route
+            path="repairs"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <RepairsTable />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="repairs/new"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <RepairFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="repairs/edit/:id"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <RepairFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="repairs/details/:id"
+            element={
+              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+                <RepairFormPage />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="*" element={<NotFoundPage />} />
         </Route>
 
         {/* Standalone pages (No layout) */}
         <Route path="/login" element={<LoginPage />} />
 
-        {/* --- MODIFIED SECTION --- */}
         {/* Public 404 layout (Header Only) */}
-        {/* This route handles /not-found-page */}
         <Route path="*" element={<HeaderOnlyLayout />}>
           <Route path="*" element={<NotFoundPage />} />
         </Route>
