@@ -37,7 +37,7 @@ const WhyUsSection = () => {
     <>
       <section className="flex flex-col gap-[32px] sm:gap-[40px] md:gap-[56px]">
         <SectionHeader isCta={false}>
-          Чому <br className="hidden md:inline" />
+          Чому <br className="hidden sm:inline" />
           саме ми
         </SectionHeader>
         <div className="flex flex-col items-center gap-[24px] lg:flex-row md:justify-evenly md:gap-[32px]">

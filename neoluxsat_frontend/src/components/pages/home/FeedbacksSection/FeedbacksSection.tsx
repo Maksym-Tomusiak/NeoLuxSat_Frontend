@@ -36,9 +36,9 @@ const FeedbacksSection = () => {
 
   return (
     <section className="flex flex-col gap-[32px] sm:gap-[40px] md:gap-[58px]">
-      <div className="flex w-full items-center sm:items-end justify-between gap-[16px]">
+      <div className="flex w-full items-start sm:items-end justify-between gap-[16px]">
         <SectionHeader isCta={false}>Відгуки</SectionHeader>
-        <p className="flex w-full max-w-[50%] sm:max-w-[360px] items-end font-noto font-normal text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
+        <p className="max-sm:mt-[10px] flex w-full max-w-[50%] sm:max-w-[330px] items-end font-noto font-normal text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
           Довіра клієнтів — найкращий показник якості наших послуг.
         </p>
       </div>

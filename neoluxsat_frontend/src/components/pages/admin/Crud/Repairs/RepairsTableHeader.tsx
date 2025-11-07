@@ -8,8 +8,9 @@ import PersonIcon from '@/assets/svgs/admin/dashboard/person-icon.svg';
 import ContentIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
 import ActionsIcon from '@/assets/svgs/admin/dashboard/actions-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
-import ModelIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
-import SumIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
+import ModelIcon from '@/assets/svgs/admin/dashboard/model-icon.svg';
+import TypeIcon from '@/assets/svgs/admin/dashboard/type-icon.svg';
+import SumIcon from '@/assets/svgs/admin/dashboard/sum-icon.svg';
 
 const HashIcon = () => (
   <svg
@@ -35,25 +36,25 @@ const RepairsTableHeader: React.FC = () => {
     <TableHeader className="mb-4">
       <TableRow className="border-b-0 hover:bg-transparent">
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <HashIcon />
             Номер
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <ContentIcon />
             <p>Статус</p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <PersonIcon />
             <p>Прізвище</p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <PersonIcon />
             <p>Ім'я</p>
           </div>
@@ -65,31 +66,31 @@ const RepairsTableHeader: React.FC = () => {
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
-            <ModelIcon /> {/* Assuming */}
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <TypeIcon /> {/* Assuming */}
             <p>Тип</p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <ModelIcon /> {/* Assuming */}
             <p>Модель</p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <SumIcon /> {/* Assuming */}
             <p>Сума</p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
             <ContentIcon />
             <p>Розрахунок</p>
           </div>
         </TableHead>
         <TableHead className="text-primaryBlue text-right">
-          <div className="flex gap-[6px] items-center justify-end mr-[8px]">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80 justify-end mr-[8px]">
             <ActionsIcon />
             <p>Дії</p>
           </div>

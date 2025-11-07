@@ -124,13 +124,13 @@ const Header = () => {
         onMouseLeave={handleMouseLeave}
       >
         <div className="mx-auto flex w-full max-w-[1380px] justify-between items-center gap-[32px] rounded-[20px] bg-primaryWhite p-[10px]">
-          <div className="xl:flex-1">
+          <div className="min-[1150px]:flex-1">
             <a href="/">
               <Logo />
             </a>
           </div>
 
-          <div className="hidden xl:flex-1 justify-center min-[900px]:flex">
+          <div className="hidden min-[1150px]:flex-1 justify-center min-[1150px]:flex">
             <ul className="flex items-center justify-end gap-[16px] text-[15px] font-normal text-primaryBlue md:gap-[24px] md:text-[16px]">
               <li>
                 <div className="relative w-fit">
@@ -150,13 +150,22 @@ const Header = () => {
             </ul>
           </div>
 
-          <div className="hidden xl:flex-1 items-center justify-end gap-[8px] text-primaryBlue min-[900px]:flex md:gap-[12px]">
-            <a
-              href="tel:0937773244"
-              className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px]"
-            >
-              093-777-3244
-            </a>
+          <div className="hidden min-[1150px]:flex-1 items-center justify-end gap-[8px] text-primaryBlue min-[1150px]:flex md:gap-[12px]">
+            <div className="flex flex-col items-center gap-[2px]">
+              <a
+                href="tel:0957773244"
+                className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px]"
+              >
+                095-777-3244
+              </a>
+              <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
+              <a
+                href="tel:0737376088"
+                className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px]"
+              >
+                073-737-6088
+              </a>
+            </div>
             <div className="hidden md:block">
               <Divider />
             </div>
@@ -169,7 +178,7 @@ const Header = () => {
           <button
             aria-label="Open menu"
             onClick={() => setIsOpen(true)} // This just opens the dialog
-            className="ml-auto flex size-[40px] items-center justify-center rounded-[10px] min-[900px]:hidden"
+            className="ml-auto flex size-[40px] items-center justify-center rounded-[10px] min-[1150px]:hidden"
           >
             <MenuIcon />
           </button>
@@ -213,7 +222,7 @@ const Header = () => {
                   <button
                     aria-label="Close menu"
                     onClick={handleClose}
-                    className="p-2 fill-primaryOrange"
+                    className="p-2 fill-primaryOrange menu-close-icon-container"
                   >
                     <CloseIcon />
                   </button>
@@ -267,9 +276,15 @@ const Header = () => {
                       <p className="font-normal text-primaryBlue/80">
                         Номер телефону
                       </p>
-                      <a href="tel:0937773244" className="font-medium">
-                        093-777-3244
-                      </a>
+                      <div className="flex flex-col gap-[2px] w-fit">
+                        <a href="tel:0957773244" className="font-medium w-fit">
+                          095-777-3244
+                        </a>
+                        <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
+                        <a href="tel:0737376088" className="font-medium">
+                          073-737-6088
+                        </a>
+                      </div>
                     </div>
                   </div>
                   <div className="flex gap-[12px] items-center w-fit">
@@ -285,9 +300,18 @@ const Header = () => {
                     </div>
                   </div>
                   <div className="flex gap-[24px] justify-start fill-primaryOrange mb-[20px]">
-                    <TelegramIcon />
-                    <ViberIcon />
-                    <FacebookIcon />
+                    <a href="https://t.me/+380957773244" target="_blank">
+                      <TelegramIcon />
+                    </a>
+                    <a href="viber://chat?number=%2B380957773244">
+                      <ViberIcon />
+                    </a>
+                    <a
+                      href="https://www.facebook.com/profile.php?id=61569885994545"
+                      target="_blank"
+                    >
+                      <FacebookIcon />
+                    </a>
                   </div>
                 </div>
               </div>

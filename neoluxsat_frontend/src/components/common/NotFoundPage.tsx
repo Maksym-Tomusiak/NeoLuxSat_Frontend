@@ -4,8 +4,8 @@ const NotFoundPage = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="min-h-fit">
-      <div className="flex flex-col justify-center items-center gap-[24px]">
+    <div className="min-h-[calc(100vh-110px)]">
+      <div className="flex flex-col justify-center items-center gap-[24px] h-full">
         <img
           className="max-sm:max-w-[100vw] max-w-[600px]"
           src="/images/not-found-image.png"
@@ -27,7 +27,7 @@ const NotFoundPage = () => {
           На головну
         </button>
       </div>
-    </section>
+    </div>
   );
 };
 

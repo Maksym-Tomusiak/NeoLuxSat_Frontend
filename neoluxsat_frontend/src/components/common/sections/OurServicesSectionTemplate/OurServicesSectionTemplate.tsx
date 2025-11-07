@@ -18,9 +18,9 @@ const OurServicesSectionTemplate: React.FC<OurServicesSectionTemplateProps> = ({
 
   return (
     <section id="main-content-start">
-      <div className="flex flex-col gap-[24px] min-[900px]:flex-row justify-between items-start max-[1440px]:mb-[40px]">
+      <div className="flex flex-col gap-[24px] flex-row flex-wrap justify-between items-start max-[1440px]:mb-[40px]">
         <SectionHeader isCta={false}>
-          Наші <br className="hidden lg:inline" />
+          Наші <br className="hidden sm:inline" />
           послуги
         </SectionHeader>
         {headerDescription}

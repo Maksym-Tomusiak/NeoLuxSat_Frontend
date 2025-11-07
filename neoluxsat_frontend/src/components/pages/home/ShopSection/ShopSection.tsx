@@ -35,7 +35,7 @@ const ShopSection = () => {
           Наш <br className="hidden sm:inline" />
           магазин
         </SectionHeader>
-        <div className="flex w-full max-w-[360px] flex-col gap-[12px] font-noto text-primaryBlue sm:gap-[16px] md:w-[330px] text-[16px]/[120%] tracking-[-0.32px]">
+        <div className="flex w-full max-w-[330px] flex-col gap-[12px] font-noto text-primaryBlue sm:gap-[16px] md:w-[330px] text-[16px]/[120%] tracking-[-0.32px]">
           <p>
             Ми пропонуємо широкий асортимент сучасних гаджетів,
             <br className="hidden max-[335px]:block" /> інтернет-обладнання{' '}

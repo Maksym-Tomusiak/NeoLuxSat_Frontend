@@ -15,11 +15,16 @@ import ServiceIcon13 from '@/assets/svgs/services/servicesPage/services-icon-13.
 
 const SERVICE_DATA_MAP: Record<ServiceKey, ServicePageData> = {
   internet: {
-    heroTitle: 'Завжди на зв’язку: стабільний інтернет для дому та бізнесу', // Fast and reliable internet
-    heroTitleClasses: 'max-[1440px]:max-w-[90%] min-[1440px]:max-w-[80%]',
+    heroTitle: (
+      <>
+        Завжди на зв’язку: стабільний <br className="hidden md:block" />
+        інтернет для дому <br className="hidden md:block" />
+        та бізнесу
+      </>
+    ), // Fast and reliable internet
+    heroTitleClasses: '',
     heroImagePath: '/images/internet-hero-image.png', // Placeholder path
-    heroImageClasses:
-      'mr-[40px] md:max-h-[420px] lg:max-h-[527px] xl:max-h-[600px]',
+    heroImageClasses: 'md:max-h-[420px] lg:max-h-[527px] xl:max-h-[600px]',
     categoryTitle: 'інтернет', // Internet Services
     serviceCardsData: {
       cardsData: [
@@ -112,11 +117,16 @@ const SERVICE_DATA_MAP: Record<ServiceKey, ServicePageData> = {
     },
   },
   tv: {
-    heroTitle: 'ТБ, фільми та серіали — завжди у найкращій якості', // High-quality television
-    heroTitleClasses: 'max-[1440px]:max-w-[100%] min-[1440px]:max-w-[90%]',
+    heroTitle: (
+      <>
+        ТБ, фільми та серіали — завжди <br />у найкращій якості
+      </>
+    ), // High-quality television
+    heroTitleClasses: '',
     heroImagePath: '/images/tv-hero-image.png', // Placeholder path
     heroImageClasses:
-      'md:mt-[70px] md:max-h-[350px] lg:mt-[30px] lg:max-h-[500px] xl:max-h-[580px] xl:mt-[20px]',
+      'max-[600px]:hidden mt-[40px] md:mt-[70px] max-h-[300px] md:max-h-[350px] lg:mt-[70px] lg:max-h-[450px] xl:max-h-[580px] xl:mt-[20px]',
+    heroLayoutClasses: 'flex-row',
     categoryTitle: 'телебачення', // Television Services
     serviceCardsData: {
       cardsData: [
@@ -208,10 +218,11 @@ const SERVICE_DATA_MAP: Record<ServiceKey, ServicePageData> = {
       </>
     ), // Smart home and IoT solutions
     heroTitleClasses:
-      'mx-auto md:mx-0 max-[1440px]:max-w-[100%] min-[1440px]:min-w-[100%]',
+      'md:mx-0 max-[1440px]:max-w-[100%] min-[1440px]:min-w-[100%]',
     heroImagePath: '/images/iot-hero-image.png', // Placeholder path
     heroImageClasses:
-      'mr-[40px] md:mt-[40px] md:max-h-[380px] lg:mt-0 lg:max-h-[525px] xl:max-h-[590px]',
+      'max-[600px]:hidden mr-[40px] mt-[20px] max-h-[320px] md:mt-[40px] md:max-h-[380px] lg:mt-0 lg:max-h-[525px] xl:max-h-[590px]',
+    heroLayoutClasses: 'flex-row',
     categoryTitle: 'iot', // I  oT and Smart Home
     serviceCardsData: {
       cardsData: [
@@ -309,10 +320,11 @@ const SERVICE_DATA_MAP: Record<ServiceKey, ServicePageData> = {
   security: {
     heroTitle: 'Системи безпеки: ваш дім та бізнес завжди під захистом', // Comprehensive security systems
     heroTitleClasses:
-      'max-lg:max-w-[80%] min-lg:max-w-[90%] min-[1440px]:max-w-[80%]',
+      'max-sm:max-w-[100%] max-lg:max-w-[80%] min-lg:max-w-[90%] min-[1440px]:max-w-[80%]',
     heroImagePath: '/images/security-hero-image.png', // Placeholder path
     heroImageClasses:
-      'md:mt-[30px] md:max-h-[400px] lg:mt-[30px] lg:max-h-[500px] xl:max-h-[580px] xl:mt-[20px] mr-[70px]',
+      'max-[600px]:hidden md:mt-[20px] max-h-[350px] md:max-h-[400px] lg:mt-[30px] lg:max-h-[500px] xl:max-h-[580px] xl:mt-[20px] md:mr-[70px] block',
+    heroLayoutClasses: 'flex-row',
     categoryTitle: 'безпека', // Security and Monitoring Services
     serviceCardsData: {
       cardsData: [

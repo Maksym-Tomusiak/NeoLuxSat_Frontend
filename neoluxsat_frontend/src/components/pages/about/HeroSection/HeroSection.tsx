@@ -4,15 +4,16 @@ import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 const HeroSection = () => {
   const leftPart = (
     <div
-      className="flex flex-col
-    gap-[24px] sm:gap-[60px] md:gap-[32px] lg:gap-[40px]
-    max-sm:h-full lg:mt-[32px] max-w-full"
+      className="h-full flex flex-col
+    gap-[24px] md:gap-[32px] lg:gap-[40px]
+    max-sm:h-full justify-center md:mb-[130px] max-w-full
+    max-sm:mb-[120px] max-md:mb-[80px]"
     >
       <h1
         className="
-          font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
+          font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-3px]
           text-primaryWhite
-          text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]"
+          text-[40px]/[90%] 2xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]"
       >
         NeoLuxSat - інтегрована платформа для вашого життя та бізнесу.
       </h1>
@@ -21,7 +22,7 @@ const HeroSection = () => {
           font-noto
           text-[14px]/[120%] xs:text-[16px]/[120%]
           tracking-[-0.32px]
-          w-full sm:w-[80%] md:w-[90%] lg:w-[475px]
+          w-full sm:w-[80%] max-w-[475px]
         "
       >
         Ми створюємо єдиний простір, де ви отримуєте надшвидкісний Інтернет,
@@ -53,10 +54,11 @@ const HeroSection = () => {
           <div className="w-fit h-fit">{rightPart}</div> // visible only on md+
         }
         maskPath="/images/template-2-big-hero-bg.png"
+        layoutClasses="max-sm:min-h-[550px]"
       >
         <p
           className="z-10 absolute
-        bottom-[82px] md:bottom-[101px] lg:bottom-[121px] xl:bottom-[131px]
+        bottom-[111px] sm:bottom-[91px] md:bottom-[101px] lg:bottom-[121px] xl:bottom-[131px]
         left-[50%] translate-x-[-50%] font-noto text-[16px]/[120%] text-primaryWhite/[0.8] tracking-[-0.32px] font-medium"
         >
           Наші партнери

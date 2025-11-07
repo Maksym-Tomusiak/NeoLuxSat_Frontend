@@ -52,6 +52,7 @@ const cardsContent = [
         </div>
       </>
     ),
+    className: 'sm:min-h-[255px]',
   },
   {
     title: 'Переваги',
@@ -77,6 +78,7 @@ const cardsContent = [
         </div>
       </>
     ),
+    className: 'sm:min-h-[255px]',
   },
 ];
 const IoTSection = () => {
@@ -97,6 +99,7 @@ const IoTSection = () => {
             key={index}
             title={card.title}
             content={card.content}
+            className={card.className}
           />
         ))}
         <img

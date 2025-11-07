@@ -4,7 +4,7 @@ import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 
 const HeroSection = () => {
   const leftPart = (
-    <div className="flex flex-col gap-[24px] xs:gap-[60px] sm:gap-[60px] md:gap-[32px] lg:gap-[40px] max-sm:h-full sm:mt-[32px] md:mt-[32px] lg:mt-[62px]">
+    <div className="flex flex-col gap-[16px] 2xs:gap-[24px] md:gap-[32px] lg:gap-[40px] h-full flex flex-col max-xs:justify-start justify-center">
       <h1
         className="
           font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
@@ -27,22 +27,27 @@ const HeroSection = () => {
         тарифів чи налаштувань. <br />
         Залиште заявку — наш спеціаліст зв’яжеться з вами найближчим часом.
       </p>
-      <LeaveApplicationButton isOrange className="max-w-fit" />
+      <LeaveApplicationButton
+        isOrange
+        className="max-w-fit max-xs:text-[16px]/[120%]"
+      />
     </div>
   );
 
   const rightPart = (
     <div
       className="w-fit h-full flex items-end
-      mr-[16px] min-[1431px]:mr-[8px]
-    pb-[60px] md:max-lg:pb-[47px] lg:max-xl:pb-[68px] xl:max-[1430px]:pb-[84px] min-[1430px]:pb-[82px]"
+      pb-[60px] md:max-lg:pb-[47px] lg:max-xl:pb-[68px] xl:max-[1430px]:pb-[84px] min-[1430px]:pb-[82px]
+      // Add explicit max-width for the image container to ensure it doesn't push out
+      max-w-full" // Ensure this wrapper doesn't exceed its parent's available space
     >
       <img
         src="/images/support-hero-image.png"
         alt="hero-image"
         className="
-          md:max-lg::max-w-[300px] lg:max-xl:max-w-[420px] xl:max-[1430px]:max-w-[500px] min-[1431px]:max-w-[600px]
-          md:max-lg:max-h-[300px]  lg:max-xl:max-h-[420px] xl:max-[1430px]:max-h-[500px] min-[1431px]:max-h-[445px]
+          // Ensure the image itself scales down within its container
+          md:max-lg:max-w-[400px] lg:max-xl:max-w-[480px] xl:max-[1430px]:max-w-[500px] min-[1431px]:max-w-[600px]
+          w-full h-auto object-contain // Make sure the image is responsive
         "
       />
     </div>
@@ -50,13 +55,17 @@ const HeroSection = () => {
 
   return (
     <section id="main-content-start">
-      {/* Desktop layout → phone on the right */}
       <HeroSectionTemplate
         leftPart={leftPart}
         rightPart={
-          <div className="hidden md:block w-fit h-full">{rightPart}</div> // visible only on md+
+          // Ensure the right part only appears on md and above to match the image's desktop visibility
+          <div className="hidden md:block w-fit h-full">{rightPart}</div>
         }
+        layoutClasses="md:pr-0"
         maskPath="/images/template-1-big-hero-bg.png"
+        // --- NEW: Override layout for this specific hero ---
+        leftPartClasses="md:w-1/2 xl:w-4/7" // Adjust these widths as needed
+        rightPartClasses="md:w-1/2 xl:w-3/7 min-w-fit" // md:max-w-none to remove default max-w
       >
         <div className="absolute z-0 bottom-[16px] md:bottom-[24px] lg:bottom-[30px] right-0 sm:block">
           <TrustBadgesSlider />

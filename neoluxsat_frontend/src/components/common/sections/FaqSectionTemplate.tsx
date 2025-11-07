@@ -74,13 +74,13 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({
       </SectionHeader>
 
       {/* Centered image + accordion */}
-      <div className="flex flex-col items-center max-md:mt-[80px] w-fit h-fit">
+      <div className="flex flex-col items-center max-md:mt-[80px] w-full h-fit">
         {/* Image overlapping accordion */}
         <img
           src="/images/faq-image.png"
           alt="faq background"
           className="z-1 sm:w-[320px] -mb-[15.5px] w-auto pointer-events-none 
-          mr-[calc(10%)] md:mr-[calc(50%-250px)] lg:mr-[calc(50%-270px)]
+          mx-auto
           max-xs:max-w-[60vw] max-md:max-w-[270px] max-w-[300px]"
         />
 

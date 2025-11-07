@@ -3,9 +3,9 @@ import SectionHeader from '@/components/common/SectionHeader';
 
 const MaterialsHeader = () => {
   return (
-    <div className="flex flex-col gap-[24px] min-[900px]:flex-row justify-between items-start max-[1440px]:mb-[40px]">
+    <div className="flex flex-col gap-[24px] flex-row flex-wrap justify-between items-start max-[1440px]:mb-[40px]">
       <SectionHeader isCta={false}>
-        Корисні <br className="hidden lg:inline" />
+        Корисні <br className="hidden sm:inline" />
         матеріали
       </SectionHeader>
       <p className="font-noto max-w-[330px] text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">

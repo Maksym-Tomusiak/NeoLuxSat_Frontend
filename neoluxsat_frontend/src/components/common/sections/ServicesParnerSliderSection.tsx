@@ -16,7 +16,7 @@ const ServicesParnerSliderSection: React.FC<
     <section>
       <div className="flex flex-col flex-wrap lg:flex-row justify-between lg:items-end w-full mb-[60px] gap-[24px]">
         <SectionHeader isCta={false}>
-          Наші <br className="hidden md:block" />
+          Наші <br className="hidden sm:block" />
           партнери
         </SectionHeader>
         {description}

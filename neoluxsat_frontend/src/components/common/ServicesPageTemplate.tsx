@@ -9,6 +9,7 @@ type ServicesPageTemplateProps = {
   heroTitleClasses?: string;
   heroImagePath: string;
   heroImageClasses?: string;
+  heroLayoutClasses?: string; // <-- 1. Add the prop here
   categoryTitle: string;
   serviceCardsData: OurServicesSectionTemplateProps;
   children?: React.ReactNode;
@@ -19,6 +20,7 @@ const ServicesPageTemplate: React.FC<ServicesPageTemplateProps> = ({
   heroTitleClasses,
   heroImagePath,
   heroImageClasses,
+  heroLayoutClasses, // <-- 2. Get the prop
   categoryTitle,
   serviceCardsData,
   children,
@@ -27,20 +29,21 @@ const ServicesPageTemplate: React.FC<ServicesPageTemplateProps> = ({
     <>
       <section>
         <HeroSectionTemplate
+          layoutClasses={heroLayoutClasses}
           leftPart={
             <>
               <div
-                className="flex flex-col justify-center items-center md:items-start
+                className="flex flex-col justify-center items-start
                 min-h-[380px] sm:min-h-[400px] lg:min-h-[550px] xl:min-h-[600px]
                 max-w-full"
               >
                 <h1
                   className={cn(
                     `
-          font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
+          font-manrope font-semibold tracking-[-1px] 2xs:tracking-[-1.5px] lg:tracking-[-2px]
           text-primaryWhite align-text-left
           max-w-fit
-          text-[40px]/[90%] xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]`,
+          text-[40px]/[90%] 2xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]`,
                     heroTitleClasses
                   )}
                 >
@@ -51,7 +54,7 @@ const ServicesPageTemplate: React.FC<ServicesPageTemplateProps> = ({
           }
           rightPart={
             <>
-              <div className="w-fit h-fit hidden md:block">
+              <div className="w-fit h-fit max-w-fit">
                 <img
                   src={heroImagePath}
                   alt="hero-image"

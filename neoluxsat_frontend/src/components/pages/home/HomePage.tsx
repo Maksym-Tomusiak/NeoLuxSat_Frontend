@@ -15,7 +15,13 @@ const HomePage = () => {
   const ctaData = [
     {
       icon: <CtaIcon1 />,
-      title: 'Інтернет-підключення: швидко, стабільно, надійно!',
+      title: (
+        <>
+          Інтернет-підключення: <br />
+          швидко, стабільно, <br />
+          надійно!
+        </>
+      ),
       description: (
         <>
           Не зволікай — підключай швидкісний <br className="hidden xs:block" />
@@ -25,7 +31,12 @@ const HomePage = () => {
     },
     {
       icon: <CtaIcon2 />,
-      title: 'Захист, що працює завжди!',
+      title: (
+        <>
+          Захист, що працює <br className="hidden min-[500px]:block" />
+          завжди!
+        </>
+      ),
       description: (
         <>
           Будь на крок попереду — підключи <br className="hidden xs:block" />
@@ -35,7 +46,13 @@ const HomePage = () => {
     },
     {
       icon: <CtaIcon3 />,
-      title: 'Усі ваші “А якщо…” зникнуть',
+      title: (
+        <>
+          Усі ваші <br className="hidden max-[500px]:block" />
+          “А якщо…” <br className="hidden min-[500px]:block" />
+          зникнуть
+        </>
+      ),
       description: (
         <>
           Залиште заявку — і ми детально пояснимо,{' '}
