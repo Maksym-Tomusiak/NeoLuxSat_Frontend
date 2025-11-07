@@ -13,6 +13,7 @@ interface JwtPayload {
   [key: string]: any;
 }
 
+// This function STAYS THE SAME, as AdminHeader uses it
 export const getCrudsOptions = () => {
   const finalToken = localStorage.getItem('token');
   const decoded = jwtDecode<JwtPayload>(finalToken!);
@@ -32,8 +33,18 @@ export const getCrudsOptions = () => {
   return options;
 };
 
-const CrudsDropdown = () => {
-  const options = getCrudsOptions(); // Use the new function
+// 💡 --- COMPONENT UPDATED --- 💡
+// It now accepts 'options' as a prop
+const CrudsDropdown = ({
+  options,
+}: {
+  options: { name: string; href: string }[];
+}) => {
+  // If there are no options left (e.g., if only 'Заявки' and 'Ремонти' existed),
+  // don't render the dropdown at all.
+  if (options.length === 0) {
+    return null;
+  }
 
   return (
     <DropdownMenu>
@@ -46,6 +57,7 @@ const CrudsDropdown = () => {
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="mt-2 w-[200px] rounded-md bg-primaryWhite shadow-lg border border-gray-200 z-1002 max-h-[300px] overflow-y-auto">
+        {/* It now maps over the 'options' prop */}
         {options.map((opt, index) => (
           <DropdownMenuItem
             key={index}

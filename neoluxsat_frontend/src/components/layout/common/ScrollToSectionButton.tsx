@@ -39,10 +39,10 @@ const ScrollToSectionButton = ({ targetId = 'main-content-start' }: Props) => {
           // 1. Removed 'absolute', 'bottom-8', 'right-8'.
           // 2. Added 'float-right' to push it right.
           // 3. Added 'pointer-events-auto' to make it clickable.
-          className="pointer-events-auto float-right p-3 z-50 rounded-full bg-primaryOrange/40 text-white shadow-lg transition-opacity duration-300 ease-in-out hover:bg-primaryOrange/20 focus:outline-none cursor-pointer"
+          className="pointer-events-auto float-right p-3 z-50 rounded-full bg-primaryOrange text-white shadow-lg transition-opacity duration-300 ease-in-out hover:bg-primaryOrange/80 focus:outline-none cursor-pointer"
           aria-label="Scroll to content"
         >
-          <div className="rotate-180 flex items-center justify-center scroll-button">
+          <div className="rotate-180 flex items-center justify-center scroll-button fill-primaryWhite">
             <DropdownIcon />
           </div>
           {/* --- FIX: Added classes back to the icon --- */}

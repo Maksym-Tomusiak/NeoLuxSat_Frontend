@@ -89,9 +89,9 @@ const NetworkSection = () => {
   return (
     <section>
       {/* ... (Section Header and Description remain the same) ... */}
-      <div className="flex flex-col gap-[24px] min-[900px]:flex-row justify-between min-[900px]:items-end mb-[40px] md:mb-[56px]">
+      <div className="flex flex-col gap-[24px] flex-row flex-wrap justify-between min-sm:items-end mb-[40px] md:mb-[56px]">
         <SectionHeader isCta={false}>
-          Актуальний <br className="hidden min-[900px]:inline" />
+          Актуальний <br className="hidden sm:inline" />
           стан мережі
         </SectionHeader>
         <p className="font-noto max-w-[330px] text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">

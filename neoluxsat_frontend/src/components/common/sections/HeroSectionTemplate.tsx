@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import React, { useState, useEffect } from 'react';
 
 interface HeroSectionTemplateProps {
@@ -5,6 +6,10 @@ interface HeroSectionTemplateProps {
   rightPart: React.ReactNode;
   maskPath?: string;
   children?: React.ReactNode;
+  layoutClasses?: string;
+  // --- NEW PROPS ---
+  leftPartClasses?: string;
+  rightPartClasses?: string;
 }
 
 const HeroSectionTemplate: React.FC<HeroSectionTemplateProps> = ({
@@ -12,6 +17,9 @@ const HeroSectionTemplate: React.FC<HeroSectionTemplateProps> = ({
   rightPart,
   maskPath,
   children,
+  layoutClasses,
+  leftPartClasses, // <-- New: Get left part classes
+  rightPartClasses, // <-- New: Get right part classes
 }) => {
   const [responsiveMaskPath, setResponsiveMaskPath] = useState(maskPath);
 
@@ -37,23 +45,25 @@ const HeroSectionTemplate: React.FC<HeroSectionTemplateProps> = ({
     window.addEventListener('resize', updatePath);
 
     return () => window.removeEventListener('resize', updatePath);
-  }, [maskPath]); // Rerun effect if maskPath prop changes
+  }, [maskPath]);
 
   return (
     <div
-      className={`
-        hero-section relative flex flex-col md:flex-row
+      className={cn(
+        `
+        hero-section relative flex
         items-start
         gap-[8px] md:gap-[12px]
         overflow-hidden
         rounded-[16px] md:rounded-[20px]
-        max-md:px-[16px] md:pl-[24px]
+        max-md:px-[16px] md:px-[24px] // Ensure symmetrical padding
         py-[20px] md:py-[45px]
         text-primaryWhite
         h-[420px] md:h-[500px] lg:h-[620px] xl:h-[694px]
-      `}
+      `,
+        layoutClasses || 'flex-col md:flex-row'
+      )}
     >
-      {/* 💡 Use the responsiveMaskPath state for the src */}
       {responsiveMaskPath && (
         <img
           src={responsiveMaskPath}
@@ -62,21 +72,28 @@ const HeroSectionTemplate: React.FC<HeroSectionTemplateProps> = ({
         />
       )}
 
-      {/* Left Part */}
-      <div className="w-full max-sm:h-full hero-content z-2 flex-1">
+      {/* Left Part - Use new leftPartClasses for overrides */}
+      <div
+        className={cn(
+          'w-full flex flex-col justify-center h-full hero-content z-2 flex-1 min-w-0', // Default classes
+          leftPartClasses // Override classes
+        )}
+      >
         {leftPart}
       </div>
 
-      {/* Right Part (now visible on all screens) */}
+      {/* Right Part - Use new rightPartClasses for overrides */}
       <div
-        className="
-          hero-image z-2
+        className={cn(
+          `hero-image z-2
           flex justify-center lg:block
           w-full md:w-auto
           mt-[20px] md:mt-0
+          // Removed max-w-fit here as we'll control width via flex-basis/grow/shrink or explicit width
           md:max-w-[40%] lg:max-w-[45%] xl:max-w-[50%]
-          md:h-full items-center
-        "
+          md:h-full items-center flex-shrink-0`, // Default classes
+          rightPartClasses // Override classes
+        )}
       >
         {rightPart}
       </div>

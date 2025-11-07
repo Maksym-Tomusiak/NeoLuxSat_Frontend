@@ -51,7 +51,7 @@ const ContactsSection = () => {
   return (
     <section>
       <SectionHeader isCta={false}>
-        Де нас <br className="hidden lg:inline" />
+        Де нас <br className="hidden sm:inline" />
         знайти
       </SectionHeader>
       <div className="hidden sm:flex justify-end max-lg:mt-[40px] font-noto mb-[24px] lg:mb-[56px]">
@@ -70,7 +70,15 @@ const ContactsSection = () => {
             <PhoneIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
-              <p className="font-medium">093-777-3244</p>
+              <div className="flex gap-[4px] w-fit">
+                <a href="tel:0957773244" className="font-medium w-fit">
+                  095-777-3244
+                </a>
+                <div className="min-w-[1.4px] max-w-[1.4px] min-h-full bg-primaryOrange w-full rounded-full"></div>
+                <a href="tel:0737376088" className="font-medium">
+                  073-737-6088
+                </a>
+              </div>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit min-w-[290px]">
@@ -81,9 +89,18 @@ const ContactsSection = () => {
             </div>
           </div>
           <div className="flex gap-[24px] justify-center fill-primaryOrange">
-            <TelegramIcon />
-            <ViberIcon />
-            <FacebookIcon />
+            <a href="https://t.me/+380957773244" target="_blank">
+              <TelegramIcon />
+            </a>
+            <a href="viber://chat?number=%2B380957773244">
+              <ViberIcon />
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61569885994545"
+              target="_blank"
+            >
+              <FacebookIcon />
+            </a>
           </div>
         </div>
       </div>
@@ -103,7 +120,15 @@ const ContactsSection = () => {
             <PhoneIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
-              <p className="font-medium">093-777-3244</p>
+              <div className="flex flex-col gap-[2px] w-fit">
+                <a href="tel:0957773244" className="font-medium w-fit">
+                  095-777-3244
+                </a>
+                <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
+                <a href="tel:0737376088" className="font-medium">
+                  073-737-6088
+                </a>
+              </div>
             </div>
           </div>
           <div className="flex gap-[12px] items-center w-fit">
@@ -114,10 +139,19 @@ const ContactsSection = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-[16px] justify-center fill-primaryOrange">
-          <TelegramIcon />
-          <ViberIcon />
-          <FacebookIcon />
+        <div className="flex flex-col gap-[16px] justify-between fill-primaryOrange">
+          <a href="https://t.me/+380957773244" target="_blank">
+            <TelegramIcon />
+          </a>
+          <a href="viber://chat?number=%2B380957773244">
+            <ViberIcon />
+          </a>
+          <a
+            href="https://www.facebook.com/profile.php?id=61569885994545"
+            target="_blank"
+          >
+            <FacebookIcon />
+          </a>
         </div>
       </div>
       <div className="w-full h-[300px] sm:h-[400px] md:h-[500px]">

@@ -80,10 +80,15 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
   const SLIDE_GAP = '56px'; // Corresponds to the original Swiper padding
 
   return (
-    <div className="relative w-[100%] h-[140px] md:h-[270px] mx-auto">
+    // Main container now just stacks the bands and hides overflow
+    <div className="w-full mx-auto">
       {/* GREY BAND - Scroll Right */}
       <div
-        className="absolute w-[120vw] min-h-[70px] top-[30px] lg:top-[70px] left-[calc(50%-60vw)] z-10 bg-primaryBlue/20 flex items-center justify-center rotate-5"
+        className="
+          relative w-[120vw] min-h-[70px] 
+          left-[calc(50%-60vw)] 
+          flex items-center justify-center
+        "
         style={{ backgroundColor: '#cdd2df' }}
       >
         <ContinuousSliderTemplate
@@ -97,7 +102,11 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
 
       {/* ORANGE BAND - Scroll Left */}
       <div
-        className="absolute w-[120vw] min-h-[70px] top-[30px] lg:top-[70px] left-[calc(50%-60vw)] z-10 flex items-center justify-center -rotate-5"
+        className="
+          relative w-[120vw] min-h-[70px] 
+          left-[calc(50%-60vw)] 
+          flex items-center justify-center
+        "
         style={{ backgroundColor: '#f6deca' }}
       >
         <ContinuousSliderTemplate

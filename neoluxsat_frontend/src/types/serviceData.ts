@@ -4,6 +4,7 @@ export interface ServicePageData {
   heroTitleClasses?: string;
   heroImagePath: string;
   heroImageClasses?: string;
+  heroLayoutClasses?: string;
   categoryTitle: string;
   serviceCardsData: OurServicesSectionTemplateProps;
 }

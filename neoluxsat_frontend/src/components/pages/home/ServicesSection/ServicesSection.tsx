@@ -50,7 +50,7 @@ const ServicesSection = () => {
           lg:col-span-1 lg:row-start-1 lg:col-start-1 lg:justify-self-start
         "
           >
-            Наші <br className="hidden md:inline" />
+            Наші <br className="hidden sm:inline" />
             послуги
           </SectionHeader>
 

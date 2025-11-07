@@ -8,7 +8,13 @@ import NetworkSection from './NetworkSection/NetworkSection';
 const SupportPage = () => {
   const ctaData = {
     icon: <CtaIcon />,
-    title: 'Усі ваші “А якщо…” зникнуть',
+    title: (
+      <>
+        Усі ваші <br className="hidden max-[500px]:block" />
+        “А якщо…” <br className="hidden min-[500px]:block" />
+        зникнуть
+      </>
+    ),
     description: (
       <>
         Залиште заявку — і ми детально пояснимо,{' '}

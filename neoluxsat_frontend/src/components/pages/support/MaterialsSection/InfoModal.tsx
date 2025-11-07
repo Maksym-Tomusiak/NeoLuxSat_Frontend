@@ -107,7 +107,7 @@ const InfoModal = ({ isOpen, onClose, data }: InfoModalProps) => {
             >
               <DialogPanel
                 as="div"
-                className="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-[20px] p-[24px] bg-primaryWhite flex flex-col gap-[40px] md:gap-[56px]"
+                className="relative w-full max-w-[680px] max-h-[90vh] overflow-y-auto rounded-[20px] p-[24px] bg-primaryWhite flex flex-col gap-[40px] md:gap-[56px]"
               >
                 {latchedData && (
                   <>

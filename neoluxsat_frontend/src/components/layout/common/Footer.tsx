@@ -9,7 +9,7 @@ import ServicesDropdown from '../../common/ServicesDropdown';
 
 const Footer = () => {
   return (
-    <div className="h-[fit] xs:h-[600px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between mb-[16px] md:mb-[24px]">
+    <div className="h-[fit] xs:h-[600px] xl:h-[640px] max-md:mx-[16px] max-[1440px]:mx-[30px] bg-primaryBlue max-w-[1380px] rounded-[20px] mx-auto px-[30px] py-[24px] flex flex-col justify-between mb-[16px] md:mb-[24px] blue-gradient-bg">
       {/* Wrapper that switches direction */}
       <div className="flex flex-col md:flex-row justify-between text-primaryWhite pt-[40px] md:pt-[100px] font-noto gap-[40px] md:gap-0">
         {/* Messengers: first on mobile, middle on desktop */}
@@ -18,9 +18,18 @@ const Footer = () => {
             Ми завжди поруч — <br />у месенджерах та соцмережах
           </p>
           <div className="flex gap-[24px] justify-center fill-primaryWhite">
-            <TelegramIcon />
-            <ViberIcon />
-            <FacebookIcon />
+            <a href="https://t.me/+380957773244" target="_blank">
+              <TelegramIcon />
+            </a>
+            <a href="viber://chat?number=%2B380957773244">
+              <ViberIcon />
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61569885994545"
+              target="_blank"
+            >
+              <FacebookIcon />
+            </a>
           </div>
         </div>
 
@@ -62,9 +71,15 @@ const Footer = () => {
                 <p className="font-normal text-primaryWhite/80">
                   Номер телефону
                 </p>
-                <a href="tel:0937773244" className="font-medium">
-                  093-777-3244
-                </a>
+                <div className="flex flex-col gap-[2px] w-fit">
+                  <a href="tel:0957773244" className="font-medium">
+                    095-777-3244
+                  </a>
+                  <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
+                  <a href="tel:0737376088" className="font-medium">
+                    073-737-6088
+                  </a>
+                </div>
               </div>
             </div>
             <div className="flex gap-[12px] items-center w-fit">

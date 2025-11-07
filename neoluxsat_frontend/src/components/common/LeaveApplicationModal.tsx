@@ -18,12 +18,21 @@ import type {
   ApplicationCreateDto,
   ApplicationTypeDto,
 } from '@/types/application';
+// 💡 --- NEW IMPORT ---
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'; // 👈 Adjust path if needed
+// 💡 --- END NEW IMPORT ---
 import CloseIcon from '@/assets/svgs/close-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
 import UserIcon from '@/assets/svgs/contacts/pib-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
-import DropdownIcon from '@/assets/svgs/dropdown-icon.svg';
+// import DropdownIcon from '@/assets/svgs/dropdown-icon.svg'; // 💡 No longer needed
 
 type ApplicationFormData = {
   fullName: string;
@@ -73,7 +82,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
   } = methods;
 
   const coreInputClasses =
-    'w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border text-primaryBlue/40 placeholder-gray-400 focus:outline-none ';
+    'font-noto text-[14px]/[120%] font-normal w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border text-primaryBlue/40 placeholder-gray-400 focus:outline-none ';
   const focusClasses =
     'focus:ring-2 focus:ring-primaryOrange focus:border-primaryOrange'; // Orange focus
   const errorClasses = 'border-red-500'; // Red border for error
@@ -193,8 +202,8 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
           />
         </TransitionChild>
 
-        {/* 💡 CHANGE 1: 
-           - Added `overflow-y-auto` to make this the scrolling container.
+        {/* 💡 CHANGE 1:
+            - Added `overflow-y-auto` to make this the scrolling container.
         */}
         <div className="fixed inset-0 overflow-y-auto p-[24px]">
           <div className="flex min-h-full items-center justify-center">
@@ -213,33 +222,33 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                 className="bg-primaryOrange rounded-xl shadow-2xl w-full max-w-[656px] relative" // 'relative' is for the close button
               >
                 <FormProvider {...methods}>
-                  {/* 💡 CHANGE 2: 
-                     - Removed `max-h-[90vh]` and `overflow-y-auto`.
-                     - The whole panel now scrolls, not just this form.
+                  {/* 💡 CHANGE 2:
+                      - Removed `max-h-[90vh]` and `overflow-y-auto`.
+                      - The whole panel now scrolls, not just this form.
                   */}
                   <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="p-[24px] relative mr-[10px]"
                   >
-                    {/* Close Button */}
-                    <button
-                      type="button"
-                      onClick={onClose} // Use onClose directly
-                      className="absolute top-[16px] xs:top-[24px] md:top-[30px] right-[16px] xs:right-[24px] hover:text-gray-200 p-1 fill-primaryWhite/80 hover:fill-primaryWhite transition-colors cursor-pointer w-fit h-fit close-button"
-                      aria-label="Закрити"
-                    >
-                      <CloseIcon />
-                    </button>
-
                     {/* Header Text */}
-                    <div className="text-primaryWhite font-noto flex flex-col gap-[16px] mb-[40px] md:mb-[56px]">
-                      <h2 className="text-[24px]/[120%] font-medium tracking-[-0.48px] max-w-[90%]">
-                        Ваш перший крок до швидкого підключення
-                      </h2>
-                      <p className="text-primaryWhite/80 text-[16px]/[120%] tracking-[-0.32px]">
-                        Залиште заявку на обрану послугу та очікуйте зворотного
-                        зв'язку
-                      </p>
+                    <div className="flex gap-[12px] justify-between">
+                      <div className="text-primaryWhite font-noto flex flex-col gap-[16px] mb-[40px] md:mb-[56px]">
+                        <h2 className="text-[24px]/[120%] font-medium tracking-[-0.48px]">
+                          Ваш перший крок до швидкого підключення
+                        </h2>
+                        <p className="text-primaryWhite/80 text-[16px]/[120%] tracking-[-0.32px]">
+                          Залиште заявку на обрану послугу та очікуйте
+                          зворотного зв'язку
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={onClose} // Use onClose directly
+                        className="hover:text-gray-200 p-1 fill-primaryWhite/80 hover:fill-primaryWhite transition-colors cursor-pointer w-fit h-fit close-button"
+                        aria-label="Закрити"
+                      >
+                        <CloseIcon />
+                      </button>
                     </div>
 
                     {/* Form Fields */}
@@ -248,7 +257,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                       <div>
                         <label
                           htmlFor="fullName"
-                          className="text-sm font-medium text-primaryWhite mb-1 block ml-2"
+                          className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryWhite mb-1 block ml-2"
                         >
                           ПІБ
                         </label>
@@ -269,7 +278,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                           />
                         </div>
                         {errors.fullName && (
-                          <p className="text-xs text-red-700 font-medium mt-1 ml-2">
+                          <p className="text-xs text-primaryBlue font-medium mt-1 ml-2">
                             {errors.fullName.message}
                           </p>
                         )}
@@ -281,7 +290,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                         <div>
                           <label
                             htmlFor="phone"
-                            className="text-sm font-medium text-primaryWhite mb-1 block ml-2"
+                            className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryWhite mb-1 block ml-2"
                           >
                             Номер телефону
                           </label>
@@ -306,7 +315,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                             />
                           </div>
                           {errors.phone && (
-                            <p className="text-xs text-red-700 font-medium mt-1 ml-2">
+                            <p className="text-xs text-primaryBlue font-medium mt-1 ml-2">
                               {errors.phone.message}
                             </p>
                           )}
@@ -315,7 +324,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                         <div>
                           <label
                             htmlFor="email"
-                            className="text-sm font-medium text-primaryWhite mb-1 block ml-2"
+                            className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryWhite mb-1 block ml-2"
                           >
                             Пошта
                           </label>
@@ -340,7 +349,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                             />
                           </div>
                           {errors.email && (
-                            <p className="text-xs text-red-700 font-medium mt-1 ml-2">
+                            <p className="text-xs text-primaryBlue font-medium mt-1 ml-2">
                               {errors.email.message}
                             </p>
                           )}
@@ -351,12 +360,12 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                       <div>
                         <label
                           htmlFor="address"
-                          className="text-sm font-medium text-primaryWhite mb-1 block ml-2"
+                          className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryWhite mb-1 block ml-2"
                         >
                           Адреса
                         </label>
                         <div className="relative">
-                          <div className="absolute left-3 top-3 fill-primaryBlue/40 pointer-events-none">
+                          <div className="absolute left-3 top-2 fill-primaryBlue/40 pointer-events-none">
                             <AddressIcon />
                           </div>
                           <input
@@ -371,17 +380,18 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                           />
                         </div>
                         {errors.address && (
-                          <p className="text-xs text-red-700 font-medium mt-1 ml-2">
+                          <p className="text-xs text-primaryBlue font-medium mt-1 ml-2">
                             {errors.address.message}
                           </p>
                         )}
                       </div>
 
+                      {/* 💡 --- MODIFIED BLOCK --- */}
                       {/* Service Select */}
                       <div className="mb-[40px] md:mb-[56px]">
                         <label
-                          htmlFor="typeId"
-                          className="text-sm font-medium text-primaryWhite mb-1 block ml-2"
+                          htmlFor="typeId" // Still good for accessibility
+                          className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryWhite mb-1 block ml-2"
                         >
                           Послуга
                         </label>
@@ -392,45 +402,56 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                             rules={{
                               required: 'Будь ласка, оберіть послугу',
                             }}
-                            render={({ field }) => (
-                              <select
-                                id="typeId"
-                                {...field}
-                                className={`w-full pl-4 pr-10 py-2.5 rounded-lg bg-white border appearance-none text-primaryBlue/40 focus:outline-none ${getFieldClasses(
-                                  'typeId'
-                                )}`}
+                            render={({ field, fieldState: { error } }) => (
+                              <Select
+                                value={field.value}
+                                onValueChange={field.onChange}
                                 disabled={isLoadingTypes}
                               >
-                                <option value="" disabled>
-                                  {isLoadingTypes
-                                    ? 'Завантаження...'
-                                    : 'Оберіть послугу...'}
-                                </option>
-                                {applicationTypes.map((type) => (
-                                  <option key={type.id} value={type.id}>
-                                    {type.title}
-                                  </option>
-                                ))}
-                              </select>
+                                <SelectTrigger
+                                  ref={field.ref}
+                                  onBlur={field.onBlur}
+                                  aria-invalid={!!error}
+                                  className="w-full bg-white text-primaryBlue/40 data-[placeholder]:text-primaryBlue/40"
+                                >
+                                  <SelectValue
+                                    placeholder={
+                                      isLoadingTypes
+                                        ? 'Завантаження...'
+                                        : 'Оберіть послугу...'
+                                    }
+                                  />
+                                </SelectTrigger>
+                                <SelectContent className="z-4000">
+                                  {applicationTypes.map((type) => (
+                                    <SelectItem
+                                      className="text-primaryBlue"
+                                      key={type.id}
+                                      value={type.id}
+                                    >
+                                      {type.title}
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
                             )}
                           />
-                          <div className="absolute right-3 top-[calc(50%-2px)] transform -translate-y-1/2 h-5 w-5 fill-primaryBlue/40 pointer-events-none">
-                            <DropdownIcon />
-                          </div>
+                          {/* 💡 The DropdownIcon div was removed, as SelectTrigger provides its own icon */}
                         </div>
                         {errors.typeId && (
-                          <p className="text-xs text-red-700 font-medium mt-1 ml-2">
+                          <p className="text-xs text-primaryBlue font-medium mt-1 ml-2">
                             {errors.typeId.message}
                           </p>
                         )}
                         {fetchError &&
                           !isLoadingTypes &&
                           applicationTypes.length === 0 && (
-                            <p className="text-xs text-red-700 font-medium mt-1 ml-2">
+                            <p className="text-xs text-primaryBlue font-medium mt-1 ml-2">
                               {fetchError}
                             </p>
                           )}
                       </div>
+                      {/* 💡 --- END MODIFIED BLOCK --- */}
                     </div>
 
                     {/* Submit Button */}
