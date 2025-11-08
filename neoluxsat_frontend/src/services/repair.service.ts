@@ -35,6 +35,28 @@ export class RepairService {
     return await httpClient.get(`/${id}`);
   }
 
+  static async getLatestRepairs(count: number, signal?: AbortSignal) {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/repairs/latest/${count}`,
+      signal,
+    });
+    return await httpClient.get('');
+  }
+
+  static async getRepairsCountByRecentDays(
+    days: number,
+    hoursOffset: number,
+    signal?: AbortSignal
+  ) {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/repairs/latest-count/${days}/${hoursOffset}`,
+      signal,
+    });
+    return await httpClient.get('');
+  }
+
   static async createRepair(repair: RepairCreateDto, signal?: AbortSignal) {
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const httpClient = new HttpClient({

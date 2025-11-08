@@ -8,7 +8,7 @@ import DeleteIcon from '@/assets/svgs/admin/dashboard/delete-icon.svg';
 const getStatusStyles = (status: string = '') => {
   const statusLower = status?.toLowerCase();
   switch (statusLower) {
-    case 'відхилена':
+    case 'відкладена':
     case 'скасована':
       return 'bg-iconsRed/20 border border-iconsRed/80';
     case 'завершена':

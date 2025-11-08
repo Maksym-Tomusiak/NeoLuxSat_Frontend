@@ -1,6 +1,7 @@
 import * as signalR from '@microsoft/signalr';
 import type { NetworkProblemDto } from '@/types/networkProblem';
 import type { ApplicationDto } from '@/types/application';
+import type { RepairDto } from '@/types/repair';
 
 // Назви подій, які ми очікуємо від бекенду
 const EVENTS = {
@@ -113,6 +114,30 @@ class WebSocketService {
 
   public offApplicationDeleted(callback: (id: string) => void) {
     this.connection.off('ApplicationDeleted', callback);
+  }
+
+  public onRepairCreated(callback: (repair: RepairDto) => void) {
+    this.connection.on('RepairCreated', callback);
+  }
+
+  public offRepairCreated(callback: (repair: RepairDto) => void) {
+    this.connection.off('RepairCreated', callback);
+  }
+
+  public onRepairUpdated(callback: (repair: RepairDto) => void) {
+    this.connection.on('RepairUpdated', callback);
+  }
+
+  public offRepairUpdated(callback: (repair: RepairDto) => void) {
+    this.connection.off('RepairUpdated', callback);
+  }
+
+  public onRepairDeleted(callback: (id: string) => void) {
+    this.connection.on('RepairDeleted', callback);
+  }
+
+  public offRepairDeleted(callback: (id: string) => void) {
+    this.connection.off('RepairDeleted', callback);
   }
 }
 

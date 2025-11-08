@@ -1,8 +1,10 @@
 import React from 'react';
-import ApplicationsChartComponent from './Dashboard/ApplicationsChart/ApplicationsChartComponent';
+import ApplicationsChart from './Dashboard/Charts/ApplicationsChart';
 import ApplicationsByStatusComponent from './Dashboard/ApplicationStatus/ApplicationsByStatusComponent';
 import ApplicationsByTypeComponent from './Dashboard/ApplicationType/ApplicationsByTypeComponent';
 import LatestApplicationsTable from './Dashboard/LatestApplications/LatestApplicationsTable';
+import RepairsChart from './Dashboard/Charts/RepairsChart';
+import LatestRepairsTable from './Dashboard/LatestRepairs/LatestRepairsTable';
 
 const AdminPage = () => {
   return (
@@ -16,9 +18,13 @@ const AdminPage = () => {
           <ApplicationsByStatusComponent />
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-center w-full mb-[16px]">
-        <ApplicationsChartComponent />
+      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-center w-full">
+        <ApplicationsChart />
         <LatestApplicationsTable />
+      </div>
+      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-center w-full mb-[16px]">
+        <RepairsChart />
+        <LatestRepairsTable />
       </div>
     </div>
   );

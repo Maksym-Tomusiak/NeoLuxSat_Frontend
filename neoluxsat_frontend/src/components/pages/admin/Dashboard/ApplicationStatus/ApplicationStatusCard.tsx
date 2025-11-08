@@ -36,7 +36,7 @@ const ApplicationStatusCard: React.FC<ApplicationStatusCardProps> = ({
   return (
     <div
       key={status.id}
-      className="w-full sm:w-[calc(50%-8px)] min-[1440px]:w-[300px] min-h-[35px] bg-primaryWhite/10 rounded-lg flex justify-start items-center py-[16px] px-[12px] gap-[12px]"
+      className="w-full sm:w-[calc(50%-8px)] min-[1440px]:w-[300px] lg:min-h-[80px] bg-primaryWhite/10 rounded-lg flex justify-start items-center py-[16px] px-[12px] gap-[12px]"
     >
       {getStatusIcon(status.title)}
       <div className="flex flex-col gap-[8px]">
