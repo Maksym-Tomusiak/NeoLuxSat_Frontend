@@ -74,28 +74,14 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
     else if (start) formattedTime = `після ${start}`;
   }
 
-  // 💡 --- REMOVED: Old color map logic ---
-  // const colorMap: Record<string, string> = {
-  //   'У процесі відновлення': 'var(--color-iconsRed)',
-  //   Заплановано: 'var(--color-iconsBlue)',
-  //   Вирішено: 'var(--color-iconsGreen)',
-  // };
-  // const color = colorMap[statusTitle] || 'var(--color-iconsBlue)';
-  // 💡 --- END REMOVED ---
-
   return (
     <div
       // 💡 --- UPDATED: Use styles from map ---
       className={cn(
-        `flex flex-col text-primaryBlue p-[24px] gap-[24px] rounded-[20px] border border-[1.4px] max-w-[1030px] h-fit md:h-fit lg:h-[200px]`,
+        `flex flex-col text-primaryBlue p-[24px] gap-[24px] rounded-[20px] border border-[1.4px] max-w-[1030px] h-fit md:h-fit lg:min-h-[200px]`,
         styles.cardBg, // e.g., 'bg-iconsRed/10'
         styles.border // e.g., 'border-iconsRed'
       )}
-      // 💡 --- REMOVED: Inline style prop ---
-      // style={{
-      //   borderColor: color,
-      // }}
-      // 💡 --- END REMOVED ---
     >
       <div className="flex flex-col md:flex-row gap-[16px] justify-between items-start md:items-center">
         <div className="flex gap-[16px] items-center">
@@ -145,7 +131,7 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
             </div>
           </div>
 
-          <div className="flex gap-[12px] items-center max-w-[300px]">
+          <div className="flex gap-[12px] items-center max-w-[600px]">
             <div className="min-w-[24px] min-h-[24px]">
               <NetworkStatusIcon />
             </div>

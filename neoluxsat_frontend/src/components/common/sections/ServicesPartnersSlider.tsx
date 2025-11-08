@@ -76,7 +76,7 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
   const greySlides = createSlideNodes(data.grey);
 
   // Set consistent parameters
-  const DURATION = 20; // Time in seconds for one full loop (Adjust as needed)
+  const DURATION = 25; // Time in seconds for one full loop (Adjust as needed)
   const SLIDE_GAP = '56px'; // Corresponds to the original Swiper padding
 
   return (
