@@ -108,7 +108,7 @@ const ApplicationsByStatusComponent = () => {
 
   return (
     <div className="bg-primaryBlue rounded-[20px] text-primaryWhite w-full lg:flex-1">
-      <div className="p-[24px] flex flex-col gap-[24px]">
+      <div className="p-[24px] flex flex-col gap-[24px] h-full">
         <h2 className="text-[18px]/[120%] font-semibold font-noto tracking-[-0.36px]">
           Статистика заявок за статусом
         </h2>

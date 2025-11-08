@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils'; // Added for conditional classnames
 import FeedbackIcon1 from '@/assets/svgs/feedbacks/feedback-icon-1.svg';
 import FeedbackIcon2 from '@/assets/svgs/feedbacks/feedback-icon-2.svg';
 import FeedbackIcon3 from '@/assets/svgs/feedbacks/feedback-icon-3.svg';
@@ -11,12 +12,12 @@ import { FeedbackService } from '@/services/feedbacks.service';
 import type { FeedbackDto } from '@/types/feedback';
 
 const icons = [
-  <FeedbackIcon1 key="1" />,
-  <FeedbackIcon2 key="2" />,
-  <FeedbackIcon3 key="3" />,
-  <FeedbackIcon4 key="4" />,
-  <FeedbackIcon5 key="5" />,
-  <FeedbackIcon6 key="6" />,
+  <FeedbackIcon1 />, // Removed keys
+  <FeedbackIcon2 />,
+  <FeedbackIcon3 />,
+  <FeedbackIcon4 />,
+  <FeedbackIcon5 />,
+  <FeedbackIcon6 />,
 ];
 
 const FeedbacksSection = () => {
@@ -26,13 +27,17 @@ const FeedbacksSection = () => {
     const fetchFeedbacks = async () => {
       try {
         const data = await FeedbackService.getAllFeedbacks();
-        setFeedbacks(data.slice(0, 6)); // only 6 first
+        // --- CHANGED: Removed .slice(0, 6) ---
+        setFeedbacks(data);
       } catch (error) {
         console.error('Failed to fetch feedbacks', error);
       }
     };
     fetchFeedbacks();
   }, []);
+
+  // --- ADDED: Check if sliding should be enforced ---
+  const isSlidingEnabled = feedbacks.length > 6;
 
   return (
     <section className="flex flex-col gap-[32px] sm:gap-[40px] md:gap-[58px]">
@@ -43,7 +48,16 @@ const FeedbacksSection = () => {
         </p>
       </div>
 
-      <div className="-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px] min-[1440px]:justify-center overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px] scrollbar-hide">
+      {/* --- CHANGED: className is now conditional --- */}
+      <div
+        className={cn(
+          `-mx-[10px] min-h-fit flex snap-x snap-mandatory gap-[12px]
+           overflow-y-hidden overflow-x-auto px-[10px] md:gap-[20px] scrollbar-hide`,
+          // If sliding is NOT enabled (<= 6 items), center on 1440px+.
+          // If it IS enabled (> 6 items), this class is omitted, allowing scroll.
+          !isSlidingEnabled && 'min-[1440px]:justify-center'
+        )}
+      >
         {(() => {
           const slides = [];
           const half = Math.ceil(feedbacks.length / 2);
@@ -57,7 +71,8 @@ const FeedbacksSection = () => {
                   {top && (
                     <FeebackCard
                       key={top.id}
-                      icon={icons[i]}
+                      // --- CHANGED: Use modulo for repeating icons ---
+                      icon={icons[i % icons.length]}
                       author={top.author}
                       content={top.content}
                       isBlue={i % 2 === 1}
@@ -66,7 +81,8 @@ const FeedbacksSection = () => {
                   {bottom && (
                     <FeebackCard
                       key={bottom.id}
-                      icon={icons[i + half]}
+                      // --- CHANGED: Use modulo for repeating icons ---
+                      icon={icons[(i + half) % icons.length]}
                       author={bottom.author}
                       content={bottom.content}
                       isBlue={i % 2 === 0}

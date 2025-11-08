@@ -15,7 +15,7 @@ const FeebackCard: React.FC<FeedbackCardProps> = ({
 }) => {
   return (
     <div
-      className={`relative flex flex-1 flex-col justify-between font-noto min-h-[200px] rounded-[20px] p-[24px] ${
+      className={`relative flex flex-1 max-w-[430px] flex-col justify-between font-noto min-h-[200px] rounded-[20px] p-[24px] ${
         isBlue
           ? 'bg-primaryBlue text-primaryWhite'
           : 'bg-primaryBlue/20 text-primaryBlue'

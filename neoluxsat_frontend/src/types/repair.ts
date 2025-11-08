@@ -28,6 +28,7 @@ export interface RepairDto {
   jobCost: number;
   masterConclusion: string | null;
   managerComment: string | null;
+  createdAt: Date;
 
   user: UserDto | null;
   status: RepairStatusDto | null;

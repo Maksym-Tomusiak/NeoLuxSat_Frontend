@@ -90,7 +90,6 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
       },
     },
     email: {
-      required: 'Email є обовʼязковим',
       minLength: { value: 3, message: 'Email має бути від 3 до 255 символів' },
       maxLength: {
         value: 255,

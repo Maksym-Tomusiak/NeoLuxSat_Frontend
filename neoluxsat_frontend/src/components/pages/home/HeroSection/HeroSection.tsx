@@ -4,7 +4,7 @@ import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
 
 const HeroSection = () => {
   const leftPart = (
-    <div className="lg:mb-[120px] flex flex-col gap-[12px] xs:gap-[24px] sm:gap-[32px] lg:gap-[40px] max-md:h-full max-md:justify-center  lg:mt-[62px]">
+    <div className="flex flex-col gap-[12px] xs:gap-[24px] sm:gap-[32px] lg:gap-[40px] max-md:h-full max-md:justify-center">
       <h1
         className="
           font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-2px]
@@ -50,13 +50,12 @@ const HeroSection = () => {
   );
 
   const rightPart = (
-    <div className="w-fit h-fit">
+    <div className="h-fit md:mt-[20px]">
       <img
         src="/images/home-hero-image.png"
         alt="hero-image"
         className="
-          max-w-full sm:max-w-[400px] md:max-w-[300px] lg:max-w-[420px] xl:max-w-[484px]
-          max-h-auto sm:max-h-[400px] md:max-h-[300px]  lg:max-h-[420px] xl:max-h-[484px]
+          max-w-full sm:max-w-[400px] md:max-w-[340px] lg:max-w-[420px] xl:max-w-[500px]
           h-auto
         "
       />
@@ -70,12 +69,14 @@ const HeroSection = () => {
         leftPart={leftPart}
         rightPart={
           <div
-            className="hidden md:block w-fit h-fit
-          mr-[32px] lg:mr-[60px]"
+            className="hidden h-full md:block
+          lg:mr-[60px]"
           >
             {rightPart}
           </div> // visible only on md+
         }
+        layoutClasses="flex-row md:pt-0"
+        rightPartClasses="flex-shrink max-lg:max-w-fit!"
         maskPath="/images/template-1-big-hero-bg.png"
       >
         <div className="absolute z-0 bottom-[16px] md:bottom-[24px] lg:bottom-[30px] right-0 sm:block">

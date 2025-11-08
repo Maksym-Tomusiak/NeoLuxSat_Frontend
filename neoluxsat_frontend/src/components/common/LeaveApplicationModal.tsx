@@ -60,6 +60,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
   >([]);
   const [isLoadingTypes, setIsLoadingTypes] = useState(false);
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const [isSelectOpen, setIsSelectOpen] = useState(false);
 
   const methods = useForm<ApplicationFormData>({
     mode: 'onChange',
@@ -183,9 +184,26 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
     }
   };
 
+  const handleClose = () => {
+    // Check if any Radix Select content is currently open
+    if (isSelectOpen) {
+      // If it is, close the select...
+      setIsSelectOpen(false);
+      // ...and then STOP, to prevent the modal from closing.
+      return;
+    }
+
+    // Otherwise, proceed with closing the modal.
+    onClose();
+  };
+
   return (
     <Transition appear show={isOpen} as={Fragment}>
-      <Dialog as="div" className="relative z-2000 font-noto" onClose={onClose}>
+      <Dialog
+        as="div"
+        className="relative z-2000 font-noto"
+        onClose={handleClose}
+      >
         {/* Backdrop Animation */}
         <TransitionChild
           as={Fragment}
@@ -336,7 +354,6 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                               id="email"
                               type="email"
                               {...register('email', {
-                                required: "Пошта є обов'язковою",
                                 pattern: {
                                   value: /^\S+@\S+$/i,
                                   message: 'Некоректний формат',
@@ -407,6 +424,8 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                                 value={field.value}
                                 onValueChange={field.onChange}
                                 disabled={isLoadingTypes}
+                                open={isSelectOpen}
+                                onOpenChange={setIsSelectOpen}
                               >
                                 <SelectTrigger
                                   ref={field.ref}
@@ -422,7 +441,12 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                                     }
                                   />
                                 </SelectTrigger>
-                                <SelectContent className="z-4000">
+                                <SelectContent
+                                  onPointerDownOutside={(e) => {
+                                    e.preventDefault();
+                                  }}
+                                  className="z-4000"
+                                >
                                   {applicationTypes.map((type) => (
                                     <SelectItem
                                       className="text-primaryBlue"
