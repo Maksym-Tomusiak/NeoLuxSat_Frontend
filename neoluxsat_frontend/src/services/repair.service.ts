@@ -19,7 +19,7 @@ export class RepairService {
       signal,
     });
     return await httpClient.get(
-      `paginated${TextService.paginationToText(pagination)}`
+      `paginated${TextService.repairPaginationToText(pagination)}`
     );
   }
 
