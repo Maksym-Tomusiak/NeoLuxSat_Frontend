@@ -340,9 +340,9 @@ export const NetworkProblemFormFields: React.FC<
         >
           Коментар статусу
         </label>
-        <input
+        <textarea
           id="currentStatus"
-          type="text"
+          rows={3}
           {...register('currentStatus', validationRules.currentStatus)}
           disabled={isReadOnly}
           className={`${coreBaseClasses} ${getFieldClasses('currentStatus')}`}

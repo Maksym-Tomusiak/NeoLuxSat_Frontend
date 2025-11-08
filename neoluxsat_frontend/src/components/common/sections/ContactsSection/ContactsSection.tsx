@@ -1,5 +1,6 @@
 import TelegramIcon from '@/assets/svgs/contacts/telegram-icon.svg';
 import ViberIcon from '@/assets/svgs/contacts/viber-icon.svg';
+import WhatsappIcon from '@/assets/svgs/contacts/whatsapp-icon.svg';
 import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
 import AddressIcon from '@/assets/svgs/contacts/address-icon.svg';
 import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
@@ -70,11 +71,11 @@ const ContactsSection = () => {
             <PhoneIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
-              <div className="flex gap-[4px] w-fit">
+              <div className="flex flex-col gap-[4px] w-fit">
                 <a href="tel:0957773244" className="font-medium w-fit">
                   095-777-3244
                 </a>
-                <div className="min-w-[1.4px] max-w-[1.4px] min-h-full bg-primaryOrange w-full rounded-full"></div>
+                <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
                 <a href="tel:0737376088" className="font-medium">
                   073-737-6088
                 </a>
@@ -88,19 +89,34 @@ const ContactsSection = () => {
               <p className="font-medium">neoluxsat@example.com</p>
             </div>
           </div>
-          <div className="flex gap-[24px] justify-center fill-primaryOrange">
-            <a href="https://t.me/+380957773244" target="_blank">
-              <TelegramIcon />
-            </a>
-            <a href="viber://chat?number=%2B380957773244">
-              <ViberIcon />
-            </a>
-            <a
-              href="https://www.facebook.com/profile.php?id=61569885994545"
-              target="_blank"
-            >
-              <FacebookIcon />
-            </a>
+          <div className="flex gap-[16px] justify-center fill-primaryOrange">
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+              <a href="https://t.me/+380957773244" target="_blank">
+                <TelegramIcon />
+              </a>
+            </div>
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+              <a href="viber://chat?number=%2B380957773244">
+                <ViberIcon />
+              </a>
+            </div>
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+              <a
+                href="https://wa.me/380957773244"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <WhatsappIcon />
+              </a>
+            </div>
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+              <a
+                href="https://www.facebook.com/profile.php?id=61569885994545"
+                target="_blank"
+              >
+                <FacebookIcon />
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -120,7 +136,7 @@ const ContactsSection = () => {
             <PhoneIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
-              <div className="flex flex-col gap-[2px] w-fit">
+              <div className="flex flex-col gap-[4px] w-fit">
                 <a href="tel:0957773244" className="font-medium w-fit">
                   095-777-3244
                 </a>
@@ -140,18 +156,33 @@ const ContactsSection = () => {
           </div>
         </div>
         <div className="flex flex-col gap-[16px] justify-between fill-primaryOrange">
-          <a href="https://t.me/+380957773244" target="_blank">
-            <TelegramIcon />
-          </a>
-          <a href="viber://chat?number=%2B380957773244">
-            <ViberIcon />
-          </a>
-          <a
-            href="https://www.facebook.com/profile.php?id=61569885994545"
-            target="_blank"
-          >
-            <FacebookIcon />
-          </a>
+          <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <a href="https://t.me/+380957773244" target="_blank">
+              <TelegramIcon />
+            </a>
+          </div>
+          <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <a href="viber://chat?number=%2B380957773244">
+              <ViberIcon />
+            </a>
+          </div>
+          <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <a
+              href="https://wa.me/380957773244"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <WhatsappIcon />
+            </a>
+          </div>
+          <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <a
+              href="https://www.facebook.com/profile.php?id=61569885994545"
+              target="_blank"
+            >
+              <FacebookIcon />
+            </a>
+          </div>
         </div>
       </div>
       <div className="w-full h-[300px] sm:h-[400px] md:h-[500px]">

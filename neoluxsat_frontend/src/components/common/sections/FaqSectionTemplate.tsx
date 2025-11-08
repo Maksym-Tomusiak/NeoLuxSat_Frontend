@@ -79,7 +79,7 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({
         <img
           src="/images/faq-image.png"
           alt="faq background"
-          className="z-1 sm:w-[320px] -mb-[15.5px] w-auto pointer-events-none 
+          className="z-1 sm:w-[320px] -mb-[13px] w-auto pointer-events-none 
           mx-auto
           max-xs:max-w-[60vw] max-md:max-w-[270px] max-w-[300px]"
         />

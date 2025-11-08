@@ -16,6 +16,7 @@ import PhoneIcon from '@/assets/svgs/contacts/phone-icon.svg';
 import EmailIcon from '@/assets/svgs/contacts/email-icon.svg';
 import TelegramIcon from '@/assets/svgs/contacts/telegram-icon.svg';
 import ViberIcon from '@/assets/svgs/contacts/viber-icon.svg';
+import WhatsappIcon from '@/assets/svgs/contacts/whatsapp-icon.svg';
 import FacebookIcon from '@/assets/svgs/contacts/facebook-icon.svg';
 
 const HIDE_TIMEOUT_MS = 3000; // 10 seconds
@@ -151,7 +152,7 @@ const Header = () => {
           </div>
 
           <div className="hidden min-[1150px]:flex-1 items-center justify-end gap-[8px] text-primaryBlue min-[1150px]:flex md:gap-[12px]">
-            <div className="flex flex-col items-center gap-[2px]">
+            <div className="flex flex-col items-center gap-[4px]">
               <a
                 href="tel:0957773244"
                 className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px]"
@@ -276,7 +277,7 @@ const Header = () => {
                       <p className="font-normal text-primaryBlue/80">
                         Номер телефону
                       </p>
-                      <div className="flex flex-col gap-[2px] w-fit">
+                      <div className="flex flex-col gap-[4px] w-fit">
                         <a href="tel:0957773244" className="font-medium w-fit">
                           095-777-3244
                         </a>
@@ -299,19 +300,34 @@ const Header = () => {
                       </a>
                     </div>
                   </div>
-                  <div className="flex gap-[24px] justify-start fill-primaryOrange mb-[20px]">
-                    <a href="https://t.me/+380957773244" target="_blank">
-                      <TelegramIcon />
-                    </a>
-                    <a href="viber://chat?number=%2B380957773244">
-                      <ViberIcon />
-                    </a>
-                    <a
-                      href="https://www.facebook.com/profile.php?id=61569885994545"
-                      target="_blank"
-                    >
-                      <FacebookIcon />
-                    </a>
+                  <div className="flex gap-[24px] justify-start mb-[20px]">
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <a href="https://t.me/+380957773244" target="_blank">
+                        <TelegramIcon />
+                      </a>
+                    </div>
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <a href="viber://chat?number=%2B380957773244">
+                        <ViberIcon />
+                      </a>
+                    </div>
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <a
+                        href="https://wa.me/380957773244"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <WhatsappIcon />
+                      </a>
+                    </div>
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <a
+                        href="https://www.facebook.com/profile.php?id=61569885994545"
+                        target="_blank"
+                      >
+                        <FacebookIcon />
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>

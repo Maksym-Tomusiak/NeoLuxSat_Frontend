@@ -151,9 +151,7 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
               {data.content.split('\n').map((line, index, array) => (
                 <React.Fragment key={index}>
                   {line}
-                  {index < array.length - 1 && (
-                    <br className="hidden lg:block" />
-                  )}
+                  {index < array.length - 1 && <br />}
                 </React.Fragment>
               ))}
             </p>
