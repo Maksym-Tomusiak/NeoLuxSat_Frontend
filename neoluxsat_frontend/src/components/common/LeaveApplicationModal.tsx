@@ -83,18 +83,16 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
   } = methods;
 
   const coreInputClasses =
-    'font-noto text-[14px]/[120%] font-normal w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border text-primaryBlue/40 placeholder-gray-400 focus:outline-none ';
-  const focusClasses =
-    'focus:ring-2 focus:ring-primaryOrange focus:border-primaryOrange'; // Orange focus
+    'font-noto text-[14px]/[120%] font-normal w-full pl-10 pr-4 py-2.5 rounded-lg bg-white border border-[1.4px] text-primaryBlue placeholder-gray-400 focus:outline-none ';
+  const focusClasses = 'focus:ring-primaryBlue focus:border-primaryBlue'; // Orange focus
   const errorClasses = 'border-red-500'; // Red border for error
-  const defaultBorderClass = 'border-gray-300';
   const getFieldClasses = (fieldName: keyof ApplicationFormData) => {
     const hasError = errors[fieldName];
     let dynamicClasses = '';
     if (hasError) {
       dynamicClasses = `${errorClasses} ${focusClasses}`;
     } else {
-      dynamicClasses = `${defaultBorderClass} ${focusClasses}`;
+      dynamicClasses = `${focusClasses}`;
     }
     return dynamicClasses;
   };
@@ -326,7 +324,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                                   message: 'Некоректний формат',
                                 },
                               })}
-                              placeholder="+380XXXXXXXXX"
+                              placeholder="+380957773244"
                               className={`${coreInputClasses} ${getFieldClasses(
                                 'phone'
                               )}`}

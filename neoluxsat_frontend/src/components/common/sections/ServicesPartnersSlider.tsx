@@ -7,11 +7,11 @@ import ContinuousSliderTemplate from '@/components/common/ContinuousSliderTempla
 // Importing your image assets
 import Badge1 from '@/assets/images/trust-badges/ajax-slider-logo-1.png';
 import Badge2 from '@/assets/images/trust-badges/ajax-slider-logo-2.png';
-// Assuming the other assets are still used for TV/Internet partners
 import Badge3 from '@/assets/images/trust-badges/trust-badge-3.png';
 import Badge4 from '@/assets/images/trust-badges/trust-badge-4.png';
 import Badge5 from '@/assets/images/trust-badges/trust-badge-5.png';
 import Badge6 from '@/assets/images/trust-badges/trust-badge-6.png';
+import Badge7 from '@/assets/images/trust-badges/trust-badge-7.png';
 
 export type SliderKey = 'internet' | 'tv' | 'security';
 
@@ -22,7 +22,7 @@ type PartnersSliderProps = {
 // --- Base Content Definition (No duplication needed here) ---
 
 const BASE_SECURITY_CONTENT = [Badge1, Badge2];
-const BASE_TV_CONTENT = [Badge3, Badge4];
+const BASE_TV_CONTENT = [Badge3, Badge4, Badge7];
 const BASE_INTERNET_CONTENT = [Badge6, Badge5];
 
 const SLIDER_CONTENT_MAP: Record<

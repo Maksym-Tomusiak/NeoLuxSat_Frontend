@@ -8,16 +8,9 @@ const InternetPage = () => {
 
   const description = useMemo(
     () => (
-      <p className="font-noto text-primaryBlue text-[16px]/[120%} tracking-[-0.32px] max-w-[680px]">
-        Ми співпрацюємо з провайдерами{' '}
-        <a
-          href="https://uar.net/internet-business/"
-          target="_blank"
-          className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryOrange font-medium"
-        >
-          UARnet
-        </a>{' '}
-        та{' '}
+      <p className="font-noto text-primaryBlue text-[16px]/[120%} tracking-[-0.32px] max-w-[330px]">
+        Ми співпрацюємо з провайдером
+        <br />
         <a
           href="https://rivneisp.net/tariff"
           target="_blank"
@@ -27,18 +20,6 @@ const InternetPage = () => {
         </a>{' '}
         , щоб забезпечити вам найкращі рішення.{' '}
         <a
-          href="https://uar.net/internet-business/"
-          target="_blank"
-          className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryOrange font-medium"
-        >
-          UARnet
-        </a>
-        {''}
-        — національний провайдер для освітніх і наукових установ із власною
-        оптоволоконною магістраллю та прямими з’єднаннями з європейськими
-        мережами, <br className="hidden min-[700px]:block" />
-        що гарантує високу швидкість і стабільність інтернету.{' '}
-        <a
           href="https://rivneisp.net/tariff"
           target="_blank"
           className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryOrange font-medium"
@@ -46,8 +27,7 @@ const InternetPage = () => {
           Rivne ISP
         </a>{' '}
         — регіональний провайдер із Рівненщини, який спеціалізується на
-        оптоволоконному підключенні <br className="hidden min-[700px]:block" />
-        зі швидкістю до 1000 Мбіт/с.
+        оптоволоконному підключенні зі швидкістю до 1000 Мбіт/с.
       </p>
     ),
     []

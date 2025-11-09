@@ -102,14 +102,6 @@ const SERVICE_DATA_MAP: Record<ServiceKey, ServicePageData> = {
             className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryOrange"
           >
             Rivne ISP
-          </a>{' '}
-          та{' '}
-          <a
-            href="https://uar.net/internet-business/"
-            target="_blank"
-            className="font-noto text-[16px]/[120%] tracking-[-0.32px] text-primaryOrange"
-          >
-            UARnet
           </a>
           .
         </p>
