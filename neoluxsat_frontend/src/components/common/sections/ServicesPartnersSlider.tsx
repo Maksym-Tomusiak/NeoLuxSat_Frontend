@@ -89,7 +89,6 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
           left-[calc(50%-60vw)] 
           flex items-center justify-center
         "
-        style={{ backgroundColor: '#cdd2df' }}
       >
         <ContinuousSliderTemplate
           slides={greySlides}
@@ -107,7 +106,6 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
           left-[calc(50%-60vw)] 
           flex items-center justify-center
         "
-        style={{ backgroundColor: '#f6deca' }}
       >
         <ContinuousSliderTemplate
           slides={orangeSlides}

@@ -85,16 +85,23 @@ export class UserService {
   }
 
   static async refreshUserToken(signal?: AbortSignal) {
-    const refreshToken = localStorage.getItem('refreshToken');
-
-    const payload = { refreshToken: refreshToken };
-
     const apiUrl = import.meta.env.VITE_API_BASE_URL;
     const httpClient = new HttpClient({
       baseURL: `${apiUrl}/users/refresh-token`,
       signal,
+      withCredentials: true,
+    });
+    return await httpClient.post('', {});
+  }
+
+  static async logout(signal?: AbortSignal) {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/users/logout`,
+      signal,
+      withCredentials: true,
     });
 
-    return await httpClient.post('', payload);
+    return await httpClient.post('', {});
   }
 }

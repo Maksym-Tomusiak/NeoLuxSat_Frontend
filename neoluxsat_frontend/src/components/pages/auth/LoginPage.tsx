@@ -18,10 +18,9 @@ const LoginPage = () => {
 
     try {
       const response = await UserService.loginUser({ username, password });
-      const { accessToken, refreshToken } = response;
+      const { accessToken } = response;
 
       localStorage.setItem('token', accessToken);
-      localStorage.setItem('refreshToken', refreshToken);
 
       // Redirect to returnUrl or /admin
       const params = new URLSearchParams(location.search);

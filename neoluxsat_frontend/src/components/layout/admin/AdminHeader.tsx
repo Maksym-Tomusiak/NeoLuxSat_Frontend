@@ -12,6 +12,7 @@ import CrudsDropdown from './CrudsDropdown';
 import SiteDropdown from './SiteDropdown';
 import { getCrudsOptions } from './CrudsDropdown'; // Keep this import
 import { getSiteOptions } from './SiteDropdown';
+import { UserService } from '@/services/user.service';
 
 const AdminHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,9 +36,9 @@ const AdminHeader = () => {
     setIsOpen(false);
   };
 
-  const handleLogoutClick = () => {
+  const handleLogoutClick = async () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('refreshToken');
+    await UserService.logout();
     window.location.href = '/login';
   };
 
