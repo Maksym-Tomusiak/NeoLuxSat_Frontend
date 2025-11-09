@@ -82,7 +82,7 @@ const FeedbacksSection = () => {
                     <FeebackCard
                       key={bottom.id}
                       // --- CHANGED: Use modulo for repeating icons ---
-                      icon={icons[(i + half) % icons.length]}
+                      icon={icons[(i + 3) % icons.length]}
                       author={bottom.author}
                       content={bottom.content}
                       isBlue={i % 2 === 0}
