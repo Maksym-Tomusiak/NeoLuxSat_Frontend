@@ -118,10 +118,7 @@ export class HttpClient {
 
   private async refreshToken(): Promise<string | null> {
     try {
-      const refreshToken = localStorage.getItem('refreshToken');
       const apiUrl = import.meta.env.VITE_API_BASE_URL;
-
-      const payload = { refreshToken: refreshToken };
 
       const refreshInstance = axios.create({
         baseURL: apiUrl,
@@ -132,9 +129,11 @@ export class HttpClient {
         },
       });
 
+      // --- CHANGED ---
+      // Send an empty body. The cookie is sent automatically.
       const response = await refreshInstance.post(
         `/users/refresh-token`,
-        payload
+        {} // Send empty object
       );
       return response.data?.accessToken ?? response.data ?? null;
     } catch (e) {

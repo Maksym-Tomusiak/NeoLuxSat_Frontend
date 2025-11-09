@@ -5,7 +5,6 @@ import Badge2 from '@/assets/images/trust-badges/trust-badge-2.png';
 import Badge3 from '@/assets/images/trust-badges/trust-badge-3.png';
 import Badge4 from '@/assets/images/trust-badges/trust-badge-4.png';
 import Badge5 from '@/assets/images/trust-badges/trust-badge-5.png';
-import Badge6 from '@/assets/images/trust-badges/trust-badge-6.png';
 
 const TrustBadgesSlider = () => {
   // The content of the original slides
@@ -15,7 +14,6 @@ const TrustBadgesSlider = () => {
     <img src={Badge3} alt="Trust badge 3" />,
     <img src={Badge4} alt="Trust badge 4" />,
     <img src={Badge5} alt="Trust badge 5" />,
-    <img src={Badge6} alt="Trust badge 6" />,
   ];
 
   return (

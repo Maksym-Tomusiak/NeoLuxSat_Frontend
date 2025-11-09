@@ -24,7 +24,7 @@ const unsubscribeFromRepairEvents = (callback: () => void) => {
 const RepairsChartComponent: React.FC = () => {
   return (
     <BaseDataChart
-      title="Графік ремонтнів"
+      title="Графік ремонтів"
       dataKey="repairs"
       tooltipLabel="Ремонти"
       gradientId="colorRepairs"
