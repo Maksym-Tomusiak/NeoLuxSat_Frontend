@@ -43,7 +43,7 @@ const Footer = () => {
             </div>
             <div className="fill-primaryWhite hover:fill-primaryOrange transition-all duration-150 ease-in-out">
               <a
-                href="https://www.facebook.com/profile.php?id=61569885994545"
+                href="https://www.facebook.com/profile.php?id=100066785902681"
                 target="_blank"
               >
                 <FacebookIcon />
@@ -105,8 +105,8 @@ const Footer = () => {
               <EmailIcon />
               <div className="flex flex-col gap-[8px]">
                 <p className="font-normal text-primaryWhite/80">Пошта</p>
-                <a href="mailto:neoluxsat@example.com" className="font-medium">
-                  neoluxsat@example.com
+                <a href="mailto:luxsatnet@gmail.com" className="font-medium">
+                  luxsatnet@gmail.com
                 </a>
               </div>
             </div>

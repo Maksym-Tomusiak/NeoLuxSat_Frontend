@@ -86,7 +86,9 @@ const ContactsSection = () => {
             <EmailIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
-              <p className="font-medium">neoluxsat@example.com</p>
+              <a href="mailto:luxsatnet@gmail.com" className="font-medium">
+                luxsatnet@gmail.com
+              </a>
             </div>
           </div>
           <div className="flex gap-[16px] justify-center fill-primaryOrange">
@@ -111,7 +113,7 @@ const ContactsSection = () => {
             </div>
             <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
               <a
-                href="https://www.facebook.com/profile.php?id=61569885994545"
+                href="https://www.facebook.com/profile.php?id=100066785902681"
                 target="_blank"
               >
                 <FacebookIcon />
@@ -151,7 +153,9 @@ const ContactsSection = () => {
             <EmailIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
-              <p className="font-medium">neoluxsat@example.com</p>
+              <a href="mailto:luxsatnet@gmail.com" className="font-medium">
+                luxsatnet@gmail.com
+              </a>
             </div>
           </div>
         </div>
@@ -177,7 +181,7 @@ const ContactsSection = () => {
           </div>
           <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
             <a
-              href="https://www.facebook.com/profile.php?id=61569885994545"
+              href="https://www.facebook.com/profile.php?id=100066785902681"
               target="_blank"
             >
               <FacebookIcon />

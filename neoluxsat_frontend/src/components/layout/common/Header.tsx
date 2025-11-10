@@ -293,10 +293,10 @@ const Header = () => {
                     <div className="flex flex-col gap-[8px]">
                       <p className="font-normal text-primaryBlue/80">Пошта</p>
                       <a
-                        href="mailto:neoluxsat@example.com"
+                        href="mailto:luxsatnet@gmail.com"
                         className="font-medium"
                       >
-                        neoluxsat@example.com
+                        luxsatnet@gmail.com
                       </a>
                     </div>
                   </div>
@@ -322,7 +322,7 @@ const Header = () => {
                     </div>
                     <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
                       <a
-                        href="https://www.facebook.com/profile.php?id=61569885994545"
+                        href="https://www.facebook.com/profile.php?id=100066785902681"
                         target="_blank"
                       >
                         <FacebookIcon />
