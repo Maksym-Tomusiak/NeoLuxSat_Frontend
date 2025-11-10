@@ -76,11 +76,10 @@ const NetworkProblemCard: React.FC<NetworkProblemCardProps> = ({
 
   return (
     <div
-      // 💡 --- UPDATED: Use styles from map ---
       className={cn(
-        `flex flex-col text-primaryBlue p-[24px] gap-[24px] rounded-[20px] border border-[1.4px] max-w-[1030px] h-fit md:h-fit lg:min-h-[200px]`,
-        styles.cardBg, // e.g., 'bg-iconsRed/10'
-        styles.border // e.g., 'border-iconsRed'
+        `flex flex-col flex-shrink-0 text-primaryBlue p-[24px] gap-[24px] rounded-[20px] border border-[1.4px] max-w-[1030px] lg:min-h-[200px]`,
+        styles.cardBg,
+        styles.border
       )}
     >
       <div className="flex flex-col md:flex-row gap-[16px] justify-between items-start md:items-center">
