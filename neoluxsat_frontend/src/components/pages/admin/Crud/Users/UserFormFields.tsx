@@ -1,15 +1,23 @@
+// src/components/admin/Crud/Users/UserFormFields.tsx
+
 import React from 'react';
 import { useFormContext, type FieldErrors } from 'react-hook-form';
+// 1. Імпортуємо RoleDto та оновлені DTO
 import type { UserCreateDto, UserUpdateDto } from '@/types/user';
+import type { RoleDto } from '@/types/role';
 
-// Type alias for combining DTOs
+// Type alias для поєднання DTOs
 type UserFormType = UserCreateDto | UserUpdateDto;
 
 interface UserFormFieldsProps {
   isReadOnly: boolean;
+  roles: RoleDto[]; // 2. Приймаємо ролі як пропс
 }
 
-const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
+const UserFormFields: React.FC<UserFormFieldsProps> = ({
+  isReadOnly,
+  roles, // 2. Отримуємо ролі
+}) => {
   const {
     register,
     watch,
@@ -18,6 +26,7 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
 
   const rHFerrors = errors as FieldErrors<UserFormType>;
 
+  // @ts-ignore - 'id' існує тільки в UserUpdateDto, але це нормально для watch
   const entityId = watch('id');
   const isEditing = !!entityId;
 
@@ -27,39 +36,35 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
 
   // --- Tailwind Class Definitions ---
 
-  // Base classes (w/o border color, w/o focus/ring)
-  const coreBaseClasses =
+  // Базові класи для <input>
+  const coreInputClasses =
     'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
 
-  // Editable classes with orange focus (includes focus:outline-none)
+  // Базові класи для <select> (трохи відрізняються)
+  const coreSelectClasses =
+    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600 bg-white';
+
+  // Класи фокусу
   const editableFocusClasses =
     'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
 
-  // --- New Dynamic Class Helper ---
-
   /**
-   * Generates classes to handle error state (red border when unfocused)
-   * and prioritize selected state (orange border when focused).
+   * Генерує класи для полів (включаючи <select>)
    */
-  const getFieldClasses = (fieldName: keyof UserFormType) => {
+  const getFieldClasses = (fieldName: keyof UserFormType, isSelect = false) => {
     const hasError = rHFerrors[fieldName];
+    const baseClasses = isSelect ? coreSelectClasses : coreInputClasses;
 
     if (isReadOnly) {
-      // Read-only fields get the default gray border
-      return 'border-gray-300';
+      return `${baseClasses} border-gray-300`;
     }
-
     if (hasError) {
-      // If error: Set unfocused border to red, but keep orange focus handlers.
-      // Orange focus will override the red border when the element is active.
-      return `border-red-500 ${editableFocusClasses}`;
+      return `${baseClasses} border-red-500 ${editableFocusClasses}`;
     }
-
-    // No error: Set unfocused border to gray-300, and apply orange focus handlers.
-    return `border-gray-300 ${editableFocusClasses}`;
+    return `${baseClasses} border-gray-300 ${editableFocusClasses}`;
   };
 
-  // --- Validation Rules (Unchanged) ---
+  // --- Validation Rules ---
   const usernameRules = {
     required: "Ім'я користувача є обовʼязковим",
     minLength: {
@@ -78,14 +83,36 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
 
   const passwordRules = {
     required: isEditing ? false : 'Пароль є обовʼязковим',
-    minLength: {
-      value: 5,
-      message: 'Пароль має бути від 5 до 255 символів',
+    // Дозволяємо порожнє поле при редагуванні, АЛЕ якщо воно заповнене, валідуємо
+    validate: (value: string | null) => {
+      if (isEditing && (!value || value.length === 0)) {
+        return true; // Дозволено (не змінюємо пароль)
+      }
+      // Для створення АБО якщо пароль введено при редагуванні
+      if (!value || value.length < 5)
+        return 'Пароль має бути від 5 до 255 символів';
+      if (value.length > 255) return 'Пароль має бути від 5 до 255 символів';
+      return true;
     },
-    maxLength: {
-      value: 255,
-      message: 'Пароль має бути від 5 до 255 символів',
+  };
+
+  // 3. Нові правила валідації
+  const emailRules = {
+    // Email не є обов'язковим (згідно DTO `string | null`)
+    required: false,
+    // Але якщо він введений, він має бути валідним
+    validate: (value: string | null) => {
+      if (!value || value.length === 0) {
+        return true; // Дозволено
+      }
+      // Проста перевірка email
+      const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+      return emailRegex.test(value) || 'Невірний формат email';
     },
+  };
+
+  const roleRules = {
+    required: 'Роль є обовʼязковою',
   };
   // --- END Validation Rules ---
 
@@ -112,8 +139,7 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
           autoComplete="username"
           {...register('username', usernameRules)}
           disabled={isReadOnly}
-          // ✅ Applied dynamic classes
-          className={`${coreBaseClasses} ${getFieldClasses('username')}`}
+          className={getFieldClasses('username')}
         />
         {err('username')}
       </div>
@@ -133,10 +159,55 @@ const UserFormFields: React.FC<UserFormFieldsProps> = ({ isReadOnly }) => {
           autoComplete="new-password"
           disabled={isReadOnly}
           placeholder={passwordPlaceholder}
-          // ✅ Applied dynamic classes
-          className={`${coreBaseClasses} ${getFieldClasses('password')}`}
+          className={getFieldClasses('password')}
         />
         {err('password')}
+      </div>
+
+      {/* 4. Нове поле Email */}
+      <div>
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Email (необов'язково)
+        </label>
+        <input
+          id="email"
+          type="email"
+          autoComplete="email"
+          {...register('email', emailRules)}
+          disabled={isReadOnly}
+          className={getFieldClasses('email')}
+        />
+        {err('email')}
+      </div>
+
+      {/* 5. Нове поле Role (Select) */}
+      <div>
+        <label
+          htmlFor="roleId"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Роль
+        </label>
+        <select
+          id="roleId"
+          {...register('roleId', roleRules)}
+          disabled={isReadOnly}
+          className={getFieldClasses('roleId', true)}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            -- Оберіть роль --
+          </option>
+          {roles.map((role) => (
+            <option key={role.id} value={role.id}>
+              {role.name}
+            </option>
+          ))}
+        </select>
+        {err('roleId')}
       </div>
     </>
   );

@@ -1,3 +1,5 @@
+// src/components/admin/applications/ApplicationsTable/ApplicationsTableRow.tsx
+
 import React from 'react';
 import { TableCell, TableRow } from '@/components/common/admin/crud-table';
 import type { ApplicationDto } from '@/types/application';
@@ -6,6 +8,7 @@ import EditIcon from '@/assets/svgs/admin/dashboard/edit-icon.svg';
 import DeleteIcon from '@/assets/svgs/admin/dashboard/delete-icon.svg';
 
 const getStatusStyles = (status: string = '') => {
+  // ... (status style function is unchanged)
   const statusLower = status?.toLowerCase();
   switch (statusLower) {
     case 'відкладена':
@@ -23,6 +26,7 @@ const getStatusStyles = (status: string = '') => {
 
 interface Props {
   application: ApplicationDto;
+  role: string | null; // 1. Accept role as a prop
   onDetails: (a: ApplicationDto) => void;
   onEdit: (a: ApplicationDto) => void;
   onDelete: (id: string, fullName: string) => void;
@@ -31,16 +35,22 @@ interface Props {
 
 const ApplicationsTableRow: React.FC<Props> = ({
   application,
+  role, // 2. Destructure role
   onDetails,
   onEdit,
   onDelete,
   formatDate,
 }) => {
+  // 3. Define permissions
+  const canEdit = role !== 'Manager' && role !== 'Master';
+  const canDelete = role !== 'Manager' && role !== 'Master';
+
   return (
     <TableRow
       key={application.id}
       className={'bg-primaryWhite hover:bg-gray-50 border-b! border-gray-200'}
     >
+      {/* ... (other cells are unchanged) ... */}
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs truncate max-width-[300px] truncate">
         {application.fullName}
       </TableCell>
@@ -68,6 +78,7 @@ const ApplicationsTableRow: React.FC<Props> = ({
           {application.address || 'N/A'}
         </div>
       </TableCell>
+      {/* 4. Conditionally render buttons */}
       <TableCell className="text-right py-3 space-x-2 flex justify-end gap-[8px]">
         <button
           onClick={() => onDetails(application)}
@@ -75,18 +86,24 @@ const ApplicationsTableRow: React.FC<Props> = ({
         >
           <DetailsIcon />
         </button>
-        <button
-          onClick={() => onEdit(application)}
-          className="p-0 m-0 cursor-pointer"
-        >
-          <EditIcon />
-        </button>
-        <button
-          onClick={() => onDelete(application.id, application.fullName)}
-          className="p-0 m-0 cursor-pointer"
-        >
-          <DeleteIcon />
-        </button>
+
+        {canEdit && (
+          <button
+            onClick={() => onEdit(application)}
+            className="p-0 m-0 cursor-pointer"
+          >
+            <EditIcon />
+          </button>
+        )}
+
+        {canDelete && (
+          <button
+            onClick={() => onDelete(application.id, application.fullName)}
+            className="p-0 m-0 cursor-pointer"
+          >
+            <DeleteIcon />
+          </button>
+        )}
       </TableCell>
     </TableRow>
   );

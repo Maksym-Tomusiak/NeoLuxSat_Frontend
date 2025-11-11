@@ -1,4 +1,5 @@
 import { useState, Fragment } from 'react';
+import { useNavigate } from 'react-router-dom'; // 1. Імпорт useNavigate
 import {
   Dialog,
   DialogPanel,
@@ -10,19 +11,22 @@ import MenuIcon from '@/assets/svgs/header/menu-icon.svg';
 import CloseIcon from '@/assets/svgs/close-icon.svg';
 import CrudsDropdown from './CrudsDropdown';
 import SiteDropdown from './SiteDropdown';
-import { getCrudsOptions } from './CrudsDropdown'; // Keep this import
+import { getCrudsOptions } from './CrudsDropdown';
 import { getSiteOptions } from './SiteDropdown';
 import { UserService } from '@/services/user.service';
+import { useUser } from '@/contexts/userContext';
 
 const AdminHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { role, logout } = useUser(); // 3. Отримання ролі та функції виходу
+  const navigate = useNavigate(); // 4. Ініціалізація navigate
 
-  // 💡 --- UPDATED ---
-  // 1. Get ALL cruds options
-  const allCrudsOptions = getCrudsOptions();
+  // 5. Отримання опцій на основі ролі
+  // Тепер allCrudsOptions буде різним для Admin, Master, і т.д.
+  const allCrudsOptions = getCrudsOptions(role);
   const siteOptions = getSiteOptions();
 
-  // 2. Create the two lists you requested
+  // 6. Ваша логіка фільтрації (залишається без змін і працює)
   const topLevelLinks = allCrudsOptions.filter(
     (opt) => opt.name === 'Заявки' || opt.name === 'Ремонти'
   );
@@ -30,16 +34,23 @@ const AdminHeader = () => {
   const dropdownOptions = allCrudsOptions.filter(
     (opt) => opt.name !== 'Заявки' && opt.name !== 'Ремонти'
   );
-  // 💡 --- END UPDATE ---
 
   const handleClose = () => {
     setIsOpen(false);
   };
 
+  // 7. Оновлена функція виходу
   const handleLogoutClick = async () => {
-    localStorage.removeItem('token');
-    await UserService.logout();
-    window.location.href = '/login';
+    try {
+      // 7а. Викликаємо API, щоб інвалідувати токен на бекенді
+      await UserService.logout();
+    } catch (error) {
+      console.error('Failed to logout from server:', error);
+    }
+    // 7б. Викликаємо logout з context (чистить localStorage + оновлює стан)
+    logout();
+    // 7в. Перенаправляємо на сторінку входу
+    navigate('/login');
   };
 
   return (
@@ -53,7 +64,7 @@ const AdminHeader = () => {
             </a>
           </div>
 
-          {/* 💡 --- DESKTOP NAVIGATION (UPDATED) --- 💡 */}
+          {/* --- DESKTOP NAVIGATION --- */}
           <div className="hidden min-lg:flex justify-center">
             <ul className="flex font-noto items-center justify-end gap-[16px] text-[15px] font-normal text-primaryBlue md:gap-[24px] md:text-[16px]">
               <li>
@@ -61,7 +72,7 @@ const AdminHeader = () => {
                   Інформаційна панель
                 </a>
               </li>
-              {/* 3. Add new top-level links here */}
+              {/* Рендеримо посилання верхнього рівня */}
               {topLevelLinks.map((link) => (
                 <li key={link.name}>
                   <a href={link.href} className="navigation-link">
@@ -71,7 +82,7 @@ const AdminHeader = () => {
               ))}
               <li>
                 <div className="relative w-fit">
-                  {/* 4. Pass the filtered list to the dropdown */}
+                  {/* Передаємо відфільтровані опції */}
                   <CrudsDropdown options={dropdownOptions} />
                 </div>
               </li>
@@ -84,8 +95,8 @@ const AdminHeader = () => {
                 <div>
                   <button
                     className={`application-button border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold 
-                      bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue`}
-                    onClick={handleLogoutClick}
+            bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue`}
+                    onClick={handleLogoutClick} // Використовуємо оновлену функцію
                   >
                     Вийти
                   </button>
@@ -105,7 +116,7 @@ const AdminHeader = () => {
         </div>
       </div>
 
-      {/* MOBILE MENU MODAL */}
+      {/* --- MOBILE MENU MODAL --- */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-2000" onClose={handleClose}>
           {/* The Sliding Panel (from left) */}
@@ -137,18 +148,22 @@ const AdminHeader = () => {
                   </div>
                 </div>
 
-                {/* 💡 --- MOBILE NAVIGATION (UPDATED) --- 💡 */}
+                {/* --- MOBILE NAVIGATION --- */}
                 <nav className="flex flex-col gap-[40px] px-6 mb-[40px]">
                   <div className="flex flex-col gap-[24px]">
-                    <a href="/admin" className="text-[18px]/[120%] font-medium">
+                    <a
+                      href="/admin"
+                      className="text-[18px]/[120%] font-medium"
+                      onClick={handleClose}
+                    >
                       Інформаційна панель
                     </a>
-                    {/* 5. Add new top-level links here (to match desktop) */}
+                    {/* Рендеримо посилання верхнього рівня */}
                     {topLevelLinks.map((link) => (
                       <a
                         key={link.name}
                         href={link.href}
-                        className="text-[18px]/[120%] font-medium" // style matches Dashboard link
+                        className="text-[18px]/[120%] font-medium"
                         onClick={handleClose}
                       >
                         {link.name}
@@ -162,7 +177,7 @@ const AdminHeader = () => {
                       Редагування
                     </p>
                     <div className="flex flex-col gap-[24px]">
-                      {/* 6. Use the filtered list for the dropdown items */}
+                      {/* Рендеримо опції, що залишилися */}
                       {dropdownOptions.map((opt) => (
                         <a
                           key={opt.name}
@@ -197,8 +212,8 @@ const AdminHeader = () => {
                       <div className="mt-[24px] w-full">
                         <button
                           className={`max-xs:w-full justify-center application-button border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold 
-                            bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue`}
-                          onClick={handleLogoutClick}
+               bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue`}
+                          onClick={handleLogoutClick} // Використовуємо оновлену функцію
                         >
                           Вийти
                         </button>

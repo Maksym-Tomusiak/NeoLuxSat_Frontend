@@ -9,12 +9,14 @@ import TableSearch from '@/components/common/admin/TableSearch';
 import TablePagination from '@/components/common/admin/TablePagination';
 import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
 import useRepairsTableLogic from './useRepairsTableLogic';
+import { useUser } from '@/contexts/userContext';
 
 const RepairsTable: React.FC = () => {
+  const { role } = useUser(); // 2. Get the user's role
   const {
     paginatedData,
-    repairStatuses, // For dropdowns
-    repairPayments, // For dropdowns
+    repairStatuses,
+    repairPayments,
     initialLoading,
     isFetching,
     localSearchTerm,
@@ -23,16 +25,16 @@ const RepairsTable: React.FC = () => {
     pagination,
     handlePageChange,
     handleSearchChange,
-    handleStatusFilterChange, // For filters
-    handlePaymentFilterChange, // For filters
-    handleNavigateToAdd, // Renamed
-    handleNavigateToEdit, // Renamed
-    handleNavigateToDetails, // Renamed
+    handleStatusFilterChange,
+    handlePaymentFilterChange,
+    handleNavigateToAdd,
+    handleNavigateToEdit,
+    handleNavigateToDetails,
     openDeleteModal,
     closeDeleteModal,
     handleDeleteConfirm,
-    handleStatusChange, // For table row
-    handlePaymentChange, // For table row
+    handleStatusChange,
+    handlePaymentChange,
   } = useRepairsTableLogic();
 
   if (initialLoading) {
@@ -55,18 +57,21 @@ const RepairsTable: React.FC = () => {
         </h2>
 
         <div className="flex items-center gap-4 max-md:flex-wrap">
-          <button
-            onClick={handleNavigateToAdd} // Use navigation handler
-            className="flex items-center justify-center 
-            h-10 px-4 border border-primaryOrange border-[2px]
-            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-            bg-primaryOrange rounded-full 
-            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
-          >
-            Додати
-          </button>
+          {/* 3. Conditionally render Add button (Only Master cannot add) */}
+          {role !== 'Master' && (
+            <button
+              onClick={handleNavigateToAdd}
+              className="flex items-center justify-center 
+              h-10 px-4 border border-primaryOrange border-[2px]
+              text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+              bg-primaryOrange rounded-full 
+              hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+            >
+              Додати
+            </button>
+          )}
 
-          {/* --- NEW FILTERS --- */}
+          {/* ... (filters are unchanged) ... */}
           <select
             value={pagination.statusId || ''}
             onChange={handleStatusFilterChange}
@@ -92,7 +97,6 @@ const RepairsTable: React.FC = () => {
               </option>
             ))}
           </select>
-          {/* -------------------- */}
 
           <TableSearch value={localSearchTerm} onChange={handleSearchChange} />
         </div>
@@ -107,6 +111,7 @@ const RepairsTable: React.FC = () => {
                 <RepairsTableRow
                   key={repair.id}
                   repair={repair}
+                  role={role} // 4. Pass role as a prop
                   repairStatuses={repairStatuses}
                   repairPayments={repairPayments}
                   onDetails={handleNavigateToDetails}
@@ -127,6 +132,7 @@ const RepairsTable: React.FC = () => {
         </Table>
       </div>
 
+      {/* ... (rest of the file is unchanged) ... */}
       <div className="flex justify-end px-4">
         <TablePagination
           totalPages={paginatedData.totalPages}
@@ -134,7 +140,6 @@ const RepairsTable: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
-
       {itemToDelete && (
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}

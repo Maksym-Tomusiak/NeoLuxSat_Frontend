@@ -1,3 +1,5 @@
+// src/components/admin/repairs/RepairsTable/RepairsTableRow.tsx
+
 import React, { useState } from 'react';
 import { TableCell, TableRow } from '@/components/common/admin/crud-table';
 import type { RepairDto } from '@/types/repair';
@@ -9,6 +11,7 @@ import type { RepairPaymentDto } from '@/types/repairPayment';
 
 interface Props {
   repair: RepairDto;
+  role: string | null; // 1. Accept role as a prop
   repairStatuses: RepairStatusDto[];
   repairPayments: RepairPaymentDto[];
   onDetails: (r: RepairDto) => void;
@@ -20,6 +23,7 @@ interface Props {
 
 const RepairsTableRow: React.FC<Props> = ({
   repair,
+  role, // 2. Destructure role
   repairStatuses,
   repairPayments,
   onDetails,
@@ -54,6 +58,7 @@ const RepairsTableRow: React.FC<Props> = ({
       key={repair.id}
       className={'bg-primaryWhite hover:bg-gray-50 border-b! border-gray-200'}
     >
+      {/* ... (other cells are unchanged) ... */}
       <TableCell className="px-3 font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue truncate">
         {String(repair.displayId).padStart(5, '0')}
       </TableCell>
@@ -103,25 +108,35 @@ const RepairsTableRow: React.FC<Props> = ({
           ))}
         </select>
       </TableCell>
-      <TableCell className="px-3 font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue truncate flex justify-end gap-[8px]">
-        <button
-          onClick={() => onDetails(repair)}
-          className="p-0 m-0 cursor-pointer text-primaryBlue hover:opacity-75 transition-opacity"
-        >
-          <DetailsIcon />
-        </button>
-        <button
-          onClick={() => onEdit(repair)}
-          className="p-0 m-0 cursor-pointer"
-        >
-          <EditIcon />
-        </button>
-        <button
-          onClick={() => onDelete(repair.id, repair.displayId.toString())}
-          className="p-0 m-0 cursor-pointer"
-        >
-          <DeleteIcon />
-        </button>
+
+      {/* 3. Conditionally render buttons */}
+      <TableCell className="px-3 align-middle">
+        <div className="flex justify-center items-center gap-[8px]">
+          <button
+            onClick={() => onDetails(repair)}
+            className="p-0 m-0 cursor-pointer text-primaryBlue hover:opacity-75 transition-opacity"
+          >
+            <DetailsIcon />
+          </button>
+
+          {role !== 'Master' && (
+            <button
+              onClick={() => onEdit(repair)}
+              className="p-0 m-0 cursor-pointer"
+            >
+              <EditIcon />
+            </button>
+          )}
+
+          {role !== 'Master' && (
+            <button
+              onClick={() => onDelete(repair.id, repair.displayId.toString())}
+              className="p-0 m-0 cursor-pointer"
+            >
+              <DeleteIcon />
+            </button>
+          )}
+        </div>
       </TableCell>
     </TableRow>
   );

@@ -7,6 +7,7 @@ import {
 import PersonIcon from '@/assets/svgs/admin/dashboard/person-icon.svg';
 import ContentIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
 import ActionsIcon from '@/assets/svgs/admin/dashboard/actions-icon.svg';
+import EmailIcon from '@/assets/svgs/admin/dashboard/status-icon.svg';
 
 const UsersTableHeader: React.FC = () => {
   return (
@@ -22,9 +23,17 @@ const UsersTableHeader: React.FC = () => {
         </TableHead>
         <TableHead className="text-primaryBlue">
           <div className="flex gap-[6px] items-center">
-            <ContentIcon />
+            <EmailIcon />
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
               Роль
+            </p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <ContentIcon />
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              Пошта
             </p>
           </div>
         </TableHead>
