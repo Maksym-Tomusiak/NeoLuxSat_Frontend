@@ -1,9 +1,13 @@
+// src/components/admin/Crud/Users/useUsersTableLogic.tsx
+
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import type { PaginationParams } from '@/types/paginationParams';
 import type { PaginatedResult } from '@/types/paginatedResult';
 import type { UserDto, UserCreateDto, UserUpdateDto } from '@/types/user';
 import { UserService } from '@/services/user.service';
+import { RoleService } from '@/services/role.service'; // Припускаємо, що у вас є цей сервіс
 import useDebounce from '@/hooks/useDebounce';
+import type { RoleDto } from '@/types/role';
 
 const initialPagination: PaginationParams = {
   pageNumber: 1,
@@ -21,6 +25,8 @@ const useUsersTableLogic = () => {
     pageSize: 7,
     totalPages: 1,
   });
+
+  const [roles, setRoles] = useState<RoleDto[]>([]); // Стан для списку ролей
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
@@ -46,7 +52,6 @@ const useUsersTableLogic = () => {
       if (!initialLoading) {
         setIsFetching(true);
       }
-
       try {
         const data = await UserService.getAllUsersPaginated(
           currentPagination,
@@ -56,15 +61,30 @@ const useUsersTableLogic = () => {
       } catch (error) {
         console.error('Failed to fetch paginated users:', error);
       } finally {
-        if (initialLoading) setInitialLoading(false);
+        if (initialLoading && roles.length > 0) setInitialLoading(false);
         setIsFetching(false);
       }
     },
-    [initialLoading]
+    [initialLoading, roles.length]
+  );
+
+  const fetchRoles = useCallback(
+    async (signal: AbortSignal) => {
+      try {
+        const data = await RoleService.getAllRoles(signal);
+        setRoles(data.filter((role) => role.name !== 'Admin'));
+      } catch (error) {
+        console.error('Failed to fetch roles:', error);
+      } finally {
+        if (initialLoading && paginatedData.items.length > 0) {
+          setInitialLoading(false);
+        }
+      }
+    },
+    [initialLoading, paginatedData.items.length]
   );
 
   const reloadData = useCallback(() => {
-    // Triggers a fetch via useEffect
     setPagination((prev) => ({ ...prev }));
   }, []);
 
@@ -74,8 +94,21 @@ const useUsersTableLogic = () => {
     return () => controller.abort();
   }, [pagination, fetchUsers]);
 
-  // --- Pagination & Search Handlers ---
+  useEffect(() => {
+    const controller = new AbortController();
+    fetchRoles(controller.signal);
+    // Якщо користувачі завантажилися першими, а ролі ще ні,
+    // initialLoading не вимкнеться, поки не завантажаться ролі.
+    // Якщо ролі вже завантажились (але users ще ні),
+    // fetchUsers вимкне initialLoading.
+    if (paginatedData.totalCount > 0) {
+      setInitialLoading(false);
+    }
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Викликаємо лише один раз при монтуванні
 
+  // --- Handlers ---
   const handlePageChange = useCallback((page: number) => {
     setPagination((prev) => ({ ...prev, pageNumber: page }));
   }, []);
@@ -94,8 +127,6 @@ const useUsersTableLogic = () => {
     setLocalSearchTerm(event.target.value);
     debouncedSearch(event.target.value);
   };
-
-  // --- CRUD/Modal Handlers ---
 
   const handleAdd = () => {
     setEntityToEdit(null);
@@ -133,7 +164,6 @@ const useUsersTableLogic = () => {
 
   const handleDeleteConfirm = useCallback(async () => {
     if (!itemToDelete) return;
-
     try {
       await UserService.deleteUserById(itemToDelete.id);
       reloadData();
@@ -144,7 +174,7 @@ const useUsersTableLogic = () => {
     }
   }, [itemToDelete, reloadData]);
 
-  // --- Modal Configs for EntityFormModal ---
+  // --- Modal Configs ---
 
   const UserServiceProxy = useMemo(
     () => ({
@@ -154,21 +184,43 @@ const useUsersTableLogic = () => {
     []
   );
 
+  // 💡 --- КЛЮЧОВА ЗМІНА ТУТ --- 💡
   const getUserInitialData = useCallback(
     (entity: UserDto | null): UserUpdateDto | UserCreateDto => {
-      return entity
-        ? ({
-            id: entity.id,
-            username: entity.username,
-            password: '', // Don't pre-fill password for security
-          } as UserUpdateDto)
-        : ({ username: '', password: '' } as UserCreateDto);
+      // Для РЕДАГУВАННЯ (використовуємо UserUpdateDto)
+      if (entity) {
+        // 1. Отримуємо назву ролі з DTO (напр., "Admin")
+        const roleName = entity.roles[0];
+
+        // 2. Знаходимо повний об'єкт ролі (з ID) у списку `roles`
+        const matchingRole = roles.find((r) => r.name === roleName);
+
+        // 3. Використовуємо ID, якщо знайшли
+        const roleId = matchingRole ? matchingRole.id : '';
+
+        return {
+          id: entity.id,
+          username: entity.username,
+          password: '', // Завжди порожній для безпеки
+          email: entity.email || '',
+          roleId: roleId, // 4. Встановлюємо ID ролі для форми
+        };
+      }
+
+      // Для СТВОРЕННЯ (використовуємо UserCreateDto)
+      return {
+        username: '',
+        password: '',
+        email: '',
+        roleId: '', // Порожнє, щоб RHF вимагав вибір
+      };
     },
-    []
+    [roles] // 5. 'roles' є залежністю, оскільки ми їх використовуємо для пошуку
   );
 
   return {
     paginatedData,
+    roles, // Повертаємо ролі для UserFormFields
     initialLoading,
     isFetching,
     localSearchTerm,
@@ -188,7 +240,7 @@ const useUsersTableLogic = () => {
     closeDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    getUserInitialData,
+    getUserInitialData, // Повертаємо оновлену функцію
   };
 };
 

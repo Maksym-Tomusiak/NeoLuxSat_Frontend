@@ -1,3 +1,5 @@
+// components/admin/dashboard/LatestApplicationsRow.tsx
+
 import React from 'react';
 import { TableCell, TableRow } from '@/components/common/admin/dashboard-table';
 import OptionsIcon from '@/assets/svgs/admin/dashboard/options-icon.svg';
@@ -10,8 +12,10 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
+import { useUser } from '@/contexts/userContext';
 
 const getStatusStyles = (status: string = '') => {
+  // ... (status style function is unchanged)
   const statusLower = status?.toLowerCase();
   switch (statusLower) {
     case 'відкладена':
@@ -44,11 +48,18 @@ const LatestApplicationsRow: React.FC<Props> = ({
   onDelete,
   formatDate,
 }) => {
+  const { role } = useUser(); // 2. Get the user's role
+
+  // 3. Define permissions
+  const canEdit = role !== 'Manager' && role !== 'Master';
+  const canDelete = role !== 'Manager' && role !== 'Master';
+
   return (
     <TableRow
       key={app.id}
       className="bg-primaryWhite rounded-[10px] h-[60px] transition-shadow duration-200 shadow-none hover:shadow-md border-b-0 hover:bg-muted/50 data-[state=selected]:bg-muted"
     >
+      {/* ... (other cells are unchanged) ... */}
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 rounded-l-[10px] truncate max-w-[130px]">
         {app.fullName}
       </TableCell>
@@ -74,29 +85,33 @@ const LatestApplicationsRow: React.FC<Props> = ({
             </button>
           </PopoverTrigger>
           <PopoverContent
-            className="p-1 flex space-x-1 space-y-1 w-fit" // Adjusted classes for a cleaner, vertical list of icons
-            align="end" // Align the popover to the end (right) of the trigger
-            sideOffset={8} // Space it out a bit from the trigger
+            className="p-1 flex space-x-1 space-y-1 w-fit"
+            align="end"
+            sideOffset={8}
           >
-            {/* Popover content with buttons */}
+            {/* 4. Conditionally render buttons */}
             <button
               className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
               onClick={() => onDetails(app)}
             >
               <DetailsIcon />
             </button>
-            <button
-              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
-              onClick={() => onEdit(app)}
-            >
-              <EditIcon />
-            </button>
-            <button
-              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
-              onClick={() => onDelete(app.id, app.fullName)}
-            >
-              <DeleteIcon />
-            </button>
+            {canEdit && (
+              <button
+                className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
+                onClick={() => onEdit(app)}
+              >
+                <EditIcon />
+              </button>
+            )}
+            {canDelete && (
+              <button
+                className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
+                onClick={() => onDelete(app.id, app.fullName)}
+              >
+                <DeleteIcon />
+              </button>
+            )}
           </PopoverContent>
         </Popover>
       </TableCell>

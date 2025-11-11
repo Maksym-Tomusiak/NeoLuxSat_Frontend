@@ -31,6 +31,9 @@ const UsersTableRow: React.FC<Props> = ({
           {user.roles.join(', ')}
         </div>
       </TableCell>
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs truncate">
+        {user.email || 'N/A'}
+      </TableCell>
       <TableCell className="text-right py-3 space-x-2 flex justify-end gap-[8px]">
         <button
           onClick={() => onDetails(user)}

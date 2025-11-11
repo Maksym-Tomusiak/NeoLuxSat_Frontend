@@ -1,14 +1,7 @@
-import { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode';
-import { UserService } from '@/services/user.service';
-import { Ban } from 'lucide-react'; // <-- ADDED: Lucide icon import
-
-interface JwtPayload {
-  exp: number;
-  role?: string;
-  [key: string]: any;
-}
+import { Ban } from 'lucide-react';
+import { useUser } from '@/contexts/userContext';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -19,68 +12,24 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   children,
   allowedRoles,
 }) => {
+  const { role, isLoading } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
-  const [authorized, setAuthorized] = useState<boolean | null>(null);
 
-  const isTokenExpired = (token: string): boolean => {
-    try {
-      const decoded = jwtDecode<JwtPayload>(token);
-      return decoded.exp * 1000 < Date.now();
-    } catch {
-      return true;
-    }
-  };
-
-  const validateAccess = async () => {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      redirectToLogin();
-      return;
-    }
-
-    // Check if expired
-    if (isTokenExpired(token)) {
-      try {
-        const newToken = await UserService.refreshUserToken();
-        if (!newToken) {
-          redirectToLogin();
-          return;
-        }
-      } catch {
-        redirectToLogin();
-        return;
-      }
-    }
-
-    // Re-check after refresh
-    const finalToken = localStorage.getItem('token');
-    const decoded = jwtDecode<JwtPayload>(finalToken!);
-
-    if (decoded.role && allowedRoles.includes(decoded.role)) {
-      setAuthorized(true);
-    } else {
-      setAuthorized(false);
-    }
-  };
-
-  const redirectToLogin = () => {
-    //localStorage.removeItem('token');
-    const returnUrl = encodeURIComponent(location.pathname);
-    navigate(`/login?returnUrl=${returnUrl}`);
-  };
-
-  useEffect(() => {
-    validateAccess();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.pathname]);
-
-  if (authorized === null) {
-    return null; // optionally show loader
+  // 1. Поки контекст перевіряє токен, нічого не показуємо
+  if (isLoading) {
+    return null; // Або покажіть глобальний <Loader />
   }
 
-  // --- MODIFIED SECTION START ---
-  if (!authorized) {
+  // 2. Якщо завантаження завершено і ролі немає = не ввійшов
+  if (!role) {
+    const returnUrl = encodeURIComponent(location.pathname);
+    navigate(`/login?returnUrl=${returnUrl}`);
+    return null; // Повертаємо null під час перенаправлення
+  }
+
+  // 3. Якщо роль є, але не входить до списку дозволених
+  if (!allowedRoles.includes(role)) {
     return (
       <div className="flex flex-col justify-center items-center min-h-[80vh] gap-[16px]">
         <Ban className="w-[64px] h-[64px] text-iconsRed" />
@@ -101,8 +50,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
       </div>
     );
   }
-  // --- MODIFIED SECTION END ---
 
+  // 4. Якщо все гаразд (завантаження завершено, роль є, роль дозволена)
   return <>{children}</>;
 };
 

@@ -1,3 +1,5 @@
+// src/components/admin/CrudsDropdown.tsx (АБО ДЕ ВІН У ВАС ЗНАХОДИТЬСЯ)
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
@@ -5,43 +7,54 @@ import {
   DropdownMenuItem,
 } from '@/components/ui/dropdown-menu';
 import DropdownIcon from '@/assets/svgs/dropdown-icon.svg';
-import { jwtDecode } from 'jwt-decode';
 
-interface JwtPayload {
-  exp: number;
-  role?: string;
-  [key: string]: any;
-}
+/**
+ * Оновлена функція для генерації опцій CRUD на основі ролі.
+ * @param role - Поточна роль користувача (наприклад, 'Admin', 'HeadManager', 'Manager', 'Master')
+ */
+export const getCrudsOptions = (role: string | null) => {
+  const options = [];
 
-// This function STAYS THE SAME, as AdminHeader uses it
-export const getCrudsOptions = () => {
-  const finalToken = localStorage.getItem('token');
-  const decoded = jwtDecode<JwtPayload>(finalToken!);
+  // Якщо роль не визначена, повертаємо порожній масив
+  if (!role) {
+    return [];
+  }
 
-  const options = [
-    { name: 'Заявки', href: '/admin/applications' },
-    { name: 'Часті питання', href: '/admin/faqs' },
-    { name: 'Відгуки', href: '/admin/feedbacks' },
-    { name: 'Мережеві проблеми', href: '/admin/network' },
-    { name: 'Акції', href: '/admin/propositions' },
-    { name: 'Ремонти', href: '/admin/repairs' },
-  ];
+  // --- Доступ для Admin та HeadManager ---
+  // (Редагування статичного змісту сайту)
+  if (role === 'Admin' || role === 'HeadManager') {
+    options.push(
+      { name: 'Часті питання', href: '/admin/faqs' },
+      { name: 'Відгуки', href: '/admin/feedbacks' },
+      { name: 'Мережеві проблеми', href: '/admin/network' },
+      { name: 'Акції', href: '/admin/propositions' }
+    );
+  }
 
-  if (decoded.role && decoded.role === 'Admin') {
+  if (role === 'Admin' || role === 'HeadManager') {
+    options.push({ name: 'Заявки', href: '/admin/applications' });
+  }
+
+  options.push({ name: 'Ремонти', href: '/admin/repairs' });
+
+  if (role === 'Admin') {
     options.push({ name: 'Користувачі', href: '/admin/users' });
   }
+
+  options.sort((a, b) => a.name.localeCompare(b.name));
+
   return options;
 };
 
-// 💡 --- COMPONENT UPDATED --- 💡
-// It now accepts 'options' as a prop
-const CrudsDropdown = ({
-  options,
-}: {
+// --- Компонент CrudsDropdown ---
+// (Залишається без змін, приймає 'options' як пропс)
+
+interface CrudsDropdownProps {
   options: { name: string; href: string }[];
-}) => {
-  // If there are no options left (e.g., if only 'Заявки' and 'Ремонти' existed),
-  // don't render the dropdown at all.
+}
+
+const CrudsDropdown: React.FC<CrudsDropdownProps> = ({ options }) => {
+  // Не рендеримо дропдаун, якщо немає жодної опції
   if (options.length === 0) {
     return null;
   }
@@ -50,14 +63,13 @@ const CrudsDropdown = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         className="dropdown inline-flex items-center gap-2 font-normal text-[16px]/[120%]
-          focus:outline-none focus:ring-0 whitespace-nowrap navigation-link text-primaryBlue"
+           focus:outline-none focus:ring-0 whitespace-nowrap navigation-link text-primaryBlue"
       >
         Редагування
         <DropdownIcon />
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className="mt-2 w-[200px] rounded-md bg-primaryWhite shadow-lg border border-gray-200 z-1002 max-h-[300px] overflow-y-auto">
-        {/* It now maps over the 'options' prop */}
         {options.map((opt, index) => (
           <DropdownMenuItem
             key={index}

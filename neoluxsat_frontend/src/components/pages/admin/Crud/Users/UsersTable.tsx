@@ -1,3 +1,5 @@
+// src/components/admin/Crud/Users/UsersTable/UsersTable.tsx
+
 import React from 'react';
 import { Table, TableBody } from '@/components/common/admin/crud-table';
 
@@ -8,13 +10,18 @@ import TablePagination from '@/components/common/admin/TablePagination';
 import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
 import EntityFormModal from '@/components/common/admin/EntityFormModal';
 
-import useUsersTableLogic from './useUsersTableLogic';
+// 1. Імпортуємо UserFormFields (який ви надали)
 import UserFormFields from './UserFormFields';
+
+// 2. Імпортуємо оновлений хук
+import useUsersTableLogic from './useUsersTableLogic';
 import type { UserDto, UserCreateDto, UserUpdateDto } from '@/types/user';
 
 const UsersTable: React.FC = () => {
+  // 3. Використовуємо хук
   const {
     paginatedData,
+    roles, // <-- Отримуємо ролі з хука
     initialLoading,
     isFetching,
     localSearchTerm,
@@ -34,8 +41,7 @@ const UsersTable: React.FC = () => {
     closeDeleteModal,
     handleDeleteConfirm,
     reloadData,
-    getUserInitialData,
-    // 🛑 validateUser is no longer destructured
+    getUserInitialData, // <-- Отримуємо функцію з хука
   } = useUsersTableLogic();
 
   if (initialLoading) {
@@ -51,8 +57,7 @@ const UsersTable: React.FC = () => {
     : 'opacity-100 transition-opacity duration-300';
 
   return (
-    <div className="w-full max-w-[1000px] mx-auto bg-primaryWhite rounded-[20px] px-[12px] pt-[24px] pb-[12px] shadow-md">
-      {/* ... (Header, Table, and Pagination unchanged) ... */}
+    <div className="w-full max-w-full mx-auto bg-primaryWhite rounded-[20px] px-[12px] pt-[24px] pb-[12px] shadow-md">
       <div className="flex justify-between items-center max-sm:flex-col gap-[24px] mb-6 pl-[24px] pr-4">
         <h2 className="text-[24px]/[90%] font-semibold font-manrope text-primaryBlue">
           Користувачі
@@ -62,10 +67,10 @@ const UsersTable: React.FC = () => {
           <button
             onClick={handleAdd}
             className="flex items-center justify-center 
-      h-10 px-4 border border-primaryOrange border-[2px]
-      text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-      bg-primaryOrange rounded-full 
-      hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+            h-10 px-4 border border-primaryOrange border-[2px]
+            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+            bg-primaryOrange rounded-full 
+            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
           >
             Додати
           </button>
@@ -90,7 +95,7 @@ const UsersTable: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={3} className="h-24 text-center text-gray-500">
+                <td colSpan={4} className="h-24 text-center text-gray-500">
                   Немає користувачів.
                 </td>
               </tr>
@@ -106,7 +111,8 @@ const UsersTable: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
-      {/* ... (Delete Modal unchanged) ... */}
+
+      {/* Delete Modal */}
       {itemToDelete && (
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
@@ -126,15 +132,11 @@ const UsersTable: React.FC = () => {
           title="користувача"
           service={UserServiceProxy}
           onSuccess={reloadData}
-          getInitialData={getUserInitialData}
-          // 💡 Simplified formFields signature
+          getInitialData={getUserInitialData} // 4. Використовуємо функцію з хука
+          // 5. 💡 Передаємо 'roles' у UserFormFields
           formFields={(isReadOnly) => (
-            <UserFormFields
-              isReadOnly={isReadOnly}
-              // RHF handles edit state via useFormContext
-            />
+            <UserFormFields isReadOnly={isReadOnly} roles={roles} />
           )}
-          // 🛑 validate prop is removed
         />
       )}
     </div>

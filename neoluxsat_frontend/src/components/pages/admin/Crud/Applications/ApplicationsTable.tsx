@@ -9,21 +9,21 @@ import TableSearch from '@/components/common/admin/TableSearch';
 import TablePagination from '@/components/common/admin/TablePagination';
 import DeleteConfirmationModal from '@/components/common/admin/DeleteConfirmationModal';
 import EntityFormModal from '@/components/common/admin/EntityFormModal';
-
-// Keep imports for supporting files (assuming ApplicationFormFields is local)
 import {
   ApplicationFormFields,
   getApplicationInitialData,
 } from './ApplicationFormFields';
 
-import useApplicationsTableLogic from './useApplicationTableLogic'; // New import
+import useApplicationsTableLogic from './useApplicationTableLogic';
 import type {
   ApplicationDto,
   ApplicationCreateDto,
   ApplicationUpdateDto,
 } from '@/types/application';
+import { useUser } from '@/contexts/userContext';
 
 const ApplicationsTable: React.FC = () => {
+  const { role } = useUser(); // 2. Get the user's role
   const {
     paginatedData,
     applicationTypes,
@@ -70,16 +70,19 @@ const ApplicationsTable: React.FC = () => {
         </h2>
 
         <div className="flex items-center gap-4">
-          <button
-            onClick={handleAdd}
-            className="flex items-center justify-center 
-            h-10 px-4 border border-primaryOrange border-[2px]
-            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-            bg-primaryOrange rounded-full 
-            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
-          >
-            Додати
-          </button>
+          {/* 3. Conditionally render Add button (Only Master cannot add) */}
+          {role !== 'Master' && (
+            <button
+              onClick={handleAdd}
+              className="flex items-center justify-center 
+              h-10 px-4 border border-primaryOrange border-[2px]
+              text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+              bg-primaryOrange rounded-full 
+              hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+            >
+              Додати
+            </button>
+          )}
 
           <TableSearch value={localSearchTerm} onChange={handleSearchChange} />
         </div>
@@ -94,6 +97,7 @@ const ApplicationsTable: React.FC = () => {
                 <ApplicationsTableRow
                   key={application.id}
                   application={application}
+                  role={role} // 4. Pass role as a prop
                   onDetails={handleDetails}
                   onEdit={handleEdit}
                   onDelete={openDeleteModal}
@@ -110,7 +114,7 @@ const ApplicationsTable: React.FC = () => {
           </TableBody>
         </Table>
       </div>
-
+      {/* ... (rest of the file is unchanged) ... */}
       <div className="flex justify-end px-4">
         <TablePagination
           totalPages={paginatedData.totalPages}
@@ -118,8 +122,6 @@ const ApplicationsTable: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
-
-      {/* Delete Modal */}
       {itemToDelete && (
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
@@ -128,8 +130,6 @@ const ApplicationsTable: React.FC = () => {
           itemName={`заявку від "${itemToDelete.name}"`}
         />
       )}
-
-      {/* Form/Details Modal */}
       {isFormModalOpen && (
         <EntityFormModal<
           ApplicationDto,
@@ -144,7 +144,6 @@ const ApplicationsTable: React.FC = () => {
           service={ApplicationServiceProxy}
           onSuccess={reloadData}
           getInitialData={getApplicationInitialData}
-          // 💡 New RHF render prop signature
           formFields={(isReadOnly) => (
             <ApplicationFormFields
               isReadOnly={isReadOnly}
@@ -152,7 +151,6 @@ const ApplicationsTable: React.FC = () => {
               applicationStatuses={applicationStatuses}
             />
           )}
-          // 🛑 validate prop removed
         />
       )}
     </div>

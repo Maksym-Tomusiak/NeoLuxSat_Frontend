@@ -1,19 +1,21 @@
 // components/admin/dashboard/LatestRepairsRow.tsx
+
 import React from 'react';
 import { TableCell, TableRow } from '@/components/common/admin/dashboard-table';
 import OptionsIcon from '@/assets/svgs/admin/dashboard/options-icon.svg';
 import DetailsIcon from '@/assets/svgs/admin/dashboard/details-icon.svg';
 import EditIcon from '@/assets/svgs/admin/dashboard/edit-icon.svg';
 import DeleteIcon from '@/assets/svgs/admin/dashboard/delete-icon.svg';
-import type { RepairDto } from '@/types/repair'; // Changed import
+import type { RepairDto } from '@/types/repair';
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
+import { useUser } from '@/contexts/userContext';
 
-// This generic function should work for repairs too
 const getStatusStyles = (status: string = '') => {
+  // ... (status style function is unchanged)
   const statusLower = status?.toLowerCase();
   switch (statusLower) {
     case 'відкладена':
@@ -33,11 +35,11 @@ const getStatusStyles = (status: string = '') => {
 };
 
 interface Props {
-  repair: RepairDto; // Changed from 'app'
+  repair: RepairDto;
   openMenuId: string | null;
   onToggleMenu: (id: string) => void;
-  onDetails: (repair: RepairDto) => void; // Changed from 'app'
-  onEdit: (repair: RepairDto) => void; // Changed from 'app'
+  onDetails: (repair: RepairDto) => void;
+  onEdit: (repair: RepairDto) => void;
   onDelete: (id: string, name: string) => void;
   formatDate: (d: Date | string) => string;
 }
@@ -49,11 +51,18 @@ const LatestRepairsRow: React.FC<Props> = ({
   onDelete,
   formatDate,
 }) => {
+  const { role } = useUser(); // 2. Get the user's role
+
+  // 3. Define permissions
+  const canEdit = role !== 'Master';
+  const canDelete = role !== 'Master';
+
   return (
     <TableRow
       key={repair.id}
       className="bg-primaryWhite rounded-[10px] h-[60px] transition-shadow duration-200 shadow-none hover:shadow-md border-b-0 hover:bg-muted/50 data-[state=selected]:bg-muted"
     >
+      {/* ... (other cells are unchanged) ... */}
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 rounded-l-[10px] truncate max-w-[130px]">
         {String(repair.displayId).padStart(5, '0')}
       </TableCell>
@@ -83,27 +92,31 @@ const LatestRepairsRow: React.FC<Props> = ({
             align="end"
             sideOffset={8}
           >
-            {/* Popover content with buttons */}
+            {/* 4. Conditionally render buttons */}
             <button
               className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
               onClick={() => onDetails(repair)}
             >
               <DetailsIcon />
             </button>
-            <button
-              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
-              onClick={() => onEdit(repair)}
-            >
-              <EditIcon />
-            </button>
-            <button
-              className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
-              onClick={() =>
-                onDelete(repair.id, String(repair.displayId).padStart(5, '0'))
-              }
-            >
-              <DeleteIcon />
-            </button>
+            {canEdit && (
+              <button
+                className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
+                onClick={() => onEdit(repair)}
+              >
+                <EditIcon />
+              </button>
+            )}
+            {canDelete && (
+              <button
+                className="p-1 cursor-pointer hover:bg-gray-100 rounded-md transition-colors flex items-center justify-center"
+                onClick={() =>
+                  onDelete(repair.id, String(repair.displayId).padStart(5, '0'))
+                }
+              >
+                <DeleteIcon />
+              </button>
+            )}
           </PopoverContent>
         </Popover>
       </TableCell>

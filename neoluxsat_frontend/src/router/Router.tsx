@@ -1,5 +1,3 @@
-// src/Router.tsx
-
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import AdminPage from '@/components/pages/admin/AdminPage';
 import HomePage from '@/components/pages/home/HomePage';
@@ -25,11 +23,38 @@ import RepairFormPage from '@/components/pages/admin/Crud/Repairs/RepairFormPage
 import RepairsTable from '@/components/pages/admin/Crud/Repairs/RepairsTable';
 
 const Router = () => {
+  // 💡 Визначимо ролі тут, додавши 'Master'
+  const roles = {
+    admin: 'Admin',
+    headManager: 'HeadManager',
+    manager: 'Manager',
+    master: 'Master', // Додано нову роль
+  };
+
+  // 💡 Оновлені масиви доступу
+  const allAdminAccess = [
+    roles.admin,
+    roles.headManager,
+    roles.manager,
+    roles.master, // Додано
+  ];
+  const staticContentAccess = [roles.admin, roles.headManager]; // Без змін
+  const usersAccess = [roles.admin]; // Без змін
+
+  const applicationsAccess = [roles.admin, roles.headManager];
+  const repairsAccess = [
+    roles.admin,
+    roles.headManager,
+    roles.manager,
+    roles.master, // Додано
+  ];
+
   return (
     <BrowserRouter>
       <Routes>
         {/* Public layout (Header, Content, Footer) */}
         <Route path="/" element={<Layout />}>
+          {/* ... (public routes are unchanged) ... */}
           <Route index element={<HomePage />} />
           <Route path="about" element={<AboutPage />} />
           <Route path="support" element={<SupportPage />} />
@@ -43,7 +68,8 @@ const Router = () => {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+            // Дозволяємо всім 4 ролям доступ до адмін-панелі
+            <ProtectedRoute allowedRoles={allAdminAccess}>
               <AdminLayout />
             </ProtectedRoute>
           }
@@ -51,7 +77,8 @@ const Router = () => {
           <Route
             index
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              // Дозволяємо всім 4 ролям доступ до дашборду
+              <ProtectedRoute allowedRoles={allAdminAccess}>
                 <AdminPage />
               </ProtectedRoute>
             }
@@ -59,7 +86,7 @@ const Router = () => {
           <Route
             path="feedbacks"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={staticContentAccess}>
                 <FeedbacksTable />
               </ProtectedRoute>
             }
@@ -67,7 +94,7 @@ const Router = () => {
           <Route
             path="users"
             element={
-              <ProtectedRoute allowedRoles={['Admin']}>
+              <ProtectedRoute allowedRoles={usersAccess}>
                 <UsersTable />
               </ProtectedRoute>
             }
@@ -75,7 +102,7 @@ const Router = () => {
           <Route
             path="faqs"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={staticContentAccess}>
                 <FaqsTable />
               </ProtectedRoute>
             }
@@ -83,7 +110,8 @@ const Router = () => {
           <Route
             path="applications"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              // Дозволяємо всім 4 ролям доступ до заявок
+              <ProtectedRoute allowedRoles={applicationsAccess}>
                 <ApplicationsTable />
               </ProtectedRoute>
             }
@@ -91,7 +119,7 @@ const Router = () => {
           <Route
             path="network"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={staticContentAccess}>
                 <NetworkProblemsTable />
               </ProtectedRoute>
             }
@@ -99,17 +127,18 @@ const Router = () => {
           <Route
             path="propositions"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={staticContentAccess}>
                 <PropositionsTable />
               </ProtectedRoute>
             }
           />
 
-          {/* --- 2. Add new Repair routes --- */}
+          {/* --- Repair routes (Updated) --- */}
+          {/* Дозволяємо всім 4 ролям доступ до ремонтів */}
           <Route
             path="repairs"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={repairsAccess}>
                 <RepairsTable />
               </ProtectedRoute>
             }
@@ -117,7 +146,7 @@ const Router = () => {
           <Route
             path="repairs/new"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={repairsAccess}>
                 <RepairFormPage />
               </ProtectedRoute>
             }
@@ -125,7 +154,7 @@ const Router = () => {
           <Route
             path="repairs/edit/:id"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={repairsAccess}>
                 <RepairFormPage />
               </ProtectedRoute>
             }
@@ -133,7 +162,7 @@ const Router = () => {
           <Route
             path="repairs/details/:id"
             element={
-              <ProtectedRoute allowedRoles={['Admin', 'Editor']}>
+              <ProtectedRoute allowedRoles={repairsAccess}>
                 <RepairFormPage />
               </ProtectedRoute>
             }

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { UserService } from '@/services/user.service';
+import { useUser } from '@/contexts/userContext';
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
+  const { login } = useUser(); // 2. Отримайте функцію login
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,7 +22,9 @@ const LoginPage = () => {
       const response = await UserService.loginUser({ username, password });
       const { accessToken } = response;
 
-      localStorage.setItem('token', accessToken);
+      // 3. Використовуйте 'login' замість 'localStorage.setItem'
+      // Це збереже токен в localStorage І оновить стан context
+      login(accessToken);
 
       // Redirect to returnUrl or /admin
       const params = new URLSearchParams(location.search);

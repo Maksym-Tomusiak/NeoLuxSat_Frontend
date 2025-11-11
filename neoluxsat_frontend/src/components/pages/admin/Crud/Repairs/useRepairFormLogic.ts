@@ -125,7 +125,7 @@ export const useRepairFormLogic = () => {
           RepairStatusService.getAllRepairStatuses(),
           RepairPaymentService.getAllRepairPayments(),
         ]);
-        setUsers(usersData);
+        setUsers(usersData.filter((u) => !u.roles.includes('Master')));
         setRepairStatuses(statusesData);
         setRepairPayments(paymentsData);
       } catch (error) {
