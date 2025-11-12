@@ -167,6 +167,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
       email: data.email,
       address: data.address,
       phone: data.phone,
+      comment: null,
       typeId: data.typeId,
     };
     try {

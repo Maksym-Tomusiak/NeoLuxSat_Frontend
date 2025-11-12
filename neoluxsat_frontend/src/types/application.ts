@@ -14,6 +14,7 @@ export interface ApplicationDto {
   email: string;
   address: string;
   phone: string;
+  comment: string | null;
   typeId: string;
   statusId: string;
   type: ApplicationTypeDto | null;
@@ -26,6 +27,7 @@ export interface ApplicationCreateDto {
   email: string;
   address: string;
   phone: string;
+  comment: string | null;
   typeId: string;
 }
 
@@ -35,6 +37,7 @@ export interface ApplicationUpdateDto {
   email: string;
   address: string;
   phone: string;
+  comment: string | null;
   typeId: string;
   statusId: string;
 }
