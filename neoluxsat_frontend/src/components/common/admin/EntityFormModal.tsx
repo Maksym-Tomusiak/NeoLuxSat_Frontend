@@ -155,7 +155,7 @@ const EntityFormModal = <
     ? `Деталі ${title}`
     : isEditing
     ? `Редагувати ${title}`
-    : `Додати новий ${title}`;
+    : `Додати ${title}`;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
