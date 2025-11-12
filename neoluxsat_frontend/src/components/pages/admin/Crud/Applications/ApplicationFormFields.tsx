@@ -37,13 +37,10 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
   // Base classes for fields
   const defaultBaseClasses =
     'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
-  // Editable text classes with focus state (Orange)
   const editableTextClasses =
     'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
-  // Editable select classes with focus state (Orange) - only used for the select tag
   const editableSelectClasses =
     'focus:ring-primaryOrange focus:border-primaryOrange';
-  // Read-only select classes
   const readOnlySelectClasses =
     'appearance-none pr-10 bg-gray-100 text-gray-600';
 
@@ -52,23 +49,17 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
     isText: boolean = true
   ) => {
     const hasError = rHFerrors[fieldName];
-
-    if (isReadOnly) {
-      return 'border-gray-300';
-    }
-
+    if (isReadOnly) return 'border-gray-300';
     if (hasError) {
       const focusClasses = isText ? editableTextClasses : editableSelectClasses;
-
       return `border-red-500 ${focusClasses}`;
     }
-
     return `border-gray-300 ${
       isText ? editableTextClasses : editableSelectClasses
     }`;
   };
 
-  // Helper function to render validation errors
+  // Error rendering helper
   const errorText = (k: AllApplicationKeys) =>
     rHFerrors[k as keyof ApplicationFormType] ? (
       <p className="text-xs text-red-600 mt-1">
@@ -76,7 +67,7 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
       </p>
     ) : null;
 
-  // --- Validation Rules (Unchanged) ---
+  // Validation rules
   const validationRules = {
     fullName: {
       required: "Повне ім'я є обовʼязковим",
@@ -113,6 +104,12 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         message: 'Адреса має бути від 3 до 500 символів',
       },
     },
+    comment: {
+      maxLength: {
+        value: 500,
+        message: 'Коментар має бути не більше 500 символів',
+      },
+    },
     typeId: {
       required: 'Оберіть тип заявки',
       validate: (value: string) => value.length > 0 || 'Оберіть тип заявки',
@@ -145,6 +142,7 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         />
         {errorText('fullName')}
       </div>
+
       {/* Email Field */}
       <div>
         <label
@@ -162,6 +160,7 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         />
         {errorText('email')}
       </div>
+
       {/* Address Field */}
       <div>
         <label
@@ -181,6 +180,7 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         />
         {errorText('address')}
       </div>
+
       {/* Phone Field */}
       <div>
         <label
@@ -198,6 +198,27 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         />
         {errorText('phone')}
       </div>
+
+      {/* Comment Field (Optional) */}
+      <div>
+        <label
+          htmlFor="comment"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          Коментар (необов’язково)
+        </label>
+        <textarea
+          id="comment"
+          rows={3}
+          {...register('comment', validationRules.comment)}
+          disabled={isReadOnly}
+          className={`${defaultBaseClasses} resize-none ${getFieldClasses(
+            'comment'
+          )}`}
+        />
+        {errorText('comment')}
+      </div>
+
       {/* Type ID Field (Select) */}
       <div className="relative">
         <label
@@ -225,6 +246,7 @@ export const ApplicationFormFields: React.FC<ApplicationFormFieldsProps> = ({
         </select>
         {errorText('typeId')}
       </div>
+
       {/* Status ID Field (Select) */}
       {isEditing && (
         <div className="relative">
@@ -271,6 +293,7 @@ export const getApplicationInitialData = (
         email: entity.email,
         address: entity.address,
         phone: entity.phone,
+        comment: entity.comment,
         typeId: entity.typeId,
         statusId: entity.statusId,
       } as ApplicationUpdateDto)
@@ -279,6 +302,7 @@ export const getApplicationInitialData = (
         email: '',
         address: '',
         phone: '',
+        comment: '',
         typeId: '',
       } as ApplicationCreateDto);
 };
