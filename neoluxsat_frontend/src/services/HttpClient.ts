@@ -31,6 +31,33 @@ export class HttpClient {
     return this.request<T>({ method: 'GET', url, signal });
   }
 
+  async getBlob(
+    url: string,
+    signal?: AbortSignal
+  ): Promise<AxiosResponse<Blob>> {
+    // This method is special and returns the full AxiosResponse
+    // so we can access headers, and it specifically requests a blob.
+    try {
+      const response: AxiosResponse<Blob> =
+        await this.axiosInstance.request<Blob>({
+          method: 'GET',
+          url,
+          signal,
+          responseType: 'blob', // Request a blob
+        });
+      return response;
+    } catch (error: unknown) {
+      if (axios.isCancel(error)) {
+        console.info('Request was cancelled');
+      } else if (error instanceof AxiosError) {
+        console.error('Request failed with error', error.response?.statusText);
+      } else if (error instanceof Error) {
+        console.error('Unexpected error occurred', error.message);
+      }
+      return Promise.reject(error);
+    }
+  }
+
   async post<T = any>(
     url: string,
     data?: any,

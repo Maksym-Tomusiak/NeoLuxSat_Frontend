@@ -94,6 +94,7 @@ export const useRepairFormLogic = () => {
   const [users, setUsers] = useState<UserDto[]>([]);
   const [repairStatuses, setRepairStatuses] = useState<RepairStatusDto[]>([]);
   const [repairPayments, setRepairPayments] = useState<RepairPaymentDto[]>([]);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const methods = useForm<RepairCreateDto | RepairUpdateDto>({
     defaultValues: getInitialData(null),
@@ -101,6 +102,40 @@ export const useRepairFormLogic = () => {
   });
 
   const { handleSubmit, reset, formState } = methods;
+
+  const handleInvoicePrint = async () => {
+    if (!id) return; // Guard clause
+
+    setIsDownloading(true);
+    try {
+      // 1. Call the service to get the file blob
+      // We don't need the fileName anymore, but the service returns it, which is fine.
+      const { blob } = await RepairService.downloadRepairInvoice(id);
+
+      // 2. Create a temporary URL for the blob
+      const url = window.URL.createObjectURL(blob);
+
+      // 3. Create a temporary link element to open in a new tab
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank'; // <-- This is the key change
+      // We DO NOT set 'a.download', as that would force a download
+
+      document.body.appendChild(a); // Add link to the page
+      a.click(); // Simulate a click
+      a.remove(); // Remove the link
+
+      // Revoke the URL after a short delay.
+      // This gives the new tab time to start loading the PDF
+      // before the URL becomes invalid.
+      setTimeout(() => window.URL.revokeObjectURL(url), 100);
+    } catch (error) {
+      console.error('Error opening invoice:', error);
+      // You could show a toast notification here
+    } finally {
+      setIsDownloading(false);
+    }
+  };
 
   const formatDate = (date: Date | string): string => {
     try {
@@ -193,8 +228,10 @@ export const useRepairFormLogic = () => {
   return {
     methods,
     onSubmit: handleSubmit(onSubmit),
+    handleInvoicePrint,
     isLoading,
     isReadOnly,
+    isDownloading, // <-- RETURN NEW STATE
     isSubmitting: formState.isSubmitting,
     pageTitle,
     users,
