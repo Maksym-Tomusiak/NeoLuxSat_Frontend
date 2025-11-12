@@ -8,6 +8,11 @@ import { TextService } from './textService';
 import type { PaginatedResult } from '@/types/paginatedResult';
 import type { RepairPaginationParams } from '@/types/paginationParams';
 
+export type FileDownload = {
+  blob: Blob;
+  fileName: string;
+};
+
 export class RepairService {
   static async getAllRepairsPaginated(
     pagination: RepairPaginationParams,
@@ -118,5 +123,38 @@ export class RepairService {
       `/payment?repairId=${repairId}&paymentId=${paymentId}`,
       null
     );
+  }
+
+  // --- UPDATED METHOD ---
+  static async downloadRepairInvoice(
+    id: string,
+    signal?: AbortSignal
+  ): Promise<FileDownload> {
+    const apiUrl = import.meta.env.VITE_API_BASE_URL;
+    const httpClient = new HttpClient({
+      baseURL: `${apiUrl}/repairs`,
+      signal,
+      // No responseType here, it's set in getBlob
+    });
+
+    const response = await httpClient.getBlob(`/${id}/invoice`, signal);
+
+    const blob = response.data;
+
+    const contentDisposition = response.headers['content-disposition'];
+    let fileName = 'invoice.pdf'; // Fallback name for PDF
+    if (contentDisposition) {
+      const fileNameMatch = contentDisposition.match(/filename="?(.+?)"?$/);
+      if (fileNameMatch && fileNameMatch[1]) {
+        fileName = fileNameMatch[1];
+      }
+    }
+
+    // 4. Check if the blob is a PDF (as expected)
+    if (blob.type !== 'application/pdf') {
+      console.warn(`Downloaded file is not a PDF, but ${blob.type}`);
+    }
+
+    return { blob, fileName };
   }
 }

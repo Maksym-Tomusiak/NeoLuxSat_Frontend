@@ -9,8 +9,10 @@ const RepairFormPage: React.FC = () => {
   const {
     methods,
     onSubmit,
+    handleInvoicePrint,
     isLoading,
     isReadOnly,
+    isDownloading,
     isSubmitting,
     pageTitle,
     users,
@@ -31,6 +33,22 @@ const RepairFormPage: React.FC = () => {
       <h2 className="text-2xl font-semibold font-manrope text-primaryBlue mb-6">
         {pageTitle}
       </h2>
+
+      {/* This div is now correct because `isDownloading` is defined 
+        and `handleInvoicePrint` does not require any arguments.
+      */}
+      <div className="flex justify-center mb-6">
+        {isReadOnly && (
+          <button
+            type="button"
+            onClick={handleInvoicePrint}
+            disabled={isDownloading} // <-- This will work now
+            className="px-4 py-2 h-10 border border-primaryOrange border-[2px] text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer bg-primaryOrange rounded-full hover:bg-primaryWhite hover:text-primaryBlue transition-colors disabled:bg-gray-400"
+          >
+            {isDownloading ? 'Завантаження...' : 'Друк квитанції на прийом'}
+          </button>
+        )}
+      </div>
 
       <FormProvider {...methods}>
         <form onSubmit={onSubmit} className="flex flex-col gap-6">
