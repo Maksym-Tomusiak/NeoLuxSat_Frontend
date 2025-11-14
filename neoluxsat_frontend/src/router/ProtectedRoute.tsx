@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Ban } from 'lucide-react';
 import { useUser } from '@/contexts/userContext';
@@ -16,20 +16,24 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  // 1. Поки контекст перевіряє токен, нічого не показуємо
-  if (isLoading) {
-    return null; // Або покажіть глобальний <Loader />
-  }
+  useEffect(() => {
+    // We only want to check/redirect *after* loading is finished
+    if (!isLoading) {
+      // If there's no role, *now* we can safely navigate
+      if (!role) {
+        const returnUrl = encodeURIComponent(location.pathname);
+        navigate(`/login?returnUrl=${returnUrl}`);
+      }
+    }
+    // 3. Add all dependencies that the effect uses
+  }, [isLoading, role, navigate, location.pathname]);
 
-  // 2. Якщо завантаження завершено і ролі немає = не ввійшов
-  if (!role) {
-    const returnUrl = encodeURIComponent(location.pathname);
-    navigate(`/login?returnUrl=${returnUrl}`);
-    return null; // Повертаємо null під час перенаправлення
+  if (isLoading) {
+    return null; // Or a loader
   }
 
   // 3. Якщо роль є, але не входить до списку дозволених
-  if (!allowedRoles.includes(role)) {
+  if (!allowedRoles.includes(role!)) {
     return (
       <div className="flex flex-col justify-center items-center min-h-[80vh] gap-[16px]">
         <Ban className="w-[64px] h-[64px] text-iconsRed" />

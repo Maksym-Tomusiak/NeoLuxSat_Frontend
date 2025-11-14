@@ -1,5 +1,4 @@
 import { useState, Fragment } from 'react';
-import { useNavigate } from 'react-router-dom'; // 1. Імпорт useNavigate
 import {
   Dialog,
   DialogPanel,
@@ -18,15 +17,17 @@ import { useUser } from '@/contexts/userContext';
 
 const AdminHeader = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { role, logout } = useUser(); // 3. Отримання ролі та функції виходу
-  const navigate = useNavigate(); // 4. Ініціалізація navigate
+  const { role, logout, isLoading } = useUser();
 
-  // 5. Отримання опцій на основі ролі
-  // Тепер allCrudsOptions буде різним для Admin, Master, і т.д.
-  const allCrudsOptions = getCrudsOptions(role);
-  const siteOptions = getSiteOptions();
+  // Keep this guard here too!
+  if (isLoading || !role) {
+    return null;
+  }
 
-  // 6. Ваша логіка фільтрації (залишається без змін і працює)
+  const allCrudsOptions = role ? getCrudsOptions(role) : [];
+
+  const siteOptions = getSiteOptions() || [];
+
   const topLevelLinks = allCrudsOptions.filter(
     (opt) => opt.name === 'Заявки' || opt.name === 'Ремонти'
   );
@@ -44,13 +45,10 @@ const AdminHeader = () => {
     try {
       // 7а. Викликаємо API, щоб інвалідувати токен на бекенді
       await UserService.logout();
+      logout();
     } catch (error) {
       console.error('Failed to logout from server:', error);
     }
-    // 7б. Викликаємо logout з context (чистить localStorage + оновлює стан)
-    logout();
-    // 7в. Перенаправляємо на сторінку входу
-    navigate('/login');
   };
 
   return (
