@@ -101,7 +101,7 @@ const useNetworkStatusLogic = () => {
       updated: `${lastUpdatedMinutes} хв тому`,
       icon: <SuccessIcon />,
       iconBgColorClass: 'bg-iconsGreen',
-      statusColorClass: 'fill-iconsGreen',
+      statusColorClass: 'text-iconsGreen',
     };
   }, [problems, fetchError, lastUpdatedMinutes]);
 

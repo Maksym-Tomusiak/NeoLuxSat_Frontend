@@ -19,11 +19,11 @@ const getStatusStyles = (status: string = '') => {
   const statusLower = status?.toLowerCase();
   switch (statusLower) {
     case 'відкладена':
-    case 'скасована':
       return 'bg-iconsRed/20 border border-iconsRed/80';
     case 'завершена':
       return 'bg-iconsGreen/20 border border-iconsGreen/80';
     case 'виконується':
+    case 'оформлена':
       return 'bg-iconsBlue/20 border border-iconsBlue/80';
     case 'нова':
     default:

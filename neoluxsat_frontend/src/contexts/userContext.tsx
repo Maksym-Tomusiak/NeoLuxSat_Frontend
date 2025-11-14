@@ -60,8 +60,9 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
       // 3. Декодуємо дійсний токен (старий або новий)
       const finalDecoded = jwtDecode<JwtPayload>(tokenToDecode);
       setRole(finalDecoded.role || null);
-    } catch {
+    } catch (e) {
       // Будь-яка помилка (декодування, оновлення) = вихід
+      console.log(e);
       localStorage.removeItem('token');
       setRole(null);
     } finally {
@@ -88,7 +89,6 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
   const logout = () => {
     localStorage.removeItem('token');
     setRole(null);
-    // Ви можете також додати navigate('/login') тут, якщо потрібно
   };
 
   return (
