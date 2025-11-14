@@ -65,6 +65,44 @@ const HomePage = () => {
 
   return (
     <>
+      <title>NeoLuxSat | Інтернет, ТБ та Системи Безпеки</title>
+      <meta
+        name="description"
+        content="Підключіть надійний оптоволоконний інтернет, інтерактивне телебачення та сучасні системи безпеки від NeoLuxSat. Найкращі рішення для вашого дому та бізнесу."
+      />
+
+      <meta property="og:type" content="website" />
+      <meta
+        property="og:title"
+        content="NeoLuxSat | Інтернет, ТБ та Системи Безпеки"
+      />
+      <meta
+        property="og:description"
+        content="Надійний інтернет, ТБ та системи безпеки. Найкращі рішення для вашого дому та бізнесу."
+      />
+      <meta
+        property="og:url"
+        content="https://www.google.com/url?sa=E&source=gmail&q=https://vash-provider.ua/"
+      />
+      <meta
+        property="og:image"
+        content="https://www.google.com/search?q=https://vash-provider.ua/images/og-home.jpg"
+      />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:title"
+        content="NeoLuxSat | Інтернет, ТБ та Системи Безпеки"
+      />
+      <meta
+        name="twitter:description"
+        content="Надійний інтернет, ТБ та системи безпеки. Найкращі рішення для вашого дому та бізнесу."
+      />
+      <meta
+        name="twitter:image"
+        content="https://www.google.com/search?q=https://vash-provider.ua/images/og-home.jpg"
+      />
+
       <HeroSection />
       <ServicesSection />
       <PropositionsSection />

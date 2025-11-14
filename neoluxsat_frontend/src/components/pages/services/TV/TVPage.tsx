@@ -41,9 +41,52 @@ const TVPage = () => {
   );
 
   return (
-    <ServicesPageTemplate {...pageData}>
-      <ServicesParnerSliderSection sliderKey={'tv'} description={description} />
-    </ServicesPageTemplate>
+    <>
+      <title>Інтерактивне Телебачення (IPTV) | NeoLuxSat</title>
+      <meta
+        name="description"
+        content="Сучасне телебачення з сотнями каналів у високій якості. Доступ до архівів, відеотеки фільмів та можливість перегляду на будь-яких пристроях."
+      />
+
+      <meta property="og:type" content="article" />
+      <meta
+        property="og:title"
+        content="Інтерактивне Телебачення (IPTV) | NeoLuxSat"
+      />
+      <meta
+        property="og:description"
+        content="Сотні каналів у високій якості. Доступ до архівів, відеотеки фільмів та перегляд на будь-яких пристроях."
+      />
+      <meta
+        property="og:url"
+        content="https://www.google.com/search?q=https://vash-provider.ua/services/tv"
+      />
+      <meta
+        property="og:image"
+        content="https://www.google.com/search?q=https://vash-provider.ua/images/og-tv.jpg"
+      />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:title"
+        content="Інтерактивне Телебачення (IPTV) | NeoLuxSat"
+      />
+      <meta
+        name="twitter:description"
+        content="Сотні каналів у високій якості. Доступ до архівів, відеотеки фільмів та перегляд на будь-яких пристроях."
+      />
+      <meta
+        name="twitter:image"
+        content="https://www.google.com/search?q=https://vash-provider.ua/images/og-tv.jpg"
+      />
+
+      <ServicesPageTemplate {...pageData}>
+        <ServicesParnerSliderSection
+          sliderKey={'tv'}
+          description={description}
+        />
+      </ServicesPageTemplate>
+    </>
   );
 };
 
