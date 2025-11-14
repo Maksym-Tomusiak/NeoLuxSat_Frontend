@@ -27,12 +27,52 @@ const SecurityPage = () => {
   );
 
   return (
-    <ServicesPageTemplate {...pageData}>
-      <ServicesParnerSliderSection
-        sliderKey={'security'}
-        description={description}
+    <>
+      <title>Системи Безпеки та Відеонагляд | NeoLuxSat</title>
+      <meta
+        name="description"
+        content="Захистіть свій дім та бізнес. Пропонуємо встановлення сучасних систем безпеки, датчиків Ajax та професійного відеонагляду з доступом 24/7."
       />
-    </ServicesPageTemplate>
+
+      <meta property="og:type" content="article" />
+      <meta
+        property="og:title"
+        content="Системи Безпеки та Відеонагляд | NeoLuxSat"
+      />
+      <meta
+        property="og:description"
+        content="Захистіть свій дім та бізнес. Встановлення систем Ajax та професійного відеонагляду з доступом 24/7."
+      />
+      <meta
+        property="og:url"
+        content="https://www.google.com/search?q=https://vash-provider.ua/services/security"
+      />
+      <meta
+        property="og:image"
+        content="https://www.google.com/search?q=https://vash-provider.ua/images/og-security.jpg"
+      />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta
+        name="twitter:title"
+        content="Системи Безпеки та Відеонагляд | NeoLuxSat"
+      />
+      <meta
+        name="twitter:description"
+        content="Захистіть свій дім та бізнес. Встановлення систем Ajax та професійного відеонагляду з доступом 24/7."
+      />
+      <meta
+        name="twitter:image"
+        content="https://www.google.com/search?q=https://vash-provider.ua/images/og-security.jpg"
+      />
+
+      <ServicesPageTemplate {...pageData}>
+        <ServicesParnerSliderSection
+          sliderKey={'security'}
+          description={description}
+        />
+      </ServicesPageTemplate>
+    </>
   );
 };
 
