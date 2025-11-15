@@ -12,7 +12,6 @@ import type {
 import { ApplicationService } from "@/services/application.service";
 import { ApplicationTypeService } from "@/services/applicationType.service";
 import { ApplicationStatusService } from "@/services/applicationStatus.service";
-import { webSocketService } from "@/services/websocketService";
 import useDebounce from "@/hooks/useDebounce";
 
 const initialPagination: PaginationParams = {
@@ -134,25 +133,43 @@ const useApplicationsTableLogic = () => {
   }, [fetchApplicationTypes, fetchApplicationStatuses]);
 
   useEffect(() => {
-    webSocketService.start();
+    let service: any; // For cleanup
 
+    // This handler must be defined here so cleanup can access the *same* function reference
     const handleDataChange = () => {
-      const controller = new AbortController();
-      fetchApplications(pagination, controller.signal);
+      // Use reloadData to trigger a new fetch
+      reloadData();
     };
 
-    webSocketService.onApplicationCreated(handleDataChange);
-    webSocketService.onApplicationUpdated(handleDataChange);
-    webSocketService.onApplicationDeleted(handleDataChange);
+    const connect = async () => {
+      try {
+        const websocketModule = await import("@/services/websocketService");
+        service = websocketModule.webSocketService;
+
+        await service.start();
+
+        // Set up listeners
+        service.onApplicationCreated(handleDataChange);
+        service.onApplicationUpdated(handleDataChange);
+        service.onApplicationDeleted(handleDataChange);
+      } catch (error) {
+        console.error(
+          "Failed to connect websocket in useApplicationsTableLogic:",
+          error
+        );
+      }
+    };
+
+    connect();
 
     return () => {
-      webSocketService.offApplicationCreated(handleDataChange);
-      webSocketService.offApplicationUpdated(handleDataChange);
-      webSocketService.offApplicationDeleted(handleDataChange);
+      if (service) {
+        service.offApplicationCreated(handleDataChange);
+        service.offApplicationUpdated(handleDataChange);
+        service.offApplicationDeleted(handleDataChange);
+      }
     };
-  }, [fetchApplications]);
-
-  // --- Pagination & Search Handlers ---
+  }, [reloadData]);
 
   const handlePageChange = useCallback((page: number) => {
     setPagination((prev) => ({ ...prev, pageNumber: page }));

@@ -6,7 +6,6 @@ import { ApplicationTypeService } from "@/services/applicationType.service";
 import type { ApplicationTypeDto } from "@/types/application";
 import ApplicationTypeCard from "./ApplicationTypeCard";
 import React from "react";
-import { webSocketService } from "@/services/websocketService";
 
 interface ApplicationsByTypeData {
   [typeTitle: string]: number;
@@ -65,21 +64,43 @@ const ApplicationsByTypeComponent = () => {
   }, [fetchComponentData]); // Залежимо від стабільної функції
 
   useEffect(() => {
-    webSocketService.start();
+    let service: any; // For cleanup
 
+    // This handler must be defined here for stable reference
     const handleAppChange = () => {
       const refetchController = new AbortController();
       fetchComponentData(refetchController.signal, false);
     };
 
-    webSocketService.onApplicationCreated(handleAppChange);
-    webSocketService.onApplicationUpdated(handleAppChange);
-    webSocketService.onApplicationDeleted(handleAppChange);
+    const connect = async () => {
+      try {
+        // DYNAMIC IMPORT: Prevents server crash
+        const websocketModule = await import("@/services/websocketService");
+        service = websocketModule.webSocketService;
 
+        await service.start();
+
+        // Set up listeners
+        service.onApplicationCreated(handleAppChange);
+        service.onApplicationUpdated(handleAppChange);
+        service.onApplicationDeleted(handleAppChange);
+      } catch (error) {
+        console.error(
+          "Failed to connect websocket in ApplicationsByTypeComponent:",
+          error
+        );
+      }
+    };
+
+    connect();
+
+    // Cleanup function
     return () => {
-      webSocketService.offApplicationCreated(handleAppChange);
-      webSocketService.offApplicationUpdated(handleAppChange);
-      webSocketService.offApplicationDeleted(handleAppChange);
+      if (service) {
+        service.offApplicationCreated(handleAppChange);
+        service.offApplicationUpdated(handleAppChange);
+        service.offApplicationDeleted(handleAppChange);
+      }
     };
   }, [fetchComponentData]);
 

@@ -1,6 +1,3 @@
-"use client";
-
-import React from "react";
 import ApplicationsChart from "./Dashboard/Charts/ApplicationsChart";
 import ApplicationsByStatusComponent from "./Dashboard/ApplicationStatus/ApplicationsByStatusComponent";
 import ApplicationsByTypeComponent from "./Dashboard/ApplicationType/ApplicationsByTypeComponent";
@@ -32,4 +29,4 @@ const AdminPage = () => {
   );
 };
 
-export default React.memo(AdminPage);
+export default AdminPage;

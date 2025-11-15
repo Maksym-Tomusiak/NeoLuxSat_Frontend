@@ -1,3 +1,5 @@
+"use client";
+
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { PaginationParams } from "@/types/paginationParams";
 import type { PaginatedResult } from "@/types/paginatedResult";
@@ -8,7 +10,6 @@ import type {
   NetworkProblemServiceDto,
 } from "@/types/networkProblem";
 import { NetworkProblemService } from "@/services/networkProblem.service";
-import { webSocketService } from "@/services/websocketService";
 import useDebounce from "@/hooks/useDebounce";
 
 const initialPagination: PaginationParams = {
@@ -122,28 +123,40 @@ const useNetworkProblemsTableLogic = () => {
   }, [fetchStatusesAndServices]);
 
   useEffect(() => {
-    // Підключаємось до хабу
-    webSocketService.start();
+    let service: any; // For cleanup
 
-    // Створюємо обробник, який просто перезавантажує дані таблиці
     const handleDataChange = () => {
-      // reloadData() - це ваша існуюча функція, яка
-      // викликає refetch поточної сторінки
       reloadData();
     };
 
-    // Підписуємось на події
-    webSocketService.onNetworkProblemCreated(handleDataChange);
-    webSocketService.onNetworkProblemUpdated(handleDataChange);
-    webSocketService.onNetworkProblemDeleted(handleDataChange);
+    const connect = async () => {
+      try {
+        // DYNAMIC IMPORT: Prevents server crash
+        const websocketModule = await import("@/services/websocketService");
+        service = websocketModule.webSocketService;
 
-    // Відписуємось при виході зі сторінки
-    return () => {
-      webSocketService.offNetworkProblemCreated(handleDataChange);
-      webSocketService.offNetworkProblemUpdated(handleDataChange);
-      webSocketService.offNetworkProblemDeleted(handleDataChange);
+        await service.start();
+
+        // Set up listeners
+        service.onNetworkProblemCreated(handleDataChange);
+        service.onNetworkProblemUpdated(handleDataChange);
+        service.onNetworkProblemDeleted(handleDataChange);
+      } catch (error) {
+        console.error("Failed to connect websocket:", error);
+      }
     };
-  }, [reloadData]); // Залежимо від вашої функції reloadData
+
+    connect();
+
+    return () => {
+      if (service) {
+        // Unsubscribe from events
+        service.offNetworkProblemCreated(handleDataChange);
+        service.offNetworkProblemUpdated(handleDataChange);
+        service.offNetworkProblemDeleted(handleDataChange);
+      }
+    };
+  }, [reloadData]);
 
   const handlePageChange = useCallback((page: number) => {
     setPagination((prev) => ({ ...prev, pageNumber: page }));

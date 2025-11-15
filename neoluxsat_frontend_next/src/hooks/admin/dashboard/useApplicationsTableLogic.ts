@@ -1,9 +1,10 @@
-import { useEffect, useMemo, useState, useCallback } from 'react';
-import { ApplicationService } from '@/services/application.service';
-import type { ApplicationDto, ApplicationUpdateDto } from '@/types/application';
-import { ApplicationTypeService } from '@/services/applicationType.service';
-import { ApplicationStatusService } from '@/services/applicationStatus.service';
-import { webSocketService } from '@/services/websocketService';
+"use client";
+
+import { useEffect, useMemo, useState, useCallback } from "react";
+import { ApplicationService } from "@/services/application.service";
+import type { ApplicationDto, ApplicationUpdateDto } from "@/types/application";
+import { ApplicationTypeService } from "@/services/applicationType.service";
+import { ApplicationStatusService } from "@/services/applicationStatus.service";
 
 const useApplicationsTableLogic = () => {
   const [applications, setApplications] = useState<ApplicationDto[]>([]);
@@ -15,7 +16,7 @@ const useApplicationsTableLogic = () => {
   const [entityToEdit, setEntityToEdit] = useState<ApplicationDto | null>(null);
 
   const [initialLoading, setInitialLoading] = useState(true);
-  const [fetchError, setFetchError] = useState<string>('');
+  const [fetchError, setFetchError] = useState<string>("");
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [itemToDelete, setItemToDelete] = useState<{
@@ -35,8 +36,8 @@ const useApplicationsTableLogic = () => {
         await ApplicationService.getLatestApplications(limit);
       setApplications(data);
     } catch (error) {
-      console.error('Failed to fetch latest applications:', error);
-      setFetchError('Не вдалось завантажити дані для цієї таблиці');
+      console.error("Failed to fetch latest applications:", error);
+      setFetchError("Не вдалось завантажити дані для цієї таблиці");
     } finally {
       setLoading(false);
     }
@@ -48,8 +49,8 @@ const useApplicationsTableLogic = () => {
         await ApplicationService.getLatestApplications(limit);
       setApplications(data);
     } catch (error) {
-      console.error('Failed to fetch latest applications:', error);
-      setFetchError('Не вдалось завантажити дані для цієї таблиці');
+      console.error("Failed to fetch latest applications:", error);
+      setFetchError("Не вдалось завантажити дані для цієї таблиці");
     }
   }, []);
 
@@ -58,8 +59,8 @@ const useApplicationsTableLogic = () => {
     ApplicationService.getLatestApplications(4, controller.signal)
       .then(setApplications)
       .catch((error: any) => {
-        console.error('Failed to fetch latest applications:', error);
-        setFetchError('Не вдалось завантажити дані для цієї таблиці');
+        console.error("Failed to fetch latest applications:", error);
+        setFetchError("Не вдалось завантажити дані для цієї таблиці");
       })
       .finally(() => {
         setLoading(false);
@@ -79,34 +80,53 @@ const useApplicationsTableLogic = () => {
   }, []);
 
   useEffect(() => {
-    webSocketService.start();
+    // This variable will hold the service instance for cleanup
+    let service: any;
 
+    // This handler must be defined here so cleanup can access the *same* function reference
     const handleAppChange = () => {
       refetchApplications();
     };
 
-    webSocketService.onApplicationCreated(handleAppChange);
-    webSocketService.onApplicationUpdated(handleAppChange);
-    webSocketService.onApplicationDeleted(handleAppChange);
+    const connect = async () => {
+      try {
+        // Dynamically import the service *inside* the hook
+        const websocketModule = await import("@/services/websocketService");
+        service = websocketModule.webSocketService; // Assign to the outer variable
+
+        await service.start();
+
+        service.onApplicationCreated(handleAppChange);
+        service.onApplicationUpdated(handleAppChange);
+        service.onApplicationDeleted(handleAppChange);
+      } catch (error) {
+        console.error(
+          "Failed to connect websocket in useApplicationsTableLogic:",
+          error
+        );
+      }
+    };
+
+    connect();
 
     return () => {
-      webSocketService.offApplicationCreated(handleAppChange);
-      webSocketService.offApplicationUpdated(handleAppChange);
-      webSocketService.offApplicationDeleted(handleAppChange);
+      if (service) {
+        service.offApplicationCreated(handleAppChange);
+        service.offApplicationUpdated(handleAppChange);
+        service.offApplicationDeleted(handleAppChange);
+      }
     };
-  });
-
-  // --- Utility Functions ---
+  }, [refetchApplications]);
 
   const formatDate = (date: Date | string): string => {
     try {
       const d = new Date(date);
       if (isNaN(d.getTime())) return String(date);
-      return d.toLocaleDateString('uk-UA', {
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        timeZone: 'Europe/Kyiv',
+      return d.toLocaleDateString("uk-UA", {
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        timeZone: "Europe/Kyiv",
       });
     } catch {
       return String(date);
@@ -136,7 +156,7 @@ const useApplicationsTableLogic = () => {
       await ApplicationService.deleteApplicationById(itemToDelete.id);
       fetchApplications();
     } catch (e) {
-      console.error('Failed to delete application', e);
+      console.error("Failed to delete application", e);
     } finally {
       closeDeleteModal();
     }
