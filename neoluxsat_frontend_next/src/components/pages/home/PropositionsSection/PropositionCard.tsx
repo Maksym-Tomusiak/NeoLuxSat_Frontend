@@ -48,9 +48,7 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
 
-  let apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL as string;
-  apiUrl = apiUrl.slice(0, apiUrl.length - 4);
-
+  const imageBaseUrl = process.env.NEXT_PUBLIC_IMAGE_BASE_URL as string;
   const { showNotification } = useModal();
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -109,7 +107,7 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
         <AnimatePresence mode="popLayout">
           <motion.img
             key={data.id}
-            src={apiUrl + data.imageUrl}
+            src={imageBaseUrl + data.imageUrl} // <-- Changed 'apiUrl' to 'imageBaseUrl'
             alt={data.title}
             className="absolute inset-0 w-full h-full object-cover"
             initial={{ opacity: 0 }}
