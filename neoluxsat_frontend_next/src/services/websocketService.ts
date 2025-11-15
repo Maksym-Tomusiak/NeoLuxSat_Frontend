@@ -5,32 +5,47 @@ import type { NetworkProblemDto } from "@/types/networkProblem";
 import type { ApplicationDto } from "@/types/application";
 import type { RepairDto } from "@/types/repair";
 
-// Назви подій, які ми очікуємо від бекенду
+// Names of events we expect from the backend
 const EVENTS = {
   PROBLEM_CREATED: "NetworkProblemCreated",
-  PROBLEM_UPDATED: "NetworkProblemUpdated", // Припускаємо, що ви додасте це
-  PROBLEM_DELETED: "NetworkProblemDeleted", // Припускаємо, що ви додасте це
+  PROBLEM_UPDATED: "NetworkProblemUpdated",
+  PROBLEM_DELETED: "NetworkProblemDeleted",
 };
 
 class WebSocketService {
   private connection: signalR.HubConnection;
   private static instance: WebSocketService;
 
-  // Конструктор робимо приватним для сінглтона
+  // Constructor is private for singleton pattern
   private constructor() {
+    // 1. 🔑 FIX URL CALCULATION: Get the base URL from the public environment variable.
+    // We expect the environment variable to be: https://ostrog.pp.ua/api
     let apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
-    apiUrl = apiUrl.slice(0, apiUrl.length - 4);
-    // Шлях до хабу, який ми вказали у Program.cs
-    const hubUrl = `${apiUrl}/websocketsHub`;
+
+    // We strip off the '/api' part to get the root domain (https://ostrog.pp.ua)
+    // This is much safer than fragile index slicing.
+    let rootUrl = apiUrl.replace(/\/api$/, "");
+
+    // The hub URL is now built on the root domain: https://ostrog.pp.ua/websocketsHub
+    const hubUrl = `${rootUrl}/websocketsHub`;
 
     this.connection = new signalR.HubConnectionBuilder()
-      .withUrl(hubUrl)
-      .withAutomaticReconnect() // Дуже корисна функція
+      .withUrl(hubUrl, {
+        // 2. 🔑 CRITICAL FIX: Force WebSockets as the transport protocol.
+        // This stops the fragile negotiation fallback to SSE/Long Polling.
+        transport: signalR.HttpTransportType.WebSockets,
+
+        // 3. Optional: Add required headers, although Nginx should handle this:
+        headers: {
+          "X-Forwarded-Proto": "https",
+        },
+      })
+      .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
       .build();
   }
 
-  // Метод для отримання єдиного екземпляра сервісу
+  // Method to get the single instance of the service
   public static getInstance(): WebSocketService {
     if (!WebSocketService.instance) {
       WebSocketService.instance = new WebSocketService();
@@ -38,13 +53,14 @@ class WebSocketService {
     return WebSocketService.instance;
   }
 
-  // Запуск з'єднання (якщо воно ще не встановлене)
+  // Launch connection (if not already established)
   public async start() {
     if (this.connection.state === signalR.HubConnectionState.Disconnected) {
       try {
         await this.connection.start();
       } catch (err) {
-        console.error("SignalR Connection Error: ", err);
+        // This will log the final negotiation error in the console
+        console.error("SignalR Connection Start Failure: ", err);
       }
     }
   }
