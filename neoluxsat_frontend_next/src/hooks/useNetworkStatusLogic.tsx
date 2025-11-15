@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { NetworkProblemService } from "@/services/networkProblem.service";
-import { webSocketService } from "@/services/websocketService";
 import type { NetworkProblemDto } from "@/types/networkProblem";
 import type { NetworkStatusData } from "@/components/pages/support/NetworkSection/NetworkStatusCard";
 import SuccessIcon from "@/assets/svgs/network/checkmark-icon.svg?component";
@@ -35,25 +34,43 @@ const useNetworkStatusLogic = () => {
 
   // 4. Ефект для підключення до WebSockets
   useEffect(() => {
-    webSocketService.start();
+    let service: any; // For cleanup
 
-    // Обробник, який просто перезавантажує дані
     const handleDataChange = () => {
       fetchStatus();
     };
 
-    // Підписуємось на всі три події
-    webSocketService.onNetworkProblemCreated(handleDataChange);
-    webSocketService.onNetworkProblemUpdated(handleDataChange);
-    webSocketService.onNetworkProblemDeleted(handleDataChange);
+    const connect = async () => {
+      try {
+        // DYNAMIC IMPORT: Prevents server crash
+        const websocketModule = await import("@/services/websocketService");
+        service = websocketModule.webSocketService;
 
-    // Відписка при виході
-    return () => {
-      webSocketService.offNetworkProblemCreated(handleDataChange);
-      webSocketService.offNetworkProblemUpdated(handleDataChange);
-      webSocketService.offNetworkProblemDeleted(handleDataChange);
+        await service.start();
+
+        // Set up listeners
+        service.onNetworkProblemCreated(handleDataChange);
+        service.onNetworkProblemUpdated(handleDataChange);
+        service.onNetworkProblemDeleted(handleDataChange);
+      } catch (error) {
+        console.error(
+          "Failed to connect websocket in useNetworkStatusLogic:",
+          error
+        );
+      }
     };
-  }, [fetchStatus]); // Залежимо від fetchStatus
+
+    connect();
+
+    return () => {
+      if (service) {
+        // Unsubscribe from events
+        service.offNetworkProblemCreated(handleDataChange);
+        service.offNetworkProblemUpdated(handleDataChange);
+        service.offNetworkProblemDeleted(handleDataChange);
+      }
+    };
+  }, [fetchStatus]);
 
   // 5. Оновлений ефект для таймера "востаннє оновлено"
   useEffect(() => {

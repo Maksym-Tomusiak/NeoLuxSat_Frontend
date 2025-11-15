@@ -1,4 +1,6 @@
-import React, { useEffect, useState } from 'react';
+"use client";
+
+import React, { useEffect, useState } from "react";
 import {
   AreaChart,
   Area,
@@ -7,8 +9,7 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts';
-import { webSocketService } from '@/services/websocketService';
+} from "recharts";
 
 // --- Generic Types ---
 interface ChartDataItem {
@@ -51,7 +52,7 @@ const CustomTooltip = ({ active, payload, tooltipLabel }: any) => {
 
 // --- Date Sorting Helper ---
 const parseDate = (dateStr: string) => {
-  const [day, month] = dateStr.split('.').map(Number);
+  const [day, month] = dateStr.split(".").map(Number);
   const year = new Date().getFullYear();
   return new Date(year, month - 1, day).getTime();
 };
@@ -95,9 +96,9 @@ const BaseDataChart: React.FC<BaseDataChartProps> = ({
         const data = await fetchDataFunction(controller.signal);
         setChartData(transformAndSortData(data));
       } catch (err: any) {
-        if (err.name !== 'AbortError') {
-          console.error('Failed to fetch chart data:', err);
-          setError('Не вдалося завантажити дані для графіку.');
+        if (err.name !== "AbortError") {
+          console.error("Failed to fetch chart data:", err);
+          setError("Не вдалося завантажити дані для графіку.");
         }
       } finally {
         setLoading(false);
@@ -121,14 +122,12 @@ const BaseDataChart: React.FC<BaseDataChartProps> = ({
         const data = await fetchDataFunction(controller.signal);
         setChartData(transformAndSortData(data));
       } catch (err: any) {
-        if (err.name !== 'AbortError') {
-          console.error('Failed to refetch chart data:', err);
-          setError('Не вдалося оновити дані для графіку.');
+        if (err.name !== "AbortError") {
+          console.error("Failed to refetch chart data:", err);
+          setError("Не вдалося оновити дані для графіку.");
         }
       }
     };
-
-    webSocketService.start();
 
     const handleDataChange = () => {
       refetchChartData();
@@ -177,9 +176,9 @@ const BaseDataChart: React.FC<BaseDataChartProps> = ({
             stroke="#1A267C99"
             padding={{ left: 20, right: 0 }}
             tick={{
-              fill: '#616161',
+              fill: "#616161",
               fontSize: 14,
-              fontFamily: 'Noto Sans',
+              fontFamily: "Noto Sans",
               letterSpacing: -0.28,
               dy: 10,
             }}
@@ -189,16 +188,16 @@ const BaseDataChart: React.FC<BaseDataChartProps> = ({
           <YAxis
             stroke="#1A267C99"
             tick={{
-              fill: '#616161',
+              fill: "#616161",
               fontSize: 14,
-              fontFamily: 'Noto Sans',
+              fontFamily: "Noto Sans",
               letterSpacing: -0.28,
               dy: -4,
             }}
             axisLine={false}
             allowDecimals={false}
             tickLine={false}
-            domain={[0, 'auto']}
+            domain={[0, "auto"]}
           />
           <Tooltip content={<CustomTooltip tooltipLabel={tooltipLabel} />} />
           <Area
@@ -232,4 +231,4 @@ const BaseDataChart: React.FC<BaseDataChartProps> = ({
   );
 };
 
-export default React.memo(BaseDataChart);
+export default BaseDataChart;

@@ -72,11 +72,10 @@ const CrudsDropdown: React.FC<CrudsDropdownProps> = ({ options }) => {
         {options.map((opt, index) => (
           <DropdownMenuItem
             key={index}
-            className="hover:text-primaryOrange font-normal text-[16px]/[120%] focus:outline-none text-primaryBlue"
+            className="hover:text-primaryOrange font-normal text-[16px]/[120%] focus:outline-none text-primaryBlue cursor-pointer"
+            asChild
           >
-            <Link href={opt.href} className="block w-full h-full">
-              {opt.name}
-            </Link>
+            <Link href={opt.href}>{opt.name}</Link>
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

@@ -1,6 +1,7 @@
+"use client";
+
 import { useEffect, useState, useCallback } from "react";
 import type { RepairDto } from "@/types/repair";
-import { webSocketService } from "@/services/websocketService";
 import { RepairService } from "@/services/repair.service";
 import { useRouter } from "next/navigation";
 
@@ -59,30 +60,48 @@ const useRepairsTableLogic = () => {
     return () => controller.abort();
   }, []);
 
-  // Example: Fetch related data if needed
-  // useEffect(() => {
-  //   RepairStatusService.getAllRepairStatuss()
-  //     .then(setRepairStatuses)
-  //     .catch(() => {});
-  // }, []);
-
   useEffect(() => {
-    webSocketService.start();
+    // This variable will hold the imported service
+    let service: any;
 
+    // This handler must be defined here so cleanup can access
+    // the *exact same* function reference
     const handleRepairChange = () => {
       refetchRepairs();
     };
 
-    webSocketService.onRepairCreated(handleRepairChange);
-    webSocketService.onRepairUpdated(handleRepairChange);
-    webSocketService.onRepairDeleted(handleRepairChange);
+    const connect = async () => {
+      try {
+        // Dynamically import the service *inside* the hook
+        const websocketModule = await import("@/services/websocketService");
+        service = websocketModule.webSocketService; // Or your specific export
 
-    return () => {
-      webSocketService.offRepairCreated(handleRepairChange);
-      webSocketService.offRepairUpdated(handleRepairChange);
-      webSocketService.offRepairDeleted(handleRepairChange);
+        await service.start();
+
+        service.onRepairCreated(handleRepairChange);
+        service.onRepairUpdated(handleRepairChange);
+        service.onRepairDeleted(handleRepairChange);
+      } catch (error) {
+        console.error(
+          "Failed to connect websocket in useRepairsTableLogic:",
+          error
+        );
+      }
     };
-  });
+
+    connect();
+
+    // Cleanup function
+    return () => {
+      if (service) {
+        // Only run if the import succeeded
+        service.offRepairCreated(handleRepairChange);
+        service.offRepairUpdated(handleRepairChange);
+        service.offRepairDeleted(handleRepairChange);
+        // You might also want to call service.stop() here
+      }
+    };
+  }, [refetchRepairs]);
 
   // --- Utility Functions ---
 

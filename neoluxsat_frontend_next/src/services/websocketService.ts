@@ -1,3 +1,5 @@
+"use client";
+
 import * as signalR from "@microsoft/signalr";
 import type { NetworkProblemDto } from "@/types/networkProblem";
 import type { ApplicationDto } from "@/types/application";

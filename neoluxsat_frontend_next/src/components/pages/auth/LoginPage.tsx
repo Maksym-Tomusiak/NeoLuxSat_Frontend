@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { UserService } from "@/services/user.service";
 import { useUser } from "@/contexts/userContext";
 
@@ -12,7 +12,6 @@ const LoginPage = () => {
   const [error, setError] = useState<string | null>(null);
 
   const router = useRouter();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const { login } = useUser();
 
