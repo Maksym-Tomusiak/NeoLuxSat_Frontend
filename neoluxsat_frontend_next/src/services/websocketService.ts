@@ -33,12 +33,13 @@ class WebSocketService {
       .withUrl(hubUrl, {
         transport: signalR.HttpTransportType.WebSockets,
 
-        // 🔑 FINAL CLIENT FIX: Explicitly set the HTTPS skip negotiation option.
-        // This tells SignalR to stop trying to force insecure HTTP negotiation
-        // behind the secure WSS connection.
+        // 🔑 THE FINAL FIX: Skip the negotiation step entirely
         skipNegotiation: true,
-        // NOTE: This relies on the backend being configured to accept direct connections
-        // (which SignalR Core supports), bypassing the failed Nginx HTTP phase.
+
+        // Optional: Ensure security headers are passed
+        headers: {
+          "X-Forwarded-Proto": "https",
+        },
       })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
