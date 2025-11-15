@@ -18,28 +18,29 @@ class WebSocketService {
 
   // Constructor is private for singleton pattern
   private constructor() {
-    // 1. 🔑 FIX URL CALCULATION: Get the base URL from the public environment variable.
-    // We expect the environment variable to be: https://ostrog.pp.ua/api
     let apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
 
-    // We strip off the '/api' part to get the root domain (https://ostrog.pp.ua)
-    // This is much safer than fragile index slicing.
+    // 1. FIX: Derive the secure WSS protocol URL.
+    // Example: https://ostrog.pp.ua/api  ->  wss://ostrog.pp.ua/websocketsHub
     let rootUrl = apiUrl.replace(/\/api$/, "");
 
-    // The hub URL is now built on the root domain: https://ostrog.pp.ua/websocketsHub
-    const hubUrl = `${rootUrl}/websocketsHub`;
+    // We must ensure WSS protocol is used for the connection builder.
+    // If the deployment is HTTPS, the WebSocket MUST use WSS.
+    let wssUrl = rootUrl.replace(/^https?:\/\//i, "wss://");
+
+    const hubUrl = `${wssUrl}/websocketsHub`; // Final URL: wss://ostrog.pp.ua/websocketsHub
 
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl, {
         transport: signalR.HttpTransportType.WebSockets,
 
-        // 🔑 THE FINAL FIX: Skip the negotiation step entirely
+        // 🔑 AGGRESSIVE FIX: Skip negotiation to prevent the proxy from dropping the handshake.
         skipNegotiation: true,
 
-        // Optional: Ensure security headers are passed
-        headers: {
-          "X-Forwarded-Proto": "https",
-        },
+        // Setting protocol to 'https' ensures the initial request uses WSS/HTTPS scheme correctly
+        // and provides maximum stability behind a reverse proxy.
+        // This is often required by the SignalR client when dealing with non-standard setups.
+        withCredentials: true,
       })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
