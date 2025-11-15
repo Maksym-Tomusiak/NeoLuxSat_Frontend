@@ -1,0 +1,419 @@
+.header-shadow {
+  box-shadow: 0 50px 14px 0 rgba(24, 30, 73, 0),
+    0 32px 13px 0 rgba(24, 30, 73, 0.01), 0 18px 11px 0 rgba(24, 30, 73, 0.05),
+    0 8px 8px 0 rgba(24, 30, 73, 0.09), 0 2px 4px 0 rgba(24, 30, 73, 0.1);
+}
+
+html {
+  overflow-y: scroll;
+  scrollbar-gutter: stable both-edges;
+}
+
+.scroll-lock-html {
+  overflow-y: hidden;
+}
+
+.scroll-lock-body {
+  overflow-y: hidden;
+}
+
+body {
+  overflow-x: hidden; /* Keep this */
+}
+
+body[style*="padding-right"] {
+  padding-right: 0 !important;
+}
+
+.scrollbar-hide {
+  /* For Firefox */
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  /* For Chrome, Safari, and Opera */
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.scrollbar-fade {
+  scrollbar-width: none;
+}
+
+.scrollbar-fade:hover {
+  scrollbar-width: thin;
+}
+
+section {
+  margin: 0 auto 120px auto;
+}
+
+@media screen and (max-width: 768px) {
+  section {
+    margin: 0 auto 80px auto;
+  }
+}
+@media screen and (max-width: 380px) {
+  section {
+    margin: 0 auto 60px auto;
+  }
+}
+
+.hero-section .application-button:hover {
+  color: #fafcf7 !important;
+}
+
+* {
+  scroll-behavior: smooth;
+}
+
+@keyframes scroll-seamless-left {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes scroll-seamless-right {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.continuous-slider-slide-wrapper {
+  margin-right: var(--slide-gap, 16px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.continuous-slider-track {
+  display: flex;
+  width: max-content;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-duration: var(--slider-duration, 20s);
+}
+
+.continuous-slider-track--left {
+  animation-name: scroll-seamless-left;
+}
+
+.continuous-slider-track--right {
+  animation-name: scroll-seamless-right;
+}
+
+.navigation-link {
+  position: relative;
+  padding-bottom: 4px; /* space for the underline */
+}
+
+.navigation-link::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  height: 2px;
+  width: 0;
+  background-color: #e76715;
+  border-radius: 9999px;
+  transition: all 0.3s ease-in-out;
+}
+
+.dropdown.navigation-link {
+  transform: translateY(2px);
+}
+
+.dropdown.navigation-link::after {
+  transform: translateY(-2px);
+}
+
+.navigation-link:hover::after {
+  left: calc(50% - 25px);
+  width: 50px;
+}
+
+.footer-logo-container svg {
+  width: 100%;
+  height: auto;
+}
+
+.cta-icon-container svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.animate-slide-in {
+  animation: slideIn 0.3s ease-out forwards;
+}
+.animate-slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+.areas-map-container svg {
+  margin: 0 auto;
+  max-width: 100%;
+  height: auto;
+}
+
+@media screen and (max-width: 480px) {
+  .why-us-icon-container svg {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.close-notification-button svg {
+  width: 32px !important;
+  height: 32px !important ;
+}
+
+.notification-icon-container svg {
+  width: 40px !important;
+  height: 40px !important ;
+}
+
+@property --progress {
+  syntax: "<percentage>";
+  inherits: false;
+  initial-value: 100%; /* 💡 CHANGED: Initial value */
+}
+
+/*
+  Define the CSS animation keyframes
+*/
+@keyframes progress-fill-counter-clockwise {
+  from {
+    --progress: 100%; /* 💡 CHANGED: Start at 100% (empty) */
+  }
+  to {
+    --progress: 0%; /* 💡 CHANGED: End at 0% (full) */
+  }
+}
+
+.progress-border-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.progress-border-animator {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 3px;
+  /* 💡 CHANGED: This gradient now "empties" the transparent part,
+     which reveals the orange part, appearing as a counter-clockwise fill.
+  */
+  background: conic-gradient(
+    transparent var(--progress, 100%),
+    #ff6b00 var(--progress, 100%)
+  );
+
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  opacity: 0;
+  animation-play-state: running;
+}
+
+.progress-border-container.is-active .progress-border-animator {
+  animation: progress-fill-counter-clockwise 8s linear forwards; /* 💡 Using new animation */
+  opacity: 1;
+  animation-play-state: running;
+}
+
+.progress-border-container.is-active.is-paused .progress-border-animator {
+  animation-play-state: paused;
+}
+
+/* Crossfade animation for absolute positioned elements (images) */
+.crossfade-enter {
+  opacity: 0;
+  z-index: 1;
+}
+
+.crossfade-enter-active {
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.crossfade-exit {
+  opacity: 1;
+  z-index: 0;
+}
+
+.crossfade-exit-active {
+  opacity: 0;
+  z-index: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+.crossfade-enter-done {
+  z-index: 1;
+}
+
+/* Crossfade animation for inline content (text) */
+.crossfade-inline-enter {
+  opacity: 0;
+}
+
+.crossfade-inline-enter-active {
+  opacity: 1;
+  transition: opacity 300ms ease-in-out;
+}
+
+.crossfade-inline-exit {
+  opacity: 1;
+}
+
+.crossfade-inline-exit-active {
+  opacity: 0;
+  transition: opacity 300ms ease-in-out;
+}
+
+/* Custom Pagination Styles */
+.custom-pagination-wrapper {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .custom-pagination-wrapper {
+    display: block;
+    position: absolute;
+    bottom: 16px;
+    z-index: 10;
+    pointer-events: auto;
+    left: 25%;
+    transform: translateX(-50%);
+    overflow: hidden;
+  }
+}
+
+/* For 2 slides - simple track */
+.custom-pagination-track {
+  display: flex;
+  gap: 16px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* For 3+ slides - Swiper container */
+.custom-pagination-swiper {
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.custom-pagination-swiper .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  /* Align to start so first bullet appears at left edge */
+  justify-content: flex-start;
+}
+
+.custom-pagination-swiper .swiper-slide {
+  width: 60px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.custom-pagination-bullet {
+  width: 60px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: #1a267c;
+  opacity: 0.4;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  flex-shrink: 0;
+  transform: scale(1);
+}
+
+.custom-pagination-bullet.active {
+  opacity: 1;
+  background-color: #ff6b00;
+}
+
+.custom-pagination-bullet:hover {
+  opacity: 0.7;
+}
+
+.custom-pagination-bullet:focus {
+  outline: none;
+}
+
+.propositions-pagination {
+  display: none !important;
+}
+
+.leave-application-modal-backdrop {
+  background: linear-gradient(
+    to bottom,
+    rgba(26, 38, 124, 0.1),
+    rgba(26, 38, 124, 0.8)
+  );
+}
+
+.cta-container {
+  background: linear-gradient(
+    180deg,
+    var(--Colors-Primary-1000, #e76715) 0%,
+    var(--Colors-Primary-200, rgba(231, 103, 21, 0.2)) 315.25%
+  );
+}
+
+.blue-gradient-bg {
+  background: linear-gradient(
+    180deg,
+    var(--Colors-Secondary-1000, #1a267c) 0%,
+    #2f45e2 150.78%
+  );
+}
+
+.close-button svg {
+  width: 32px !important;
+  height: 32px !important;
+}
+
+.menu-close-icon-container svg {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.scroll-button svg {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.application-modal-select option {
+  border: none;
+}

@@ -1,0 +1,74 @@
+import HeroSectionTemplate from '@/components/common/sections/HeroSectionTemplate';
+import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
+
+const HeroSection = () => {
+  const leftPart = (
+    <div
+      className="h-full flex flex-col
+    gap-[24px] md:gap-[32px] lg:gap-[40px]
+    max-sm:h-full justify-center md:mb-[130px] max-w-full
+    max-sm:mb-[120px] max-md:mb-[80px]"
+    >
+      <h1
+        className="
+          font-manrope font-semibold tracking-[-1px] md:tracking-[-1.5px] lg:tracking-[-3px]
+          text-primaryWhite
+          text-[40px]/[90%] 2xs:text-[48px]/[90%] md:text-[52px]/[90%] lg:text-[64px]/[90%] xl:text-[88px]/[90%]"
+      >
+        NeoLuxSat - інтегрована платформа для вашого життя та бізнесу.
+      </h1>
+      <p
+        className="
+          font-noto
+          text-[14px]/[120%] xs:text-[16px]/[120%]
+          tracking-[-0.32px]
+          w-full sm:w-[80%] max-w-[475px]
+        "
+      >
+        Ми створюємо єдиний простір, де ви отримуєте надшвидкісний Інтернет,
+        безперебійний доступ до улюбленого контенту та надійні системи безпеки.
+      </p>
+    </div>
+  );
+
+  const rightPart = (
+    <div className="w-fit h-fit hidden md:block">
+      <img
+        src="/images/about-hero-image.png"
+        alt="hero-image"
+        className="
+          max-w-auto
+          max-h-auto sm:max-h-[400px] md:max-h-[400px] lg:max-h-[550px] xl:max-h-[600px]
+          h-auto
+        "
+      />
+    </div>
+  );
+
+  return (
+    <section id="main-content-start">
+      {/* Desktop layout → phone on the right */}
+      <HeroSectionTemplate
+        leftPart={leftPart}
+        rightPart={
+          <div className="w-fit h-fit">{rightPart}</div> // visible only on md+
+        }
+        maskPath="/images/template-2-big-hero-bg.png"
+        layoutClasses="max-sm:min-h-[550px]"
+      >
+        <p
+          className="z-10 absolute
+        bottom-[111px] sm:bottom-[91px] md:bottom-[101px] lg:bottom-[121px] xl:bottom-[131px]
+        left-[50%] translate-x-[-50%] font-noto text-[16px]/[120%] text-primaryWhite/[0.8] tracking-[-0.32px] font-medium"
+        >
+          Наші партнери
+        </p>
+        <div className="absolute z-0 bottom-[8px] md:bottom-[12px] lg:bottom-[20px] left-[50%] translate-x-[-50%] sm:block">
+          <TrustBadgesSlider />
+        </div>
+      </HeroSectionTemplate>
+    </section>
+  );
+};
+
+export default HeroSection;

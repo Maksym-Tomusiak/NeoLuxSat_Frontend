@@ -1,0 +1,103 @@
+import React from "react";
+import {
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/common/admin/crud-table";
+import PersonIcon from "@/assets/svgs/admin/dashboard/person-icon.svg?component";
+import ContentIcon from "@/assets/svgs/admin/dashboard/status-icon.svg?component";
+import ActionsIcon from "@/assets/svgs/admin/dashboard/actions-icon.svg?component";
+import PhoneIcon from "@/assets/svgs/contacts/phone-icon.svg?component";
+import ModelIcon from "@/assets/svgs/admin/dashboard/model-icon.svg?component";
+import TypeIcon from "@/assets/svgs/admin/dashboard/type-icon.svg?component";
+import SumIcon from "@/assets/svgs/admin/dashboard/sum-icon.svg?component";
+
+const HashIcon = () => (
+  <svg
+    width="18"
+    height="18"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    className="fill-primaryBlue/80"
+  >
+    <line x1="4" y1="9" x2="20" y2="9"></line>
+    <line x1="4" y1="15" x2="20" y2="15"></line>
+    <line x1="10" y1="3" x2="8" y2="21"></line>
+    <line x1="16" y1="3" x2="14" y2="21"></line>
+  </svg>
+);
+
+const RepairsTableHeader: React.FC = () => {
+  return (
+    <TableHeader className="mb-4">
+      <TableRow className="border-b-0 hover:bg-transparent">
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <HashIcon />
+            Номер
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <ContentIcon />
+            <p>Статус</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <PersonIcon />
+            <p>Прізвище</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <PersonIcon />
+            <p>Ім'я</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] justify-start items-center fill-primaryBlue/80">
+            <PhoneIcon /> {/* Assuming */}
+            <p>Телефон</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <TypeIcon /> {/* Assuming */}
+            <p>Тип</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <ModelIcon /> {/* Assuming */}
+            <p>Модель</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <SumIcon /> {/* Assuming */}
+            <p>Сума</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80">
+            <ContentIcon />
+            <p>Розрахунок</p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue text-right">
+          <div className="flex gap-[6px] items-center fill-primaryBlue/80 justify-end mr-[8px]">
+            <ActionsIcon />
+            <p>Дії</p>
+          </div>
+        </TableHead>
+      </TableRow>
+    </TableHeader>
+  );
+};
+
+export default RepairsTableHeader;
