@@ -31,14 +31,14 @@ class WebSocketService {
 
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl, {
-        // 2. 🔑 CRITICAL FIX: Force WebSockets as the transport protocol.
-        // This stops the fragile negotiation fallback to SSE/Long Polling.
         transport: signalR.HttpTransportType.WebSockets,
 
-        // 3. Optional: Add required headers, although Nginx should handle this:
-        headers: {
-          "X-Forwarded-Proto": "https",
-        },
+        // 🔑 FINAL CLIENT FIX: Explicitly set the HTTPS skip negotiation option.
+        // This tells SignalR to stop trying to force insecure HTTP negotiation
+        // behind the secure WSS connection.
+        skipNegotiation: true,
+        // NOTE: This relies on the backend being configured to accept direct connections
+        // (which SignalR Core supports), bypassing the failed Nginx HTTP phase.
       })
       .withAutomaticReconnect()
       .configureLogging(signalR.LogLevel.Information)
