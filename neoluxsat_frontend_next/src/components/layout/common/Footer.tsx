@@ -21,10 +21,7 @@ const Footer = () => {
           </p>
           <div className="flex gap-[24px] justify-center">
             <div className="fill-primaryWhite hover:fill-primaryOrange transition-all duration-150 ease-in-out">
-              <Link
-                href="https://t.me/+380957773244  hover:fill-primaryOrange"
-                target="_blank"
-              >
+              <Link href="https://t.me/+380957773244" target="_blank">
                 <TelegramIcon />
               </Link>
             </div>

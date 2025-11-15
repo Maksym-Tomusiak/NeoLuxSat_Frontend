@@ -1,6 +1,7 @@
-import HeroSectionTemplate from '@/components/common/sections/HeroSectionTemplate';
-import LeaveApplicationButton from '@/components/common/LeaveApplicationButton';
-import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
+import HeroSectionTemplate from "@/components/common/sections/HeroSectionTemplate";
+import LeaveApplicationButton from "@/components/common/LeaveApplicationButton";
+import TrustBadgesSlider from "@/components/common/TrustBadgesSlider";
+import Link from "next/link";
 
 const HeroSection = () => {
   const leftPart = (
@@ -26,14 +27,8 @@ const HeroSection = () => {
       </p>
       <div className="flex flex-col sm:flex-row gap-[16px] sm:gap-[20px] lg:gap-[24px]">
         <LeaveApplicationButton isOrange className="max-w-fit" />
-        <a
-          onClick={(e) => {
-            e.preventDefault();
-            const el = document.getElementById('main-content-start');
-            if (el) {
-              el.scrollIntoView({ behavior: 'smooth' });
-            }
-          }}
+        <Link
+          href="#main-content-start" // Use the target element's ID as the href
           className="
     max-h-[40px] max-w-fit
     font-noto text-[16px]/[120%] tracking-[-0.32px]
@@ -42,9 +37,10 @@ const HeroSection = () => {
     flex items-center justify-center
     hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer
   "
+          // Note: No onClick handler is needed here
         >
           Послуги
-        </a>
+        </Link>
       </div>
     </div>
   );

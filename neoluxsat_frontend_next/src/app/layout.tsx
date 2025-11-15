@@ -20,6 +20,16 @@ const noto = Noto_Sans({
 // 2. Your metadata object (without viewport)
 export const metadata: Metadata = {
   title: "NeoLuxSat",
+  icons: [
+    {
+      url: "/icon.svg",
+      media: "(prefers-color-scheme: light)",
+    },
+    {
+      url: "/icon-dark.svg",
+      media: "(prefers-color-scheme: dark)",
+    },
+  ],
 };
 
 // 3. The new, separate viewport export

@@ -60,7 +60,7 @@ const AdminHeader = () => {
       <div className="header-shadow max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto">
         <div className="mx-auto flex w-full max-w-[1380px] justify-between items-center gap-[32px] rounded-[20px] bg-primaryWhite p-[10px] min-h-[60px]">
           <div>
-            <Link href="/">
+            <Link href="/" onClick={handleClose}>
               <Logo />
             </Link>
           </div>

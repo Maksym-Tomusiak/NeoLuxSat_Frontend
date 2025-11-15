@@ -3,7 +3,7 @@ import { Metadata } from "next";
 
 // All your meta tags go here
 export const metadata: Metadata = {
-  title: "Підтримка Клієнтів | Допомога, Статус Мережі | NeoLuxSat",
+  title: "NeoLuxSat | Підтримка Клієнтів | Допомога, Статус Мережі",
   description:
     "Потрібна допомога? Знайдіть корисні матеріали, перевірте статус мережі або зв'яжіться з нашою технічною підтримкою. Ми завжди на зв'язку.",
   openGraph: {

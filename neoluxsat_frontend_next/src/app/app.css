@@ -180,6 +180,11 @@ section {
   height: auto;
 }
 
+.why-us-icon-container svg {
+  width: 86px;
+  height: 86px;
+}
+
 @media screen and (max-width: 480px) {
   .why-us-icon-container svg {
     width: 50px;
