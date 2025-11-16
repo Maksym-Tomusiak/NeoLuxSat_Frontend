@@ -33,13 +33,7 @@ class WebSocketService {
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl, {
         transport: signalR.HttpTransportType.WebSockets,
-
-        // 🔑 AGGRESSIVE FIX: Skip negotiation to prevent the proxy from dropping the handshake.
         skipNegotiation: true,
-
-        // Setting protocol to 'https' ensures the initial request uses WSS/HTTPS scheme correctly
-        // and provides maximum stability behind a reverse proxy.
-        // This is often required by the SignalR client when dealing with non-standard setups.
         withCredentials: true,
       })
       .withAutomaticReconnect()
