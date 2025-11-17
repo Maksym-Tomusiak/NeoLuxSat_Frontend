@@ -24,7 +24,8 @@ const useUsersTableLogic = () => {
     totalPages: 1,
   });
 
-  const [roles, setRoles] = useState<RoleDto[]>([]); // Стан для списку ролей
+  const [roles, setRoles] = useState<RoleDto[]>([]); // Стан для списку ролей (не включає Admin, для вибору)
+  const [allRolesForLookup, setAllRolesForLookup] = useState<RoleDto[]>([]); // Стан для ВСІХ ролей (включаючи Admin, для пошуку ID)
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [isFetching, setIsFetching] = useState(false);
@@ -59,18 +60,20 @@ const useUsersTableLogic = () => {
       } catch (error) {
         console.error("Failed to fetch paginated users:", error);
       } finally {
-        if (initialLoading && roles.length > 0) setInitialLoading(false);
+        if (initialLoading && allRolesForLookup.length > 0)
+          setInitialLoading(false);
         setIsFetching(false);
       }
     },
-    [initialLoading, roles.length]
+    [initialLoading, allRolesForLookup.length]
   );
 
   const fetchRoles = useCallback(
     async (signal: AbortSignal) => {
       try {
         const data = await RoleService.getAllRoles(signal);
-        setRoles(data.filter((role) => role.name !== "Admin"));
+        setAllRolesForLookup(data); // ЗБЕРІГАЄМО ВСІ ролі для пошуку ID Admin
+        setRoles(data.filter((role) => role.name !== "Admin")); // ЗБЕРІГАЄМО ТІЛЬКИ НЕ-ADMIN для вибору у формі
       } catch (error) {
         console.error("Failed to fetch roles:", error);
       } finally {
@@ -182,16 +185,20 @@ const useUsersTableLogic = () => {
     []
   );
 
-  // 💡 --- КЛЮЧОВА ЗМІНА ТУТ --- 💡
+  /**
+   * Повертає початкові дані для форми редагування/створення.
+   * У режимі редагування Admin-користувача, його roleId буде коректно встановлено,
+   * використовуючи allRolesForLookup.
+   */
   const getUserInitialData = useCallback(
     (entity: UserDto | null): UserUpdateDto | UserCreateDto => {
       // Для РЕДАГУВАННЯ (використовуємо UserUpdateDto)
       if (entity) {
-        // 1. Отримуємо назву ролі з DTO (напр., "Admin")
+        // 1. Отримуємо назву ролі з DTO (напр., "Admin" або "User")
         const roleName = entity.roles[0];
 
-        // 2. Знаходимо повний об'єкт ролі (з ID) у списку `roles`
-        const matchingRole = roles.find((r) => r.name === roleName);
+        // 2. Знаходимо повний об'єкт ролі (з ID) у СПИСКУ ВСІХ РОЛЕЙ (allRolesForLookup)
+        const matchingRole = allRolesForLookup.find((r) => r.name === roleName);
 
         // 3. Використовуємо ID, якщо знайшли
         const roleId = matchingRole ? matchingRole.id : "";
@@ -201,7 +208,7 @@ const useUsersTableLogic = () => {
           username: entity.username,
           password: "", // Завжди порожній для безпеки
           email: entity.email || "",
-          roleId: roleId, // 4. Встановлюємо ID ролі для форми
+          roleId: roleId, // 4. Встановлюємо ID ролі (навіть Admin) для форми
         };
       }
 
@@ -213,12 +220,22 @@ const useUsersTableLogic = () => {
         roleId: "", // Порожнє, щоб RHF вимагав вибір
       };
     },
-    [roles] // 5. 'roles' є залежністю, оскільки ми їх використовуємо для пошуку
+    [allRolesForLookup] // 5. 'allRolesForLookup' тепер є залежністю
   );
+
+  // Розраховуємо, чи є користувач, що редагується, Admin'ом
+  const isEditingAdmin = useMemo(() => {
+    return (
+      !!entityToEdit &&
+      entityToEdit.roles.includes("Admin") &&
+      allRolesForLookup.length > 0
+    );
+  }, [entityToEdit, allRolesForLookup.length]);
 
   return {
     paginatedData,
-    roles, // Повертаємо ролі для UserFormFields
+    roles, // Повертаємо ролі (ТІЛЬКИ не-Admin) для UserFormFields Select
+    isEditingAdmin, // <-- НОВИЙ прапорець
     initialLoading,
     isFetching,
     localSearchTerm,

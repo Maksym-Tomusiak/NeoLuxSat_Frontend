@@ -21,7 +21,8 @@ const UsersTable: React.FC = () => {
   // 3. Використовуємо хук
   const {
     paginatedData,
-    roles, // <-- Отримуємо ролі з хука
+    roles, // <-- Отримуємо ролі (не-Admin) з хука
+    isEditingAdmin, // <-- НОВИЙ прапорець
     initialLoading,
     isFetching,
     localSearchTerm,
@@ -67,10 +68,10 @@ const UsersTable: React.FC = () => {
           <button
             onClick={handleAdd}
             className="flex items-center justify-center 
-            h-10 px-4 border border-primaryOrange border-[2px]
-            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
-            bg-primaryOrange rounded-full 
-            hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+      h-10 px-4 border border-primaryOrange border-[2px]
+      text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+      bg-primaryOrange rounded-full 
+      hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
           >
             Додати
           </button>
@@ -133,9 +134,13 @@ const UsersTable: React.FC = () => {
           service={UserServiceProxy}
           onSuccess={reloadData}
           getInitialData={getUserInitialData} // 4. Використовуємо функцію з хука
-          // 5. 💡 Передаємо 'roles' у UserFormFields
+          // 5. 💡 Передаємо 'roles' та 'isEditingAdmin' у UserFormFields
           formFields={(isReadOnly) => (
-            <UserFormFields isReadOnly={isReadOnly} roles={roles} />
+            <UserFormFields
+              isReadOnly={isReadOnly}
+              roles={roles}
+              isEditingAdmin={isEditingAdmin}
+            />
           )}
         />
       )}
