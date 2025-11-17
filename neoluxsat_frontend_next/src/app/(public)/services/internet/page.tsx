@@ -11,18 +11,14 @@ export const metadata: Metadata = {
     description:
       "Підключіть швидкісний оптоволоконний інтернет до 1 Гбіт/с. Стабільне з'єднання та вигідні тарифи.",
     url: "https://ostrog.pp.ua/services/internet", // Corrected URL
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
   twitter: {
     card: "summary_large_image",
     title: "NeoLuxSat | Оптоволоконний Інтернет | NeoLuxSat",
     description:
       "Підключіть швидкісний оптоволоконний інтернет до 1 Гбіт/с. Стабільне з'єднання та вигідні тарифи.",
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
 };
 

@@ -13,9 +13,7 @@ export const metadata: Metadata = {
       "Потрібна допомога? Знайдіть корисні матеріали, перевірте статус мережі або зв'яжіться з нашою технічною підтримкою.",
     // --- 💡 CORRECTED URLS ---
     url: "https://ostrog.pp.ua/support",
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ],
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"],
   },
   twitter: {
     card: "summary_large_image",
@@ -23,9 +21,7 @@ export const metadata: Metadata = {
     description:
       "Потрібна допомога? Знайдіть корисні матеріали, перевірте статус мережі або зв'яжіться з нашою технічною підтримкою.",
     // --- 💡 CORRECTED URL ---
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ],
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"],
   },
 };
 

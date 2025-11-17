@@ -12,18 +12,14 @@ export const metadata: Metadata = {
     description:
       "Дізнайтеся про нашу місію, цінності та команду, що стоїть за NeoLuxSat.",
     url: "https://ostrog.pp.ua/about", // Corrected URL
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
   twitter: {
     card: "summary_large_image",
     title: "NeoLuxSat | Наша Місія та Команда",
     description:
       "Дізнайтеся про нашу місію, цінності та команду, що стоїть за NeoLuxSat.",
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
 };
 

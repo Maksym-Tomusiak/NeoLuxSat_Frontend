@@ -11,18 +11,14 @@ export const metadata: Metadata = {
     description:
       "Керуйте вашим будинком зі смартфона. Автоматизація освітлення, клімату та безпеки вашого житла.",
     url: "https://ostrog.pp.ua/services/iot", // Corrected URL
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
   twitter: {
     card: "summary_large_image",
     title: 'NeoLuxSat | Рішення "Розумний Дім" (IoT)',
     description:
       "Керуйте вашим будинком зі смартфона. Автоматизація освітлення, клімату та безпеки вашого житла.",
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
 };
 
