@@ -5,6 +5,8 @@ import TransportIcon from "@/assets/svgs/services/iot/transport-icon.svg?compone
 import CheckedIcon from "@/assets/svgs/shop/checked-icon.svg?component";
 import IoTSectionCard from "./IoTSectionCard";
 import SectionHeader from "@/components/common/SectionHeader";
+import IoTCardWrapper from "./IoTCardWrapper";
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const cardsContent = [
   {
@@ -94,14 +96,21 @@ const IoTSection = () => {
         className="max-w-full min-[350px]:max-w-[300px] block min-[900px]:hidden mx-auto mb-[40px]"
       />
       <div className="relative flex flex-col min-[784px]:flex-row max-[784px]:items-center justify-center min-[900px]:justify-between w-full min-[900px]:gap-[15%] gap-[24px] min-[900px]:gap-y-[240px] flex-wrap max-w-[1200px] mx-auto">
-        {cardsContent.map((card) => (
-          <IoTSectionCard
-            key={card.title}
-            title={card.title}
-            content={card.content}
-            className={card.className}
-          />
-        ))}
+        {cardsContent.map(
+          (
+            card,
+            index // <-- Use index here
+          ) => (
+            // 💥 WRAP EACH CARD WITH THE NEW COMPONENT 💥
+            <IoTCardWrapper key={card.title} index={index}>
+              <IoTSectionCard
+                title={card.title}
+                content={card.content}
+                className={card.className}
+              />
+            </IoTCardWrapper>
+          )
+        )}
         <img
           src="/images/iot-section-image.png"
           alt="iot-image"

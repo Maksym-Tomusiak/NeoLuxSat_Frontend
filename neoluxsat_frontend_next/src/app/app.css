@@ -422,3 +422,22 @@ section {
 .application-modal-select option {
   border: none;
 }
+
+.leaflet-control-zoom-in,
+.leaflet-control-zoom-out {
+  /* Use Flexbox for perfect centering */
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  /* Optional: Ensure a fixed height/width if needed, though Leaflet usually provides one */
+  /* height: 26px; */
+  /* line-height: 26px; /* A common, simpler fix */
+}
+
+/* Optional: Fix the font-size if the content is still too small or large */
+.leaflet-control-zoom-in span,
+.leaflet-control-zoom-out span {
+  /* This targets the actual '+' or '-' character */
+  font-size: 1.2em; /* Adjust as needed */
+  line-height: 1; /* Helps with vertical alignment */
+}

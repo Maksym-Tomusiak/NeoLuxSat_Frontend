@@ -1,5 +1,8 @@
-import SectionHeader from '../../SectionHeader';
-import OurServicesCard, { type OurServicesCardProps } from './OurServicesCard';
+// Inside OurServicesSectionTemplate.tsx
+
+import SectionHeader from "../../SectionHeader";
+import OurServicesCard, { type OurServicesCardProps } from "./OurServicesCard";
+import ServiceCardWrapper from "./ServicesCardWrapper";
 
 export type OurServicesSectionTemplateProps = {
   cardsData: OurServicesCardProps[];
@@ -10,7 +13,7 @@ const OurServicesSectionTemplate: React.FC<OurServicesSectionTemplateProps> = ({
   cardsData,
   headerDescription,
 }) => {
-  const marginsTop = ['56px', '220px', '0px', '220px'];
+  const marginsTop = ["56px", "220px", "0px", "220px"];
 
   const getMarginTop = (index: number) => {
     return `min-[1440px]:mt-[${marginsTop[index]}]`;
@@ -33,11 +36,13 @@ const OurServicesSectionTemplate: React.FC<OurServicesSectionTemplateProps> = ({
               w-fit flex justify-center items-center
               min-[1440px]:h-fit max-[712px]:min-w-full
               ${getMarginTop(index)}
-              ${/* --- THIS IS THE ADDED LINE --- */ ''}
-              ${item.isTarif ? 'max-[1440px]:order-first' : ''}
+              ${item.isTarif ? "max-[1440px]:order-first" : ""}
             `}
           >
-            <OurServicesCard {...item} />
+            {/* 💥 2. WRAP THE CARD WITH THE ANIMATION COMPONENT 💥 */}
+            <ServiceCardWrapper index={index}>
+              <OurServicesCard {...item} />
+            </ServiceCardWrapper>
           </div>
         ))}
       </div>

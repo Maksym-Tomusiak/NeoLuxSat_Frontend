@@ -6,6 +6,7 @@ import ContactsSection from "@/components/common/sections/ContactsSection/Contac
 import HeroSection from "./HeroSection/HeroSection";
 import MaterialsSection from "./MaterialsSection/MaterialsSection";
 import NetworkSection from "./NetworkSection/NetworkSection";
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const SupportPage = () => {
   const ctaData = {
@@ -31,7 +32,9 @@ const SupportPage = () => {
       <MaterialsSection />
       <NetworkSection />
       <ContactsSection />
-      <CtaSectionTemplate {...ctaData} />
+      <FadeInFromDirection direction="bottom">
+        <CtaSectionTemplate {...ctaData} />
+      </FadeInFromDirection>
     </>
   );
 };

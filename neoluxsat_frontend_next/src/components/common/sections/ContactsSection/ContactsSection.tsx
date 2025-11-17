@@ -13,6 +13,7 @@ import AddressIcon from "@/assets/svgs/contacts/address-icon.svg?component";
 import PhoneIcon from "@/assets/svgs/contacts/phone-icon.svg?component";
 import EmailIcon from "@/assets/svgs/contacts/email-icon.svg?component";
 import Link from "next/link";
+import FadeInFromDirection from "../../animations/FadeInFromDirection";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -217,32 +218,34 @@ const ContactsSection = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-[300px] sm:h-[400px] md:h-[500px]">
-        {markerIcon && (
-          <MapContainer
-            center={position}
-            zoom={15}
-            className="w-full h-full rounded-[20px] overflow-hidden"
-            scrollWheelZoom={false}
-          >
-            <MaptilerStyledTileLayer styleId={"dataviz"} />
+      <FadeInFromDirection direction="fade" duration={1}>
+        <div className="w-full h-[300px] sm:h-[400px] md:h-[500px]">
+          {markerIcon && (
+            <MapContainer
+              center={position}
+              zoom={15}
+              className="w-full h-full rounded-[20px] overflow-hidden"
+              scrollWheelZoom={false}
+            >
+              <MaptilerStyledTileLayer styleId={"dataviz"} />
 
-            <Marker position={position} icon={markerIcon}>
-              <Popup>
-                <div className="flex flex-col items-center font-noto gap-2">
-                  <span>Наш магазин</span>
-                  <button
-                    onClick={handleGetDirections}
-                    className="px-3 py-3 bg-blue-600 text-primaryWhite rounded-md font-noto text-[14px]/[120%] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  >
-                    Прокласти маршрут
-                  </button>
-                </div>
-              </Popup>
-            </Marker>
-          </MapContainer>
-        )}
-      </div>
+              <Marker position={position} icon={markerIcon}>
+                <Popup>
+                  <div className="flex flex-col items-center font-noto gap-2">
+                    <span>Наш магазин</span>
+                    <button
+                      onClick={handleGetDirections}
+                      className="px-3 py-3 bg-blue-600 text-primaryWhite rounded-md font-noto text-[14px]/[120%] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      Прокласти маршрут
+                    </button>
+                  </div>
+                </Popup>
+              </Marker>
+            </MapContainer>
+          )}
+        </div>
+      </FadeInFromDirection>
     </section>
   );
 };

@@ -1,20 +1,22 @@
+import AnimatedCounter from "@/components/common/animations/AnimatedCounter";
+
 const StatsSection = () => {
   const statsData = [
     {
       number: 2100,
-      title: 'Задоволених клієнтів',
+      title: "Задоволених клієнтів",
     },
     {
       number: 1800,
-      title: 'Підключених роутерів та точок доступу',
+      title: "Підключених роутерів та точок доступу",
     },
     {
       number: 950,
-      title: 'Встановлених камер відеоспостереження',
+      title: "Встановлених камер відеоспостереження",
     },
     {
       number: 600,
-      title: 'Налаштованих охоронних систем',
+      title: "Налаштованих охоронних систем",
     },
   ];
 
@@ -29,9 +31,10 @@ const StatsSection = () => {
               w-[180px] sm:w-[200px]
             "
           >
-            <p className="font-manrope font-semibold text-primaryOrange text-[24px]/[90%] md:text-[48px]/[90%] tracking-[-0.96px]">
-              {stat.number}+
-            </p>
+            <AnimatedCounter
+              to={stat.number}
+              className="font-manrope font-semibold text-primaryOrange text-[24px]/[90%] md:text-[48px]/[90%] tracking-[-0.96px]"
+            />
             <p className="font-noto text-primaryBlue text-[16px]/[120%] tracking-[-0.32px]">
               {stat.title}
             </p>
