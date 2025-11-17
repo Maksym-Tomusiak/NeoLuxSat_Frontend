@@ -8,9 +8,7 @@ export const metadata: Metadata = {
     title: "NeoLuxSat | Інтернет, ТБ та Системи Безпеки",
     description: "Надійний інтернет, ТБ та системи безпеки.",
     url: "https://ostrog.pp.ua/", // Use your real URL
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Use your real URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Use your real URL
   },
 };
 

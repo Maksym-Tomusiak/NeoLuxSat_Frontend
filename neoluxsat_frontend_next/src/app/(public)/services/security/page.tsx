@@ -11,18 +11,14 @@ export const metadata: Metadata = {
     description:
       "Захистіть свій дім та бізнес. Встановлення систем Ajax та професійного відеонагляду з доступом 24/7.",
     url: "https://ostrog.pp.ua/services/security", // Corrected URL
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
   twitter: {
     card: "summary_large_image",
     title: "NeoLuxSat | Системи Безпеки та Відеонагляд",
     description:
       "Захистіть свій дім та бізнес. Встановлення систем Ajax та професійного відеонагляду з доступом 24/7.",
-    images: [
-      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
-    ], // Corrected URL
+    images: ["https://ostrog.pp.ua/images/neoluxsat.png"], // Corrected URL
   },
 };
 
