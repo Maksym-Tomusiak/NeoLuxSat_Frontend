@@ -1,9 +1,19 @@
+"use client";
+
 import HeroSectionTemplate from "@/components/common/sections/HeroSectionTemplate";
 import LeaveApplicationButton from "@/components/common/LeaveApplicationButton";
 import TrustBadgesSlider from "@/components/common/TrustBadgesSlider";
 import Link from "next/link";
+import { MouseEvent } from "react";
 
 const HeroSection = () => {
+  const scrollToSection = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    document.getElementById("main-content-start")?.scrollIntoView({
+      behavior: "smooth", // Smooth scroll animation
+    });
+  };
+
   const leftPart = (
     <div className="flex flex-col gap-[12px] xs:gap-[24px] sm:gap-[32px] lg:gap-[40px] max-md:h-full max-md:justify-center">
       <h1
@@ -28,7 +38,7 @@ const HeroSection = () => {
       <div className="flex flex-col sm:flex-row gap-[16px] sm:gap-[20px] lg:gap-[24px]">
         <LeaveApplicationButton isOrange className="max-w-fit" />
         <Link
-          href="#main-content-start" // Use the target element's ID as the href
+          href="/"
           className="
     max-h-[40px] max-w-fit
     font-noto text-[16px]/[120%] tracking-[-0.32px]
@@ -37,7 +47,7 @@ const HeroSection = () => {
     flex items-center justify-center
     hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer
   "
-          // Note: No onClick handler is needed here
+          onClick={scrollToSection}
         >
           Послуги
         </Link>
