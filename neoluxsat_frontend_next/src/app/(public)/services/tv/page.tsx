@@ -10,15 +10,19 @@ export const metadata: Metadata = {
     title: "NeoLuxSat | Інтерактивне Телебачення (IPTV)",
     description:
       "Сотні каналів у високій якості. Доступ до архівів, відеотеки фільмів та перегляд на будь-яких пристроях.",
-    url: "https://vash-provider.ua/services/tv", // Corrected URL
-    images: ["https://vash-provider.ua/images/og-tv.jpg"], // Corrected URL
+    url: "https://ostrog.pp.ua/services/tv", // Corrected URL
+    images: [
+      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
+    ], // Corrected URL
   },
   twitter: {
     card: "summary_large_image",
     title: "NeoLuxSat | Інтерактивне Телебачення (IPTV)",
     description:
       "Сотні каналів у високій якості. Доступ до архівів, відеотеки фільмів та перегляд на будь-яких пристроях.",
-    images: ["https://vash-provider.ua/images/og-tv.jpg"], // Corrected URL
+    images: [
+      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
+    ], // Corrected URL
   },
 };
 
