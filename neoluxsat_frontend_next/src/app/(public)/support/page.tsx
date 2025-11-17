@@ -12,8 +12,10 @@ export const metadata: Metadata = {
     description:
       "Потрібна допомога? Знайдіть корисні матеріали, перевірте статус мережі або зв'яжіться з нашою технічною підтримкою.",
     // --- 💡 CORRECTED URLS ---
-    url: "https://vash-provider.ua/support",
-    images: ["https://vash-provider.ua/images/og-support.jpg"],
+    url: "https://ostrog.pp.ua/support",
+    images: [
+      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -21,7 +23,9 @@ export const metadata: Metadata = {
     description:
       "Потрібна допомога? Знайдіть корисні матеріали, перевірте статус мережі або зв'яжіться з нашою технічною підтримкою.",
     // --- 💡 CORRECTED URL ---
-    images: ["https://vash-provider.ua/images/og-support.jpg"],
+    images: [
+      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
+    ],
   },
 };
 

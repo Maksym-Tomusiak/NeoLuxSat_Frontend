@@ -10,15 +10,19 @@ export const metadata: Metadata = {
     title: "NeoLuxSat | Оптоволоконний Інтернет",
     description:
       "Підключіть швидкісний оптоволоконний інтернет до 1 Гбіт/с. Стабільне з'єднання та вигідні тарифи.",
-    url: "https://vash-provider.ua/services/internet", // Corrected URL
-    images: ["https://vash-provider.ua/images/og-internet.jpg"], // Corrected URL
+    url: "https://ostrog.pp.ua/services/internet", // Corrected URL
+    images: [
+      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
+    ], // Corrected URL
   },
   twitter: {
     card: "summary_large_image",
     title: "NeoLuxSat | Оптоволоконний Інтернет | NeoLuxSat",
     description:
       "Підключіть швидкісний оптоволоконний інтернет до 1 Гбіт/с. Стабільне з'єднання та вигідні тарифи.",
-    images: ["https://vash-provider.ua/images/og-internet.jpg"], // Corrected URL
+    images: [
+      "https://drive.google.com/file/d/1oVjRIdS538IanST_fOL60XsjVWKEvuhd/view",
+    ], // Corrected URL
   },
 };
 
