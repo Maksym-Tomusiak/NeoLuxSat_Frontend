@@ -21,13 +21,13 @@ import ViberIcon from "@/assets/svgs/contacts/viber-icon.svg?component";
 import WhatsappIcon from "@/assets/svgs/contacts/whatsapp-icon.svg?component";
 import FacebookIcon from "@/assets/svgs/contacts/facebook-icon.svg?component";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 const HIDE_TIMEOUT_MS = 3000; // 10 seconds
 
 const Header = () => {
   const [isVisible, setIsVisible] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
-  // const [isClosing, setIsClosing] = useState(false); // 💡 --- REMOVE (Headless UI handles this) ---
   const timerRef = useRef<number | null>(null);
   const [isHovered, setIsHovered] = useState(false);
 
@@ -40,8 +40,6 @@ const Header = () => {
     { name: "IoT та M2M", href: "/services/iot" },
   ];
 
-  // 💡 --- UPDATED ---
-  // Simplified close handler. Headless UI's <Transition> handles the exit animation.
   const handleClose = () => {
     setIsOpen(false);
   };
@@ -92,18 +90,39 @@ const Header = () => {
     ? "opacity-100 translate-y-0"
     : "opacity-0 -translate-y-full";
 
+  // 💡 Framer Motion variants for initial page load animation (Top to Bottom)
+  const headerVariants = {
+    initial: { y: -100, opacity: 0 },
+    animate: { y: 0, opacity: 1 },
+  };
+
   return (
     <>
       {/* Header */}
-      <div
+      <motion.div
+        initial="initial"
+        animate="animate"
+        variants={headerVariants}
+        transition={{
+          type: "spring",
+          stiffness: 100,
+          damping: 20,
+          duration: 0.5,
+        }}
         className={`
-                  header-shadow max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto 
-                  transition-all duration-300 ease-in-out ${headerVisibilityClass}
-                `}
+         max-w-[1380px] mx-auto fixed top-[24px] left-[16px] md:left-[30px] right-[16px] md:right-[30px] z-1001 rounded-[20px] font-noto 
+         ${!isVisible ? "pointer-events-none" : ""}
+        `}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        <div className="mx-auto flex w-full max-w-[1380px] justify-between items-center gap-[32px] rounded-[20px] bg-primaryWhite p-[10px]">
+        {/* 💡 Inner div handles the scroll/hover transition based on state */}
+        <div
+          className={` header-shadow
+            mx-auto flex w-full max-w-[1380px] justify-between items-center gap-[32px] rounded-[20px] bg-primaryWhite p-[10px]
+            transition-all duration-300 ease-in-out ${headerVisibilityClass}
+        `}
+        >
           <div className="min-[1150px]:flex-1">
             <Link href="/">
               <Logo />
@@ -157,23 +176,31 @@ const Header = () => {
 
           <button
             aria-label="Open menu"
-            onClick={() => setIsOpen(true)} // This just opens the dialog
+            onClick={() => setIsOpen(true)}
             className="ml-auto flex size-[40px] items-center justify-center rounded-[10px] min-[1150px]:hidden"
           >
             <MenuIcon />
           </button>
         </div>
-      </div>
+      </motion.div>
 
       {/* 💡 --- MOBILE MENU MODAL (UPDATED) --- 💡 */}
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-2000" onClose={handleClose}>
-          {/*
-            This <TransitionChild> is the sliding panel itself.
-            We translate the 'animate-slide-in' and 'animate-slide-out'
-            classes into Headless UI's transition props.
-            (Assuming a slide-in from the right)
-          */}
+          {/* Backdrop for click outside (optional, but good practice) */}
+          <TransitionChild
+            as={"div"}
+            enter="ease-out duration-300"
+            enterFrom="opacity-0"
+            enterTo="opacity-100"
+            leave="ease-in duration-200"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            {/* The Backdrop: We can remove this if we want a slide-in overlay without a darkened background */}
+            {/* <div className="fixed inset-0 bg-black/30" aria-hidden="true" /> */}
+          </TransitionChild>
+
           <TransitionChild
             as={Fragment}
             enter="transform transition ease-in-out duration-300"
@@ -188,7 +215,6 @@ const Header = () => {
                 {/* Header and Close Button */}
                 <div className="flex items-center justify-between p-6">
                   <div>
-                    {/* FIX 1: Add onClick to the Mobile Logo Link */}
                     <Link href="/" onClick={handleClose}>
                       <Logo />
                     </Link>
@@ -205,24 +231,25 @@ const Header = () => {
                 {/* --- MOBILE NAVIGATION --- */}
                 <nav className="flex flex-col gap-[40px] px-6 mb-[40px]">
                   <div className="flex flex-col gap-[24px]">
+                    {/* Added: Home Link, was missing in the 'current' nav but implicit */}
                     <Link
                       href="/"
                       className="text-[18px]/[120%] font-medium"
-                      onClick={handleClose} // FIX 2
+                      onClick={handleClose}
                     >
                       Головна
                     </Link>
                     <Link
                       href="/about"
                       className="text-[18px]/[120%] font-medium"
-                      onClick={handleClose} // FIX 3
+                      onClick={handleClose}
                     >
                       Про нас
                     </Link>
                     <Link
                       href="/support"
                       className="text-[18px]/[120%] font-medium"
-                      onClick={handleClose} // FIX 4
+                      onClick={handleClose}
                     >
                       Підтримка
                     </Link>
@@ -238,7 +265,7 @@ const Header = () => {
                           key={s.name}
                           href={s.href}
                           className="text-[18px]/[120%] text-primaryBlue font-semibold"
-                          onClick={handleClose} // FIX 5
+                          onClick={handleClose}
                         >
                           {s.name}
                         </Link>
@@ -247,9 +274,19 @@ const Header = () => {
                   </div>
                 </nav>
 
-                {/* Contacts & Social (no need to close modal for external links or calls, but added for consistency on phone links) */}
-                <div className="px-6 flex flex-col w-fit gap-[40px] text-[16px]/[120%] text-left fill-primaryBlue">
-                  {/* ... (Address remains the same) ... */}
+                {/* Contacts & Social (filled from previous content) */}
+                <div className="px-6 flex flex-col w-fit gap-[40px] text-[16px]/[120%] text-left fill-primaryBlue mb-10">
+                  {" "}
+                  {/* Added bottom margin */}
+                  {/* Address */}
+                  <div className="flex gap-[12px] items-center w-fit">
+                    <AddressIcon />
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="font-normal text-primaryBlue/80">Адреса</p>
+                      <p className="font-medium">вул. Лесі Українки, Острог</p>
+                    </div>
+                  </div>
+                  {/* Phone */}
                   <div className="flex gap-[12px] items-center w-fit">
                     <PhoneIcon />
                     <div className="flex flex-col gap-[8px]">
@@ -257,10 +294,11 @@ const Header = () => {
                         Номер телефону
                       </p>
                       <div className="flex flex-col gap-[4px] w-fit">
+                        {/* Note: Kept as <Link> for consistency, though standard <Link> is fine for tel: */}
                         <Link
                           href="tel:0957773244"
                           className="font-medium w-fit"
-                          onClick={handleClose} // FIX 6
+                          onClick={handleClose}
                         >
                           095-777-3244
                         </Link>
@@ -270,14 +308,63 @@ const Header = () => {
                           className="font-medium"
                           onClick={handleClose}
                         >
-                          {" "}
-                          {/* FIX 7 */}
                           073-737-6088
                         </Link>
                       </div>
                     </div>
                   </div>
-                  {/* ... (Email and Social links remain the same) ... */}
+                  {/* Email */}
+                  <div className="flex gap-[12px] items-center w-fit">
+                    <EmailIcon />
+                    <div className="flex flex-col gap-[8px]">
+                      <p className="font-normal text-primaryBlue/80">Пошта</p>
+                      <Link
+                        href="mailto:luxsatnet@gmail.com"
+                        className="font-medium"
+                      >
+                        luxsatnet@gmail.com
+                      </Link>
+                    </div>
+                  </div>
+                  {/* Social Links */}
+                  <div className="flex gap-[24px] justify-start mb-[20px]">
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <Link
+                        href="https://t.me/+380957773244"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <TelegramIcon />
+                      </Link>
+                    </div>
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <Link
+                        href="viber://chat?number=%2B380957773244"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <ViberIcon />
+                      </Link>
+                    </div>
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <Link
+                        href="https://wa.me/380957773244"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <WhatsappIcon />
+                      </Link>
+                    </div>
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                      <Link
+                        href="https://www.facebook.com/profile.php?id=100066785902681"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <FacebookIcon />
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             </DialogPanel>

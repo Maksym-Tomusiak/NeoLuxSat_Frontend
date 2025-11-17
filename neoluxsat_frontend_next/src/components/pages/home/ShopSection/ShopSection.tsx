@@ -3,6 +3,7 @@ import ShopImage2 from "@/assets/images/shop/shop-image-2.png";
 import ShopImage3 from "@/assets/images/shop/shop-image-3.png";
 import ShopCard from "./ShopCard";
 import SectionHeader from "@/components/common/SectionHeader";
+import StaggeredFadeIn from "@/components/common/animations/StaggeredFadeIn";
 
 const ShopSection = () => {
   const itemsData = [
@@ -52,15 +53,25 @@ const ShopSection = () => {
         </div>
       </div>
       <div className="flex snap-x snap-mandatory items-stretch gap-[12px] overflow-x-auto sm:-mx-[10px] sm:px-[10px] min-[1090px]:justify-center md:gap-[20px] scrollbar-hide">
-        {itemsData.map((item, index) => (
-          <div key={index} className="snap-center shrink-0">
-            <ShopCard
-              image={item.image}
-              title={item.title}
-              options={item.options}
-            />
-          </div>
-        ))}
+        <StaggeredFadeIn
+          // Remove all scrolling/layout classes from here
+          direction="bottom"
+          staggerChildren={0.15}
+          // Add back essential flex property if needed for inner children layout,
+          // but relying on the outer div structure is safer.
+          // Note: If the layout breaks again, remove className="" entirely.
+          className="flex gap-[12px] md:gap-[20px] min-[1090px]:justify-center"
+        >
+          {itemsData.map((item, index) => (
+            <div key={index} className="snap-center shrink-0">
+              <ShopCard
+                image={item.image}
+                title={item.title}
+                options={item.options}
+              />
+            </div>
+          ))}
+        </StaggeredFadeIn>
       </div>
     </section>
   );

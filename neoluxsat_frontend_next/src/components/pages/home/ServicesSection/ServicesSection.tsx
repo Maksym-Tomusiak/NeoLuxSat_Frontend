@@ -1,9 +1,12 @@
+// ServicesSection.jsx
 import ServiceIcon1 from "@/assets/svgs/services/services-icon-1.svg?component";
 import ServiceIcon2 from "@/assets/svgs/services/services-icon-2.svg?component";
 import ServiceIcon3 from "@/assets/svgs/services/services-icon-3.svg?component";
 import ServiceIcon4 from "@/assets/svgs/services/services-icon-4.svg?component";
 import ServiceCard from "./ServiceCard";
 import SectionHeader from "@/components/common/SectionHeader";
+// 💡 Import the animation component
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const ServicesSection = () => {
   const data = [
@@ -44,36 +47,49 @@ const ServicesSection = () => {
           <SectionHeader
             isCta={false}
             className="
-          w-fit
-          row-start-1
-          md:col-span-2 md:justify-self-center
-          lg:col-span-1 lg:row-start-1 lg:col-start-1 lg:justify-self-start
-        "
+     w-fit
+     row-start-1
+     md:col-span-2 md:justify-self-center
+     lg:col-span-1 lg:row-start-1 lg:col-start-1 lg:justify-self-start
+    "
           >
             Наші <br className="hidden sm:inline" />
             послуги
           </SectionHeader>
 
-          {/* Cards */}
-          {/* Phone → stacked 1 col
-          Tablet → 2x2 grid centered
-          Desktop → manual placement */}
+          {/* Cards - Top Row (data[0] and data[1]) coming from the top */}
           <div className="flex gap-[20px] w-full lg:w-fit justify-center flex-wrap">
-            <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
-              <ServiceCard {...data[0]} />
-            </div>
-            <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
-              <ServiceCard {...data[1]} />
-            </div>
+            {/* Card 1 from Top */}
+            <FadeInFromDirection direction="top" delay={0.1}>
+              <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
+                <ServiceCard {...data[0]} />
+              </div>
+            </FadeInFromDirection>
+
+            {/* Card 2 from Top */}
+            <FadeInFromDirection direction="top" delay={0.2}>
+              <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
+                <ServiceCard {...data[1]} />
+              </div>
+            </FadeInFromDirection>
           </div>
         </div>
+
+        {/* Cards - Bottom Row (data[2] and data[3]) coming from the bottom */}
         <div className="w-full flex justify-center items-center gap-[20px] mx-auto flex-wrap">
-          <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
-            <ServiceCard {...data[2]} />
-          </div>
-          <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
-            <ServiceCard {...data[3]} />
-          </div>
+          {/* Card 3 from Bottom */}
+          <FadeInFromDirection direction="bottom" delay={0.1}>
+            <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
+              <ServiceCard {...data[2]} />
+            </div>
+          </FadeInFromDirection>
+
+          {/* Card 4 from Bottom */}
+          <FadeInFromDirection direction="bottom" delay={0.2}>
+            <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
+              <ServiceCard {...data[3]} />
+            </div>
+          </FadeInFromDirection>
         </div>
       </div>
     </section>

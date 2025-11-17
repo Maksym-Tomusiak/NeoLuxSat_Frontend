@@ -13,6 +13,9 @@ import FaqSection from "./FaqSection/FaqSection";
 import CtaSectionTemplate from "@/components/common/sections/CtaSectionTemplate";
 import PropositionsSection from "./PropositionsSection/PropositionsSection";
 
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
+import { motion } from "framer-motion";
+
 const HomePage = () => {
   const ctaData = [
     {
@@ -69,15 +72,24 @@ const HomePage = () => {
     <>
       <HeroSection />
       <ServicesSection />
-      <PropositionsSection />
-      <ShopSection />
-      <CtaSectionTemplate {...ctaData[0]} />
-      <WhyUsSection />
+      {/* ServicesSection handles its own internal animations */}
+      <FadeInFromDirection direction="bottom">
+        <PropositionsSection />
+      </FadeInFromDirection>
+      <ShopSection /> {/* ShopSection handles its own internal animations */}
+      <FadeInFromDirection direction="bottom">
+        <CtaSectionTemplate {...ctaData[0]} />
+      </FadeInFromDirection>
+      <WhyUsSection /> {/* WhyUsSection handles its own internal animations */}
       <FeedbacksSection />
-      <CtaSectionTemplate {...ctaData[1]} />
+      <FadeInFromDirection direction="bottom">
+        <CtaSectionTemplate {...ctaData[1]} />
+      </FadeInFromDirection>
       <ContactsSection />
-      <FaqSection />
-      <CtaSectionTemplate {...ctaData[2]} />
+      <FaqSection /> {/* FaqSection handles its own internal animations */}
+      <FadeInFromDirection direction="bottom">
+        <CtaSectionTemplate {...ctaData[2]} />
+      </FadeInFromDirection>
     </>
   );
 };

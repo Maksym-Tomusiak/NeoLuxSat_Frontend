@@ -4,13 +4,16 @@ import WorkAreasSection from "@/components/common/sections/WorkAreasSection";
 import StatsSection from "./StatsSection/StatsSection";
 import AboutUsSection from "./AboutUsSection/AboutUsSection";
 import HeroSection from "./HeroSection/HeroSection";
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const AboutPage = () => {
   return (
     <>
       <HeroSection />
       <StatsSection />
-      <AboutUsSection />
+      <FadeInFromDirection direction="bottom">
+        <AboutUsSection />
+      </FadeInFromDirection>
       <WhyUsSection />
       <WorkAreasSection />
       <ContactsSection />

@@ -1,3 +1,6 @@
+"use client";
+
+import FadeInFromDirection from "../animations/FadeInFromDirection";
 import SectionHeader from "../SectionHeader";
 import mapImage from "@/assets/images/areas/areas-map-image.png";
 
@@ -14,9 +17,12 @@ const WorkAreasSection = () => {
           якісний сервіс у кожному регіоні, позначеному на карті.
         </p>
       </div>
-      <div className="mx-auto w-full areas-map-container mt-[40px]">
-        <img src={mapImage.src} alt="areas map" className="mx-auto" />
-      </div>
+
+      <FadeInFromDirection direction="fade">
+        <div className="mx-auto w-full areas-map-container mt-[40px]">
+          <img src={mapImage.src} alt="areas map" className="mx-auto" />
+        </div>
+      </FadeInFromDirection>
     </section>
   );
 };

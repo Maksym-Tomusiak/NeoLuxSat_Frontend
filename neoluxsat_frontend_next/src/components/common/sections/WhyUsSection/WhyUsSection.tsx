@@ -4,6 +4,7 @@ import WhyUsIcon3 from "@/assets/svgs/why-us/why-us-icon-3.svg?component";
 import WhyUsIcon4 from "@/assets/svgs/why-us/why-us-icon-4.svg?component";
 import WhyUsBlock from "./WhyUsBlock";
 import SectionHeader from "@/components/common/SectionHeader";
+import FadeInFromDirection from "../../animations/FadeInFromDirection";
 
 const WhyUsSection = () => {
   const blocksData = [
@@ -48,7 +49,13 @@ const WhyUsSection = () => {
           />
           <div className="flex w-full max-w-[700px] xl:max-w-[620px] flex-col gap-[24px] md:gap-[40px] lg:gap-[56px]">
             {blocksData.map((block, index) => (
-              <WhyUsBlock key={index} {...block} />
+              <FadeInFromDirection
+                key={index}
+                direction="right"
+                delay={index * 0.15} // Staggered delay from top to bottom
+              >
+                <WhyUsBlock {...block} />
+              </FadeInFromDirection>
             ))}
           </div>
         </div>

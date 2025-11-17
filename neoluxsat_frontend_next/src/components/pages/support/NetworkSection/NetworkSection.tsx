@@ -6,6 +6,7 @@ import NetworkProblemCard from "./NetworkProblemCard";
 import SectionHeader from "@/components/common/SectionHeader";
 import useNetworkStatusLogic from "@/hooks/useNetworkStatusLogic";
 import NetworkStatusCard from "./NetworkStatusCard";
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 // 💡 NEW: Component for the loading placeholder state
 const LoadingPlaceholder: React.FC = () => (
@@ -49,18 +50,20 @@ const NetworkSection = () => {
       // a) fetchError is true (Error Card)
       // b) fetchError is false (Success Card)
       return (
-        <div className="flex justify-between items-center gap-[70px] flex-row max-lg:flex-col">
-          <NetworkStatusCard data={getCardData} />
-          <img
-            src={
-              fetchError
-                ? "/images/network-error-image.png"
-                : "/images/no-problems-image.png"
-            }
-            alt="status image"
-            className="max-sm:max-w-full max-md:max-w-[400px] max-lg:max-w-[500px] max-xl:max-w-[400px] max-[1440px]:max-w-[500px] min-[1440px]:max-w-[600px]"
-          />
-        </div>
+        <FadeInFromDirection direction="right" key="status-card-block">
+          <div className="flex justify-between items-center gap-[70px] flex-row max-lg:flex-col">
+            <NetworkStatusCard data={getCardData} />
+            <img
+              src={
+                fetchError
+                  ? "/images/network-error-image.png"
+                  : "/images/no-problems-image.png"
+              }
+              alt="status image"
+              className="max-sm:max-w-full max-md:max-w-[400px] max-lg:max-w-[500px] max-xl:max-w-[400px] max-[1440px]:max-w-[500px] min-[1440px]:max-w-[600px]"
+            />
+          </div>
+        </FadeInFromDirection>
       );
     }
 
@@ -70,14 +73,19 @@ const NetworkSection = () => {
     return (
       <div className="flex flex-col gap-[24px]">
         <div
-          className={`flex flex-col gap-[24px] ${problemListMaxHeightClass} snap-y snap-y-mandatory scrollbar-fade pb-[1px]`}
+          className={`flex flex-col gap-[24px] ${problemListMaxHeightClass} snap-y snap-y-mandatory scrollbar-fade pb-[1px] max-w-full overflow-x-hidden`}
         >
-          {problems.map((problem) => (
-            <NetworkProblemCard
+          {problems.map((problem, index) => (
+            <FadeInFromDirection
+              direction="right"
               key={problem.id}
-              problem={problem}
-              icon={getIcon(problem.networkProblemStatus.title)}
-            />
+              delay={index * 0.1}
+            >
+              <NetworkProblemCard
+                problem={problem}
+                icon={getIcon(problem.networkProblemStatus.title)}
+              />
+            </FadeInFromDirection>
           ))}
         </div>
       </div>
