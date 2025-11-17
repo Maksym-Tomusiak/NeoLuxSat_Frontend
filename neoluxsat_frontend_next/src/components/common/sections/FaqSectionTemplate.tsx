@@ -1,29 +1,23 @@
-// FaqSectionTemplate.tsx
 "use client";
 
 import * as React from "react";
 import { useState, useEffect } from "react";
-import StaggeredFadeIn from "@/components/common/animations/StaggeredFadeIn";
+// Removed: import { motion } from "framer-motion"; as it's now in FaqItem
 import {
   Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
+  // AccordionItem/Trigger/Content removed as they are now in FaqItem
 } from "@/components/ui/accordion";
 import SectionHeader from "@/components/common/SectionHeader";
-
 import type { FaqDto } from "@/types/faq";
 import { FaqService } from "@/services/faq.service";
+import FaqItem from "./FaqItem"; // Import the new component
 
-type FaqSectionTemplateProps = {
-  categoryTitle: string;
-};
+// Removed the fadeInVariants utility function as animation logic moved to FaqItem
 
-const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({
+const FaqSectionTemplate: React.FC<{ categoryTitle: string }> = ({
   categoryTitle,
 }) => {
   const [faqs, setFaqs] = useState<FaqDto[]>([]);
-  // We will initialize openItems after data fetch.
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   useEffect(() => {
@@ -32,16 +26,16 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({
         const data = await FaqService.getAllFaqs();
         const filteredFaqs = data.filter(
           (faq) =>
-            faq.category?.title.toLowerCase() == categoryTitle.toLowerCase()
+            faq.category?.title.toLowerCase() === categoryTitle.toLowerCase()
         );
         setFaqs(filteredFaqs);
 
-        // 💡 1. SET FIRST FAQ OPEN BY DEFAULT ON INITIAL LOAD
+        // Open first FAQ by default
         if (filteredFaqs.length > 0 && filteredFaqs[0].id) {
           setOpenItems([filteredFaqs[0].id]);
         }
-      } catch (error) {
-        console.error("Failed to fetch faqs", error);
+      } catch (err) {
+        console.error("Failed to fetch faqs", err);
       }
     };
     fetchFaqs();
@@ -49,94 +43,35 @@ const FaqSectionTemplate: React.FC<FaqSectionTemplateProps> = ({
 
   if (faqs.length === 0) return null;
 
-  // 💡 2. UPDATED CLICK HANDLER TO HANDLE TOGGLE WHEN CLICKING THE ITEM CONTAINER
-  const handleItemClick = (
-    e: React.MouseEvent<HTMLDivElement>,
-    faqId: string
-  ) => {
-    const isOpen = openItems.includes(faqId);
-
-    // Check if the click originated from the AccordionTrigger element itself.
-    // If it did, we let the underlying Radix/HeadlessUI mechanism handle the toggle
-    // via the Accordion component's onValueChange, which is bound to setOpenItems.
-    const target = e.target as HTMLElement;
-    if (target.closest('[data-slot="accordion-trigger"]')) {
-      return;
-    }
-
-    // If the click happened on the general AccordionItem area (not the Trigger):
-    setOpenItems((prev) => {
-      if (isOpen) {
-        // Close the item if currently open
-        return prev.filter((id) => id !== faqId);
-      } else {
-        // Open the item if currently closed
-        return [...prev, faqId];
-      }
-    });
-  };
-
-  // --- Component for a single FAQ item (to clean up the map) ---
-  const FaqItemComponent: React.FC<{ faq: FaqDto }> = ({ faq }) => (
-    <AccordionItem
-      key={faq.id}
-      value={faq.id}
-      className="rounded-[20px] bg-primaryBlue p-[24px] font-noto text-primaryWhite cursor-pointer"
-      // 💡 Attach click handler to the Item container
-      onClick={(e) => handleItemClick(e, faq.id)}
-    >
-      <AccordionTrigger className="flex items-center justify-between text-[16px]/[120%] font-medium tracking-[-0.32px] text-primaryWhite sm:text-[17px]/[120%] sm:tracking-[-0.34px] md:text-[18px]/[120%] md:tracking-[-0.36px] cursor-pointer">
-        {faq.question}
-      </AccordionTrigger>
-      <AccordionContent className="max-w-[100%] text-[14px]/[120%] tracking-[-0.28px] sm:text-[15px]/[120%] sm:tracking-[-0.3px] md:max-w-[75%] md:text-[16px]/[120%] md:tracking-[-0.32px]">
-        {faq.answer}
-      </AccordionContent>
-    </AccordionItem>
-  );
-
-  // --- Animation Logic ---
-  const firstFaq = faqs[0];
-  const remainingFaqs = faqs.slice(1);
-
   return (
     <section className="relative flex justify-center">
       <SectionHeader isCta={false} className="absolute left-0 top-0">
-        Часті <br className="hidden sm:inline" />
-        питання
+        Часті <br className="hidden sm:inline" /> питання
       </SectionHeader>
-
       <div className="flex flex-col items-center max-md:mt-[80px] w-full h-fit">
         <img
           src="/images/faq-image.png"
           alt="faq background"
-          className="z-1 sm:w-[320px] -mb-[13px] w-auto pointer-events-none
-  mx-auto
-  max-xs:max-w-[60vw] max-md:max-w-[270px] max-w-[300px]"
+          className="z-1 sm:w-[320px] -mb-[13px] w-auto pointer-events-none mx-auto max-xs:max-w-[60vw] max-md:max-w-[270px] max-w-[300px]"
         />
-
         <Accordion
           type="multiple"
           className="relative w-full max-w-[680px] space-y-4 sm:space-y-5 md:space-y-6 lg:min-w-[680px]"
           value={openItems}
           onValueChange={setOpenItems}
         >
-          {/* The first FAQ item is rendered without animation */}
-          {firstFaq && <FaqItemComponent faq={firstFaq} />}
-
-          {/* The remaining items are wrapped in StaggeredFadeIn. */}
-          <StaggeredFadeIn
-            direction="bottom"
-            staggerChildren={0.1}
-            className="flex flex-col space-y-4 sm:space-y-5 md:space-y-6"
-          >
-            {remainingFaqs.map((faq) => (
-              <FaqItemComponent key={faq.id} faq={faq} />
-            ))}
-          </StaggeredFadeIn>
+          {faqs.map((faq, idx) => (
+            // Now using the separated FaqItem component
+            <FaqItem
+              key={faq.id}
+              faq={faq}
+              // Pass a sequential delay to maintain the staggered animation timing
+              delay={0.1 * idx}
+            />
+          ))}
         </Accordion>
       </div>
     </section>
   );
 };
-
 export default FaqSectionTemplate;

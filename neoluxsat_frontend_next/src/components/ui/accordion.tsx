@@ -38,13 +38,14 @@ function AccordionTrigger({
       <AccordionPrimitive.Trigger
         data-slot="accordion-trigger"
         className={cn(
-          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-[20px] text-left text-sm font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:-rotate-135 [&[data-state=open]]:text-primaryWhite/60",
+          // MODIFIED: Added p-[24px] here so the trigger occupies the full item area.
+          "focus-visible:border-ring focus-visible:ring-ring/50 flex flex-1 items-start justify-between gap-4 rounded-[20px] p-[24px] text-left text-sm font-medium transition-all outline-none focus-visible:ring-[3px] disabled:pointer-events-none disabled:opacity-50 [&[data-state=open]>svg]:-rotate-135 [&[data-state=open]]:text-primaryWhite/60",
           className
         )}
         {...props}
       >
         {children}
-        <Icon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200  my-auto w-[24px] h-[24px]" />
+        <Icon className="text-muted-foreground pointer-events-none size-4 shrink-0 translate-y-0.5 transition-transform duration-200  my-auto w-[24px] h-[24px]" />
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   );
@@ -61,7 +62,13 @@ function AccordionContent({
       className="data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down overflow-hidden text-sm"
       {...props}
     >
-      <div className={cn("pt-[24px]", className)}>{children}</div>
+      <div
+        // MODIFIED: Changed padding to px-[24px] pb-[24px] to correctly align content
+        // and add bottom spacing after the trigger's padding was moved.
+        className={cn("px-[24px] pb-[24px]", className)}
+      >
+        {children}
+      </div>
     </AccordionPrimitive.Content>
   );
 }
