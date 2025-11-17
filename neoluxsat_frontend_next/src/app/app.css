@@ -441,3 +441,7 @@ section {
   font-size: 1.2em; /* Adjust as needed */
   line-height: 1; /* Helps with vertical alignment */
 }
+
+#main-content-start {
+  scroll-margin-top: 100px; /* Adjust this value as needed (e.g., 6rem or 100px) */
+}
