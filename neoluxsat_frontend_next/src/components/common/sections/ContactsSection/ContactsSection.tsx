@@ -23,9 +23,11 @@ const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
   { ssr: false }
 );
-const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
-  ssr: false,
-});
+// Import ZoomControl dynamically
+const ZoomControl = dynamic(
+  () => import("react-leaflet").then((mod) => mod.ZoomControl),
+  { ssr: false }
+);
 const MaptilerStyledTileLayer = dynamic(() => import("./MaptilerTileLayer"), {
   ssr: false,
 });
@@ -34,11 +36,9 @@ const ContactsSection = () => {
   const [markerIcon, setMarkerIcon] = useState<Icon | null>(null);
 
   useEffect(() => {
-    // You've already imported L, so you can use it directly
     import("leaflet").then((L) => {
       setMarkerIcon(
         new L.Icon({
-          // 4. Use the .src property from your imported icon
           iconUrl: "./address-icon-orange.svg",
           iconSize: [32, 32],
         })
@@ -49,31 +49,23 @@ const ContactsSection = () => {
   const position: [number, number] = [50.327868073662826, 26.526828402538673];
 
   const handleGetDirections = () => {
-    // Перевіряємо, чи браузер підтримує геолокацію
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (userPosition) => {
           const { latitude, longitude } = userPosition.coords;
-          const destination = position; // Координати магазину
-
-          // Формуємо ПРАВИЛЬНИЙ URL для Google Maps
-          // Формат: /dir/lat_початку,lng_початку/lat_кінця,lng_кінця
+          const destination = position;
           const url = `https://www.google.com/maps/dir/${latitude},${longitude}/${destination[0]},${destination[1]}`;
-
-          // Відкриваємо URL у новій вкладці
           window.open(url, "_blank", "noopener,noreferrer");
         },
         (error) => {
-          // Обробка помилок (наприклад, користувач не дав дозвіл або сайт на HTTP)
           console.error("Помилка отримання геолокації:", error);
           alert(
-            "Не вдалося отримати вашу геолокацію. Будь ласка, перевірте налаштування та надайте дозвіл. (Також переконайтеся, що сайт завантажено через HTTPS)."
+            "Не вдалося отримати вашу геолокацію. Будь ласка, перевірте налаштування та надайте дозвіл."
           );
         },
-        { enableHighAccuracy: true } // Опція для точнішої геолокації
+        { enableHighAccuracy: true }
       );
     } else {
-      // Якщо геолокація не підтримується
       alert("Геолокація не підтримується вашим браузером.");
     }
   };
@@ -84,6 +76,7 @@ const ContactsSection = () => {
         Де нас <br className="hidden sm:inline" />
         знайти
       </SectionHeader>
+      {/* ... (Icons/Contact Info Code remains unchanged) ... */}
       <div className="hidden sm:flex justify-end max-lg:mt-[40px] font-noto mb-[24px] lg:mb-[56px]">
         <div className="flex flex-wrap items-center gap-x-[59px] lg:gap-y-[32px] h-[175px] w-[680px] text-primaryBlue fill-primaryBlue">
           <div className="flex gap-[12px] items-center w-fit min-w-[290px]">
@@ -218,30 +211,46 @@ const ContactsSection = () => {
           </div>
         </div>
       </div>
+
       <FadeInFromDirection direction="fade" duration={1}>
-        <div className="w-full h-[300px] sm:h-[400px] md:h-[500px]">
+        {/* Added relative wrapper for absolute positioning of the overlay */}
+        <div className="relative w-full h-[400px] md:h-[500px] rounded-[20px] overflow-hidden">
+          {/* Static Container (Overlay) */}
+          <div className="absolute top-[24px] left-[24px] z-[1000] bg-primaryWhite rounded-[20px] map-ovelay-shadow">
+            <div className="flex flex-col items-start text-primaryBlue font-noto gap-[24px] p-[16px] max-w-[70vw] sm:max-w-[340px]">
+              <div className="flex gap-[12px] flex-col w-full bg-p">
+                <p className="font-medium text-[16px]/[120%] tracking-[-0.32px]">
+                  Наш магазин
+                </p>
+                <p className="text-primaryBlue/80 text-[16px]/[120%] tracking-[-0.32px] max-w-full">
+                  Перегляньте маршрут та відвідайте нас.
+                </p>
+              </div>
+              <button
+                onClick={handleGetDirections}
+                className="px-[18px] py-[14px] flex items-center justify-center text-[16px]/[120%] tracking-[-0.32px] w-full max-h-[40px]
+                border-[1.4px] border-primaryOrange text-primaryBlue bg-primaryWhite
+                bg-primaryOrange rounded-[10px] hover:border-primaryBlue transition duration-300 ease-in-out cursor-pointer
+                active:scale-95 active:duration-75"
+              >
+                Прокласти маршрут
+              </button>
+            </div>
+          </div>
+
           {markerIcon && (
             <MapContainer
               center={position}
               zoom={15}
-              className="w-full h-full rounded-[20px] overflow-hidden"
+              className="w-full h-full"
               scrollWheelZoom={false}
+              zoomControl={false} // Disable default zoom control (usually top-left)
             >
               <MaptilerStyledTileLayer styleId={"dataviz"} />
 
-              <Marker position={position} icon={markerIcon}>
-                <Popup>
-                  <div className="flex flex-col items-center font-noto gap-2">
-                    <span>Наш магазин</span>
-                    <button
-                      onClick={handleGetDirections}
-                      className="px-3 py-3 bg-blue-600 text-primaryWhite rounded-md font-noto text-[14px]/[120%] hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      Прокласти маршрут
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
+              <ZoomControl position="topright" />
+
+              <Marker position={position} icon={markerIcon} />
             </MapContainer>
           )}
         </div>

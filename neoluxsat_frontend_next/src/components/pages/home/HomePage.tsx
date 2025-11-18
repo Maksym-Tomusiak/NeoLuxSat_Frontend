@@ -72,10 +72,7 @@ const HomePage = () => {
     <>
       <HeroSection />
       <ServicesSection />
-      {/* ServicesSection handles its own internal animations */}
-      <FadeInFromDirection direction="bottom">
-        <PropositionsSection />
-      </FadeInFromDirection>
+      <PropositionsSection />
       <ShopSection /> {/* ShopSection handles its own internal animations */}
       <FadeInFromDirection direction="bottom">
         <CtaSectionTemplate {...ctaData[0]} />
