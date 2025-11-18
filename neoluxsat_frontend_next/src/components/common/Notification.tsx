@@ -67,7 +67,7 @@ const Notification: React.FC<NotificationProps> = ({
         <button
           type="button"
           onClick={onClose}
-          className="close-notification-button fill-primaryOrange ml-4 p-1 rounded-full text-primaryWhite/80 hover:text-primaryWhite hover:bg-white/10 transition-colors"
+          className="close-notification-button fill-primaryOrange ml-4 p-1 rounded-full text-primaryWhite/80 hover:text-primaryWhite hover:bg-white/10 transition-colors action:transform active:scale-95 active:duration-75"
           aria-label="Закрити сповіщення"
         >
           <CloseIcon />

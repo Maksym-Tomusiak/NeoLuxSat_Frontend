@@ -126,7 +126,7 @@ const InfoModal = ({ isOpen, onClose, data }: InfoModalProps) => {
                         </p>
                       </div>
                       <button
-                        className="fill-primaryOrange cursor-pointer close-button"
+                        className="fill-primaryOrange cursor-pointer close-button action:transform active:scale-95 active:duration-75"
                         onClick={onClose}
                       >
                         <CloseIcon />

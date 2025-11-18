@@ -51,7 +51,7 @@ const MaterialsCard: React.FC<MaterialsCardProps> = ({
             onClick={() => onPointClick(point.modalContent)}
             className="w-full flex justify-between items-center gap-[8px] p-[12px] bg-primaryWhite/10 rounded-[10px]
              text-primaryWhite fill-primaryWhite hover:fill-primaryOrange hover:text-primaryOrange transition-colors duration-300
-             text-left cursor-pointer" // Added text-left
+             text-left cursor-pointern action:transform active:scale-95 active:duration-75" // Added text-left
           >
             <p className="font-noto text-[16px]/[120%]">{point.title}</p>
             <div>
