@@ -65,6 +65,7 @@ const FaqSectionTemplate: React.FC<{ categoryTitle: string }> = ({
             <FaqItem
               key={faq.id}
               faq={faq}
+              needsAnimation={idx > 0}
               // Pass a sequential delay to maintain the staggered animation timing
               delay={0.1 * idx}
             />

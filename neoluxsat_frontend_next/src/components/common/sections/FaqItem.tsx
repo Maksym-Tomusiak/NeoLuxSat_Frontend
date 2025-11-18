@@ -11,12 +11,15 @@ import type { FaqDto } from "@/types/faq";
 
 interface FaqItemProps {
   faq: FaqDto;
-  // Delay is passed from the parent to maintain the staggered effect,
-  // but the animation is triggered only when the item scrolls into view.
   delay: number;
+  needsAnimation?: boolean;
 }
 
-const FaqItem: React.FC<FaqItemProps> = ({ faq, delay }) => {
+const FaqItem: React.FC<FaqItemProps> = ({
+  faq,
+  delay,
+  needsAnimation = true,
+}) => {
   // Variants for fade-in (slide-up) animation
   const fadeInVariants: Variants = {
     hidden: { opacity: 0, y: 50 },
@@ -33,6 +36,22 @@ const FaqItem: React.FC<FaqItemProps> = ({ faq, delay }) => {
       },
     },
   };
+
+  if (!needsAnimation) {
+    return (
+      <AccordionItem
+        value={faq.id}
+        className="rounded-[20px] bg-primaryBlue font-noto text-primaryWhite cursor-pointer"
+      >
+        <AccordionTrigger className="flex items-center justify-between text-[16px]/[120%] font-medium tracking-[-0.32px] text-primaryWhite sm:text-[17px]/[120%] sm:tracking-[-0.34px] md:text-[18px]/[120%] md:tracking-[-0.36px] cursor-pointer">
+          {faq.question}
+        </AccordionTrigger>
+        <AccordionContent className="max-w-[100%] text-[14px]/[120%] tracking-[-0.28px] sm:text-[15px]/[120%] sm:tracking-[-0.3px] md:max-w-[75%] md:text-[16px]/[120%] md:tracking-[-0.32px]">
+          {faq.answer}
+        </AccordionContent>
+      </AccordionItem>
+    );
+  }
 
   return (
     // Use motion.div to wrap the AccordionItem for in-view animation
