@@ -15,6 +15,7 @@ import FeebackCard from "./FeebackCard";
 import SectionHeader from "@/components/common/SectionHeader";
 import { FeedbackService } from "@/services/feedbacks.service";
 import type { FeedbackDto } from "@/types/feedback";
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const icons = [
   <FeedbackIcon1 key="1" />,
@@ -98,22 +99,26 @@ const FeedbacksSection = () => {
             <SwiperSlide key={index} className="!w-auto !h-auto">
               <div className="flex w-[90vw] 2xs:w-[400px] max-w-[90vw] flex-col gap-[12px] xl:w-fit md:max-w-[447px]">
                 {top && (
-                  <FeebackCard
-                    key={top.id}
-                    icon={icons[index % icons.length]}
-                    author={top.author}
-                    content={top.content}
-                    isBlue={index % 2 === 1}
-                  />
+                  <FadeInFromDirection direction="left">
+                    <FeebackCard
+                      key={top.id}
+                      icon={icons[index % icons.length]}
+                      author={top.author}
+                      content={top.content}
+                      isBlue={index % 2 === 1}
+                    />
+                  </FadeInFromDirection>
                 )}
                 {bottom && (
-                  <FeebackCard
-                    key={bottom.id}
-                    icon={icons[(index + 3) % icons.length]}
-                    author={bottom.author}
-                    content={bottom.content}
-                    isBlue={index % 2 === 0}
-                  />
+                  <FadeInFromDirection direction="right">
+                    <FeebackCard
+                      key={bottom.id}
+                      icon={icons[(index + 3) % icons.length]}
+                      author={bottom.author}
+                      content={bottom.content}
+                      isBlue={index % 2 === 0}
+                    />
+                  </FadeInFromDirection>
                 )}
               </div>
             </SwiperSlide>
