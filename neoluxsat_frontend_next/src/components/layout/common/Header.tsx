@@ -328,7 +328,7 @@ const Header = () => {
                   </div>
                   {/* Social Links */}
                   <div className="flex gap-[24px] justify-start mb-[20px]">
-                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
                       <Link
                         href="https://t.me/+380957773244"
                         target="_blank"
@@ -337,7 +337,7 @@ const Header = () => {
                         <TelegramIcon />
                       </Link>
                     </div>
-                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
                       <Link
                         href="viber://chat?number=%2B380957773244"
                         target="_blank"
@@ -346,7 +346,7 @@ const Header = () => {
                         <ViberIcon />
                       </Link>
                     </div>
-                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
                       <Link
                         href="https://wa.me/380957773244"
                         target="_blank"
@@ -355,7 +355,7 @@ const Header = () => {
                         <WhatsappIcon />
                       </Link>
                     </div>
-                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+                    <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
                       <Link
                         href="https://www.facebook.com/profile.php?id=100066785902681"
                         target="_blank"

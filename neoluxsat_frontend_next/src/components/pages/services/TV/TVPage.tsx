@@ -48,6 +48,7 @@ const TVPage = () => {
         <ServicesParnerSliderSection
           sliderKey={"tv"}
           description={description}
+          duration={50}
         />
       </ServicesPageTemplate>
     </>

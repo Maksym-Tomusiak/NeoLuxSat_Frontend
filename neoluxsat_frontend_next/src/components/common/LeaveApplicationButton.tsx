@@ -29,7 +29,7 @@ const LeaveApplicationButton: React.FC<LeaveApplicationButtonProps> = ({
   return (
     <button
       className={cn(
-        "application-button border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold ",
+        "application-button border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold action:transform active:scale-95 active:duration-75",
         className,
         isOrange ? orangeClasses : blueClasses
       )}

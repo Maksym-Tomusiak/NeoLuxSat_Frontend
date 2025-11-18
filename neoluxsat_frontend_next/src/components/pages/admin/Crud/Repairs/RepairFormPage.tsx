@@ -62,7 +62,7 @@ const RepairFormPage: React.FC = () => {
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer"
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-200 rounded-full hover:bg-gray-300 transition-colors cursor-pointer action:transform active:scale-95 active:duration-75"
               disabled={isSubmitting}
             >
               {isReadOnly ? "Повернутися" : "Скасувати"}
@@ -72,7 +72,7 @@ const RepairFormPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="px-4 py-2 h-10 border border-primaryOrange border-[2px] text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer bg-primaryOrange rounded-full hover:bg-primaryWhite hover:text-primaryBlue transition-colors disabled:bg-gray-400"
+                className="px-4 py-2 h-10 border border-primaryOrange border-[2px] text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer bg-primaryOrange rounded-full hover:bg-primaryWhite hover:text-primaryBlue transition-colors disabled:bg-gray-400 action:transform active:scale-95 active:duration-75"
               >
                 {isSubmitting ? "Збереження..." : "Зберегти"}
               </button>

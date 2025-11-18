@@ -96,7 +96,7 @@ const AdminHeader = () => {
                 <div>
                   <button
                     className={`application-button border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold 
-            bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue`}
+            bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue action:transform active:scale-95 active:duration-75`}
                     onClick={handleLogoutClick} // Використовуємо оновлену функцію
                   >
                     Вийти

@@ -26,7 +26,7 @@ const TarifButton: React.FC<TarifButtonProps> = ({ href }) => {
       href={href}
       target="_blank"
       className={`w-full justify-center application-button border border-[2px] border-primaryWhite rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit 
-      hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer font-noto font-semibold text-primaryWhite`}
+      hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer font-noto font-semibold text-primaryWhite action:transform active:scale-95 active:duration-75`}
     >
       Тарифи
     </a>

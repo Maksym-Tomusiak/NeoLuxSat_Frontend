@@ -15,6 +15,7 @@ export type SliderKey = "internet" | "tv" | "security";
 
 type PartnersSliderProps = {
   sliderKey: SliderKey;
+  duration?: number;
 };
 
 // --- Base Content Definition (No duplication needed here) ---
@@ -61,11 +62,12 @@ const createSlideNodes = (sources: string[]) => {
     </div>
   );
 
-  return [result, result, result, result, result, result, result];
+  return [result, result, result, result, result];
 };
 
 const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
   sliderKey,
+  duration,
 }) => {
   const data = SLIDER_CONTENT_MAP[sliderKey];
 
@@ -74,7 +76,7 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
   const greySlides = createSlideNodes(data.grey);
 
   // Set consistent parameters
-  const DURATION = 25; // Time in seconds for one full loop (Adjust as needed)
+  const DURATION = 35; // Time in seconds for one full loop (Adjust as needed)
   const SLIDE_GAP = "56px"; // Corresponds to the original Swiper padding
 
   return (
@@ -90,7 +92,7 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
       >
         <ContinuousSliderTemplate
           slides={greySlides}
-          durationSeconds={DURATION}
+          durationSeconds={duration || DURATION}
           className="h-full"
           slideGap={SLIDE_GAP}
           direction="right"
@@ -107,7 +109,7 @@ const ServicesPartnersSlider: React.FC<PartnersSliderProps> = ({
       >
         <ContinuousSliderTemplate
           slides={orangeSlides}
-          durationSeconds={DURATION}
+          durationSeconds={duration || DURATION}
           className="h-full"
           slideGap={SLIDE_GAP}
         />

@@ -86,30 +86,6 @@ section {
   }
 }
 
-.continuous-slider-slide-wrapper {
-  margin-right: var(--slide-gap, 16px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.continuous-slider-track {
-  display: flex;
-  width: max-content;
-  animation-timing-function: linear;
-  animation-iteration-count: infinite;
-  animation-duration: var(--slider-duration, 20s);
-}
-
-.continuous-slider-track--left {
-  animation-name: scroll-seamless-left;
-}
-
-.continuous-slider-track--right {
-  animation-name: scroll-seamless-right;
-}
-
 .navigation-link {
   position: relative;
   padding-bottom: 4px; /* space for the underline */
