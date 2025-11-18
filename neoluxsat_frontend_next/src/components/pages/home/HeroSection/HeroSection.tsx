@@ -46,6 +46,7 @@ const HeroSection = () => {
     py-[14px] px-[18px]
     flex items-center justify-center
     hover:border-primaryOrange transition duration-300 ease-in-out cursor-pointer
+    action:transform active:scale-95 active:duration-75
   "
           onClick={scrollToSection}
         >

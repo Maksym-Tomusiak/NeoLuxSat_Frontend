@@ -65,7 +65,7 @@ const RepairsTable: React.FC = () => {
               h-10 px-4 border border-primaryOrange border-[2px]
               text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
               bg-primaryOrange rounded-full 
-              hover:bg-primaryWhite hover:text-primaryBlue transition-colors"
+              hover:bg-primaryWhite hover:text-primaryBlue transition-colors action:transform active:scale-95 active:duration-75"
             >
               Додати
             </button>

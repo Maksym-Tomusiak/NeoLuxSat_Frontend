@@ -70,7 +70,7 @@ const LoginPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="bg-primaryBlue text-white py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50"
+            className="bg-primaryBlue text-white py-2 rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 action:transform active:scale-95 active:duration-75"
           >
             {loading ? "Вхід..." : "Увійти"}
           </button>

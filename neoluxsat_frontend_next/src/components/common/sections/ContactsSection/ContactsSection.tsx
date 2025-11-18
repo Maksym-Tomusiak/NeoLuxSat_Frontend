@@ -121,17 +121,17 @@ const ContactsSection = () => {
             </div>
           </div>
           <div className="flex gap-[16px] justify-center fill-primaryOrange">
-            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
               <Link href="https://t.me/+380957773244" target="_blank">
                 <TelegramIcon />
               </Link>
             </div>
-            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
               <Link href="viber://chat?number=%2B380957773244">
                 <ViberIcon />
               </Link>
             </div>
-            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
               <Link
                 href="https://wa.me/380957773244"
                 target="_blank"
@@ -140,7 +140,7 @@ const ContactsSection = () => {
                 <WhatsappIcon />
               </Link>
             </div>
-            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out">
+            <div className="fill-primaryOrange hover:fill-primaryOrange/60 transition-all duration-150 ease-in-out action:transform active:scale-95 active:duration-75">
               <Link
                 href="https://www.facebook.com/profile.php?id=100066785902681"
                 target="_blank"

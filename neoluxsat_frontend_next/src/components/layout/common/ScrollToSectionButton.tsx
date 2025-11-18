@@ -37,7 +37,7 @@ const ScrollToSectionButton = ({ targetId = "main-content-start" }: Props) => {
       {isVisible && (
         <button
           onClick={scrollToSection}
-          className="pointer-events-auto float-right p-3 z-50 rounded-full bg-primaryOrange text-white shadow-lg transition-opacity duration-300 ease-in-out hover:bg-primaryOrange/80 focus:outline-none cursor-pointer flex items-center justify-center" // <-- ADDED HERE
+          className="pointer-events-auto float-right p-3 z-50 rounded-full bg-primaryOrange text-white shadow-lg transition-opacity duration-300 ease-in-out hover:bg-primaryOrange/80 focus:outline-none cursor-pointer flex items-center justify-center тaction:transform active:scale-95 active:duration-75" // <-- ADDED HERE
           aria-label="Scroll to content"
         >
           <div className="rotate-180 scroll-button fill-primaryWhite">
