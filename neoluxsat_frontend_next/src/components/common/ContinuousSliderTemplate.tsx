@@ -1,14 +1,13 @@
 import React from "react";
+import { motion } from "framer-motion";
 
-// 💡 NEW: Define possible directions
 type Direction = "left" | "right";
 
 interface ContinuousSliderTemplateProps {
   slides: React.ReactNode[];
   durationSeconds?: number;
   className?: string;
-  slideGap?: string;
-  // 💡 NEW: Prop for setting the scroll direction
+  slideGap?: string; // Supports "16px", "1rem", etc.
   direction?: Direction;
 }
 
@@ -17,42 +16,48 @@ const ContinuousSliderTemplate: React.FC<ContinuousSliderTemplateProps> = ({
   durationSeconds = 20,
   className = "w-full h-auto",
   slideGap = "16px",
-  direction = "left", // 💡 Default direction is 'left'
+  direction = "left",
 }) => {
-  if (slides.length === 0) return null;
+  if (!slides.length) return null;
 
-  // Duplicate slides for seamless loop
+  // 1. Duplicate slides to ensure we have enough content to loop
+  // We use 2 copies. If your content is very narrow and screen is wide,
+  // you might need 3 or 4, but 2 is standard for seamless loops.
   const duplicatedSlides = [...slides, ...slides];
-
-  // 💡 Determine the appropriate CSS animation class
-  const animationClass =
-    direction === "right"
-      ? "continuous-slider-track--right"
-      : "continuous-slider-track--left";
-
-  // Update style object to include the --slide-gap variable
-  const style = {
-    "--slider-duration": `${durationSeconds}s`,
-    "--slide-gap": slideGap,
-  } as React.CSSProperties;
 
   return (
     <div className={`overflow-hidden ${className}`}>
-      {/* 💡 Apply the dynamic animation class along with the base track class */}
-      <div
-        className={`continuous-slider-track ${animationClass}`}
-        style={style}
+      <motion.div
+        // 2. 'flex' lays them out horizontally
+        // 'w-max' ensures the container is as wide as the content (doesn't wrap)
+        className="flex w-max"
+        animate={{
+          // 3. Move exactly -50% of the total width.
+          // Because we use margins on ALL items (even the last one),
+          // -50% corresponds *exactly* to the start of the second set of slides.
+          x: direction === "left" ? ["0%", "-50%"] : ["-50%", "0%"],
+        }}
+        transition={{
+          // 4. 'linear' ensures constant speed (no easing/slowing down)
+          ease: "linear",
+          duration: durationSeconds,
+          repeat: Infinity,
+        }}
       >
-        {duplicatedSlides.map((s, idx) => (
-          // Apply the margin using a custom class that references the CSS variable
+        {duplicatedSlides.map((child, index) => (
           <div
-            key={idx}
-            className="continuous-slider-slide-wrapper flex justify-center items-center shrink-0"
+            key={index}
+            className="shrink-0 flex items-center justify-center"
+            style={{
+              // 5. CRITICAL FIX: Use Margin instead of Flex Gap.
+              // We apply this to EVERY slide.
+              marginRight: slideGap,
+            }}
           >
-            {s}
+            {child}
           </div>
         ))}
-      </div>
+      </motion.div>
     </div>
   );
 };

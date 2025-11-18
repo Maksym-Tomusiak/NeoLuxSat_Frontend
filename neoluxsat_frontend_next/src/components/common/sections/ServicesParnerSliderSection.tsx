@@ -9,11 +9,12 @@ import ServicesPartnersSlider, {
 type ServicesParnerSliderSectionProps = {
   sliderKey: SliderKey;
   description?: React.ReactNode;
+  duration?: number;
 };
 
 const ServicesParnerSliderSection: React.FC<
   ServicesParnerSliderSectionProps
-> = ({ description, sliderKey }) => {
+> = ({ description, sliderKey, duration }) => {
   return (
     <section>
       <div className="flex flex-col flex-wrap sm:flex-row justify-between lg:items-end w-full mb-[60px] gap-[24px]">
@@ -23,7 +24,7 @@ const ServicesParnerSliderSection: React.FC<
         </SectionHeader>
         {description}
       </div>
-      <ServicesPartnersSlider sliderKey={sliderKey} />
+      <ServicesPartnersSlider sliderKey={sliderKey} duration={duration} />
     </section>
   );
 };

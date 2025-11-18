@@ -19,7 +19,7 @@ const TrustBadgesSlider = () => {
   return (
     <ContinuousSliderTemplate
       slides={slides}
-      durationSeconds={15} // Animation cycle time
+      durationSeconds={12} // Animation cycle time
       className="w-[400px] sm:w-[350px] md:w-[600px] xl:w-[700px] h-[50px] xl:h-[60px]" // Viewport size
       slideGap="56px"
     />

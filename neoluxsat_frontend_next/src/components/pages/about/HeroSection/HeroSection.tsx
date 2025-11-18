@@ -1,5 +1,7 @@
-import HeroSectionTemplate from '@/components/common/sections/HeroSectionTemplate';
-import TrustBadgesSlider from '@/components/common/TrustBadgesSlider';
+"use client";
+
+import HeroSectionTemplate from "@/components/common/sections/HeroSectionTemplate";
+import TrustBadgesSlider from "@/components/common/TrustBadgesSlider";
 
 const HeroSection = () => {
   const leftPart = (
