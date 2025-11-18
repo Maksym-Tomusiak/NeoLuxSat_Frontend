@@ -142,7 +142,7 @@ const AdminHeader = () => {
                     <button
                       aria-label="Close menu"
                       onClick={handleClose}
-                      className="p-2 fill-primaryOrange menu-close-icon-container"
+                      className="p-2 fill-primaryOrange menu-close-icon-container action:transform active:scale-95 active:duration-75"
                     >
                       <CloseIcon />
                     </button>

@@ -263,7 +263,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                       <button
                         type="button"
                         onClick={onClose} // Use onClose directly
-                        className="hover:text-gray-200 p-1 fill-primaryWhite/80 hover:fill-primaryWhite transition-colors cursor-pointer w-fit h-fit close-button"
+                        className="hover:text-gray-200 p-1 fill-primaryWhite/80 hover:fill-primaryWhite transition-colors cursor-pointer w-fit h-fit close-button action:transform active:scale-95 active:duration-75"
                         aria-label="Закрити"
                       >
                         <CloseIcon />
@@ -486,7 +486,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                       <button
                         type="submit"
                         disabled={isSubmitting || isLoadingTypes}
-                        className="w-full bg-primaryBlue text-primaryWhite py-3 px-6 rounded-lg font-semibold border-primaryBlue border-[2px] hover:bg-primaryOrange transition duration-200 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer"
+                        className="w-full bg-primaryBlue text-primaryWhite py-3 px-6 rounded-lg font-semibold border-primaryBlue border-[2px] hover:bg-primaryOrange transition duration-200 disabled:opacity-70 disabled:cursor-not-allowed cursor-pointer action:transform active:scale-95 active:duration-75"
                       >
                         {isSubmitting ? "Відправка..." : "Залишити заявку"}
                       </button>
