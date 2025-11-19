@@ -1,14 +1,33 @@
 // ServicesSection.jsx
+import { useState, useEffect } from "react";
 import ServiceIcon1 from "@/assets/svgs/services/services-icon-1.svg?component";
 import ServiceIcon2 from "@/assets/svgs/services/services-icon-2.svg?component";
 import ServiceIcon3 from "@/assets/svgs/services/services-icon-3.svg?component";
 import ServiceIcon4 from "@/assets/svgs/services/services-icon-4.svg?component";
 import ServiceCard from "./ServiceCard";
 import SectionHeader from "@/components/common/SectionHeader";
-// 💡 Import the animation component
 import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const ServicesSection = () => {
+  // Initialize state
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // 1. SSR Safety: Check if window exists
+    if (typeof window === "undefined") return;
+
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 712);
+    };
+
+    // Check initially
+    handleResize();
+
+    // Add listener
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const data = [
     {
       icon: <ServiceIcon1 />,
@@ -57,11 +76,13 @@ const ServicesSection = () => {
             послуги
           </SectionHeader>
 
-          {/* Cards - Top Row (data[0] and data[1]) coming from the top */}
+          {/* Cards - Top Row */}
           <div className="flex gap-[20px] w-full lg:w-fit justify-center flex-wrap">
-            {/* Card 1 from Top */}
+            {/* Card 1 */}
             <FadeInFromDirection
-              direction="top"
+              // 2. KEY PROP: Forces re-render when view changes
+              key={`card-1-${isMobile ? "mobile" : "desktop"}`}
+              direction={isMobile ? "bottom" : "top"}
               delay={0.1}
               className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
             >
@@ -70,10 +91,12 @@ const ServicesSection = () => {
               </div>
             </FadeInFromDirection>
 
-            {/* Card 2 from Top */}
+            {/* Card 2 */}
             <FadeInFromDirection
-              direction="top"
-              delay={0.2}
+              // 2. KEY PROP: Forces re-render when view changes
+              key={`card-2-${isMobile ? "mobile" : "desktop"}`}
+              direction={isMobile ? "bottom" : "top"}
+              delay={isMobile ? 0.1 : 0.2}
               className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
             >
               <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
@@ -83,9 +106,9 @@ const ServicesSection = () => {
           </div>
         </div>
 
-        {/* Cards - Bottom Row (data[2] and data[3]) coming from the bottom */}
+        {/* Cards - Bottom Row (Always bottom) */}
         <div className="w-full flex justify-center items-center gap-[20px] mx-auto flex-wrap">
-          {/* Card 3 from Bottom */}
+          {/* Card 3 */}
           <FadeInFromDirection
             direction="bottom"
             delay={0.1}
@@ -96,10 +119,10 @@ const ServicesSection = () => {
             </div>
           </FadeInFromDirection>
 
-          {/* Card 4 from Bottom */}
+          {/* Card 4 */}
           <FadeInFromDirection
             direction="bottom"
-            delay={0.2}
+            delay={isMobile ? 0.1 : 0.2}
             className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
           >
             <div className="max-[712px]:min-w-full min-[712px]:max-w-[330px]">
