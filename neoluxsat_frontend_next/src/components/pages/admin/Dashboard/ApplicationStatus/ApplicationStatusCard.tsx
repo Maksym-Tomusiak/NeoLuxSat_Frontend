@@ -20,7 +20,7 @@ const getStatusIcon = (title: string) => {
       return <PendingApplicationsIcon />;
     case "завершена":
       return (
-        <div className="fill-iconsGreen">
+        <div className="fill-iconsGreen w-[24px] h-[24px]">
           <FinishedApplicationsIcon />
         </div>
       );
