@@ -1,8 +1,8 @@
 // src/types/repair.ts
 
-import type { RepairStatusDto } from '@/types/repairStatus';
-import type { RepairPaymentDto } from '@/types/repairPayment';
-import type { UserDto } from '@/types/user';
+import type { RepairStatusDto } from "@/types/repairStatus";
+import type { RepairPaymentDto } from "@/types/repairPayment";
+import type { UserDto } from "@/types/user";
 
 export interface RepairDto {
   id: string;
@@ -21,6 +21,8 @@ export interface RepairDto {
   complection: string | null; // <-- CORRECTED
   state: string | null;
   issue: string;
+  notifyRepairCreated: boolean;
+  notifyRepairCompleted: boolean;
   repairDate: Date | null;
   usedMaterials: string | null; // <-- CORRECTED
   materialsCost: number;
@@ -42,7 +44,8 @@ export interface RepairCreateDto {
   phoneNumber: string;
   equipmentModel: string;
   issue: string;
-
+  notifyRepairCreated: boolean;
+  notifyRepairCompleted: boolean;
   userId?: string;
   firstName?: string;
   city?: string;
@@ -62,14 +65,14 @@ export interface RepairCreateDto {
 
 export interface RepairUpdateDto {
   id: string;
-
   statusId: string;
   paymentId: string;
   lastName: string;
   phoneNumber: string;
   equipmentModel: string;
   issue: string;
-
+  notifyRepairCreated: boolean;
+  notifyRepairCompleted: boolean;
   userId?: string;
   firstName?: string;
   city?: string;

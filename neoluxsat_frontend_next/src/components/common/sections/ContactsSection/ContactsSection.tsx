@@ -14,6 +14,12 @@ import PhoneIcon from "@/assets/svgs/contacts/phone-icon.svg?component";
 import EmailIcon from "@/assets/svgs/contacts/email-icon.svg?component";
 import Link from "next/link";
 import FadeInFromDirection from "../../animations/FadeInFromDirection";
+import {
+  Accordion,
+  AccordionItem,
+  AccordionTrigger,
+  AccordionContent,
+} from "@/components/ui/accordion";
 
 const MapContainer = dynamic(
   () => import("react-leaflet").then((mod) => mod.MapContainer),
@@ -23,7 +29,6 @@ const Marker = dynamic(
   () => import("react-leaflet").then((mod) => mod.Marker),
   { ssr: false }
 );
-// Import ZoomControl dynamically
 const ZoomControl = dynamic(
   () => import("react-leaflet").then((mod) => mod.ZoomControl),
   { ssr: false }
@@ -76,7 +81,8 @@ const ContactsSection = () => {
         Де нас <br className="hidden sm:inline" />
         знайти
       </SectionHeader>
-      {/* ... (Icons/Contact Info Code remains unchanged) ... */}
+
+      {/* Desktop Contact Info */}
       <div className="hidden sm:flex justify-end max-lg:mt-[40px] font-noto mb-[24px] lg:mb-[56px]">
         <div className="flex flex-wrap items-center gap-x-[59px] lg:gap-y-[32px] h-[175px] w-[680px] text-primaryBlue fill-primaryBlue">
           <div className="flex gap-[12px] items-center w-fit min-w-[290px]">
@@ -144,6 +150,8 @@ const ContactsSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Mobile Contact Info */}
       <div className="sm:hidden flex justify-between max-lg:mt-[40px] font-noto mb-[24px] lg:mb-[56px]">
         <div className="flex flex-col items-start gap-[16px] text-primaryBlue fill-primaryBlue">
           <div className="flex gap-[12px] items-center w-fit">
@@ -213,10 +221,10 @@ const ContactsSection = () => {
       </div>
 
       <FadeInFromDirection direction="fade" duration={1}>
-        {/* Added relative wrapper for absolute positioning of the overlay */}
+        {/* Map Container - always visible */}
         <div className="relative w-full h-[400px] md:h-[500px] rounded-[20px] overflow-hidden">
-          {/* Static Container (Overlay) */}
-          <div className="absolute top-[24px] left-[24px] z-[1000] bg-primaryWhite rounded-[20px] map-ovelay-shadow">
+          {/* Desktop: Static Overlay (md and up) */}
+          <div className="hidden md:block absolute top-[24px] left-[24px] z-[1000] bg-primaryWhite rounded-[20px] map-ovelay-shadow">
             <div className="flex flex-col items-start text-primaryBlue font-noto gap-[24px] p-[16px] max-w-[70vw] sm:max-w-[340px]">
               <div className="flex gap-[12px] flex-col w-full bg-p">
                 <p className="font-medium text-[16px]/[120%] tracking-[-0.32px]">
@@ -238,18 +246,52 @@ const ContactsSection = () => {
             </div>
           </div>
 
+          {/* Mobile/Tablet: Accordion Overlay (below md) */}
+          <div className="md:hidden absolute top-[16px] left-[16px] md:top-[24px] md:left-[24px] z-[1000] bg-primaryWhite rounded-[20px] map-ovelay-shadow ">
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full min-w-[70vw] max-w-[70vw] xs:min-w-[340px] sm:max-w-[340px]"
+            >
+              <AccordionItem value="map-routing" className="border-none">
+                <AccordionTrigger className="text-primaryBlue font-noto hover:no-underline p-[16px] min-h-fit items-center [&[data-state=open]]:text-primaryBlue/80">
+                  <div className="flex flex-col w-full">
+                    <p className="font-medium text-[16px]/[120%] tracking-[-0.32px]">
+                      Наш магазин
+                    </p>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="px-[16px] pb-[16px] min-w-[70vw] max-w-[70vw] xs:min-w-[340px] sm:max-w-[340px]">
+                  <div className="flex flex-col gap-[12px]">
+                    <p className="text-primaryBlue/80 text-[16px]/[120%] tracking-[-0.32px] max-w-full">
+                      Перегляньте маршрут та відвідайте нас.
+                    </p>
+                    <button
+                      onClick={handleGetDirections}
+                      className="px-[18px] py-[14px] flex items-center justify-center text-[16px]/[120%] tracking-[-0.32px] w-full max-h-[40px]
+                    border-[1.4px] border-primaryOrange text-primaryBlue bg-primaryWhite
+                    bg-primaryOrange rounded-[10px] hover:border-primaryBlue transition duration-300 ease-in-out cursor-pointer
+                    active:scale-95 active:duration-75"
+                    >
+                      Прокласти маршрут
+                    </button>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </div>
+
+          {/* Map - always rendered */}
           {markerIcon && (
             <MapContainer
               center={position}
               zoom={15}
               className="w-full h-full"
               scrollWheelZoom={false}
-              zoomControl={false} // Disable default zoom control (usually top-left)
+              zoomControl={false}
             >
               <MaptilerStyledTileLayer styleId={"dataviz"} />
-
               <ZoomControl position="topright" />
-
               <Marker position={position} icon={markerIcon} />
             </MapContainer>
           )}
