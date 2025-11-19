@@ -5,6 +5,7 @@ import LeaveApplicationButton from "@/components/common/LeaveApplicationButton";
 import TrustBadgesSlider from "@/components/common/TrustBadgesSlider";
 import Link from "next/link";
 import { MouseEvent } from "react";
+import FadeInFromDirection from "@/components/common/animations/FadeInFromDirection";
 
 const HeroSection = () => {
   const scrollToSection = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -92,9 +93,12 @@ const HeroSection = () => {
       </HeroSectionTemplate>
 
       {/* Mobile layout → phone below */}
-      <div className="block md:hidden flex justify-center mt-[50px]">
+      <FadeInFromDirection
+        direction="bottom"
+        className="block md:hidden flex justify-center mt-[50px]"
+      >
         {rightPart}
-      </div>
+      </FadeInFromDirection>
     </section>
   );
 };

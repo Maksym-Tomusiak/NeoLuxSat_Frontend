@@ -25,7 +25,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           rounded-[14px] sm:rounded-[16px] md:rounded-[20px]
           bg-primaryBlue
           p-[16px] sm:p-[20px] md:p-[24px]
-          gap-[32px] sm:gap-[62px] lg:gap-[48px]  xl:gap-[86px]
+          gap-[32px] sm:gap-[60px] md:gap-[86px]
           min-h-[220px] sm:min-h-[280px] md:min-h-[330px]
           min-[711px]:min-w-full 2xs:min-w-[330px] max-w-[330px]
           duration-300 ease-in-out hover:bg-primaryOrange
