@@ -1,9 +1,9 @@
-import React from 'react';
-import { useFormContext, type FieldErrors } from 'react-hook-form';
-import type { RepairCreateDto, RepairUpdateDto } from '@/types/repair';
-import type { RepairStatusDto } from '@/types/repairStatus';
-import type { RepairPaymentDto } from '@/types/repairPayment';
-import type { UserDto } from '@/types/user';
+import React from "react";
+import { useFormContext, type FieldErrors } from "react-hook-form";
+import type { RepairCreateDto, RepairUpdateDto } from "@/types/repair";
+import type { RepairStatusDto } from "@/types/repairStatus";
+import type { RepairPaymentDto } from "@/types/repairPayment";
+import type { UserDto } from "@/types/user";
 
 type RepairFormType = RepairCreateDto | RepairUpdateDto;
 
@@ -32,11 +32,11 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
 
   // --- Base Styling Classes ---
   const defaultBaseClasses =
-    'w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600';
+    "w-full px-3 py-2 border rounded-lg disabled:bg-gray-100 disabled:text-gray-600";
   const editableTextClasses =
-    'focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange';
+    "focus:outline-none focus:ring-primaryOrange focus:border-primaryOrange";
   const readOnlySelectClasses =
-    'appearance-none pr-10 bg-gray-100 text-gray-600';
+    "appearance-none pr-10 bg-gray-100 text-gray-600";
 
   const getFieldClasses = (
     fieldName: keyof RepairFormType,
@@ -44,69 +44,77 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
   ) => {
     const hasError = !!rHFerrors[fieldName];
     if (isReadOnly) {
-      return `border-gray-300 ${isSelect ? readOnlySelectClasses : ''}`;
+      return `border-gray-300 ${isSelect ? readOnlySelectClasses : ""}`;
     }
     const focusClasses = isSelect
-      ? 'focus:ring-primaryOrange focus:border-primaryOrange'
+      ? "focus:ring-primaryOrange focus:border-primaryOrange"
       : editableTextClasses;
-    return `${hasError ? 'border-red-500' : 'border-gray-300'} ${focusClasses}`;
+    return `${hasError ? "border-red-500" : "border-gray-300"} ${focusClasses}`;
+  };
+
+  // Helper for checkbox containers to look like inputs
+  const getCheckboxContainerClasses = () => {
+    const base =
+      "w-full px-3 py-2 border rounded-lg flex items-center gap-3 h-[41.6px] accent-primaryOrange";
+    if (isReadOnly) {
+      return `${base} border-gray-300 bg-gray-100 text-gray-600`;
+    }
+    return `${base} border-gray-300 bg-white focus-within:ring-primaryOrange focus-within:border-primaryOrange`;
   };
 
   // --- Validation Rules ---
   const validationRules = {
     // Required
-    statusId: { required: 'Статус є обовʼязковим' },
-    paymentId: { required: 'Розрахунок є обовʼязковою' },
+    statusId: { required: "Статус є обовʼязковим" },
+    paymentId: { required: "Розрахунок є обовʼязковою" },
     lastName: {
       required: "Прізвище є обов'язковим",
-      maxLength: { value: 255, message: 'Максимум 255 символів' },
+      maxLength: { value: 255, message: "Максимум 255 символів" },
     },
     phoneNumber: {
       required: "Телефон є обов'язковим",
-      maxLength: { value: 50, message: 'Максимум 50 символів' },
+      maxLength: { value: 50, message: "Максимум 50 символів" },
     },
     equipmentModel: {
       required: "Модель є обов'язковою",
-      maxLength: { value: 255, message: 'Максимум 255 символів' },
+      maxLength: { value: 255, message: "Максимум 255 символів" },
     },
     issue: {
       required: "Опис проблеми є обов'язковим",
-      maxLength: { value: 4000, message: 'Максимум 4000 символів' },
+      maxLength: { value: 4000, message: "Максимум 4000 символів" },
     },
     // Optional
-    firstName: { maxLength: { value: 255, message: 'Максимум 255 символів' } },
-    city: { maxLength: { value: 255, message: 'Максимум 255 символів' } },
-    street: { maxLength: { value: 255, message: 'Максимум 255 символів' } },
+    firstName: { maxLength: { value: 255, message: "Максимум 255 символів" } },
+    city: { maxLength: { value: 255, message: "Максимум 255 символів" } },
+    street: { maxLength: { value: 255, message: "Максимум 255 символів" } },
     equipmentType: {
-      maxLength: { value: 255, message: 'Максимум 255 символів' },
+      maxLength: { value: 255, message: "Максимум 255 символів" },
     },
     serialNumber: {
-      maxLength: { value: 255, message: 'Максимум 255 символів' },
+      maxLength: { value: 255, message: "Максимум 255 символів" },
     },
     complection: {
-      // <-- CORRECTED
-      maxLength: { value: 255, message: 'Максимум 255 символів' },
+      maxLength: { value: 255, message: "Максимум 255 символів" },
     },
-    state: { maxLength: { value: 1000, message: 'Максимум 1000 символів' } },
+    state: { maxLength: { value: 1000, message: "Максимум 1000 символів" } },
     repairDate: {},
     usedMaterials: {
-      // <-- CORRECTED
-      maxLength: { value: 2000, message: 'Максимум 2000 символів' },
+      maxLength: { value: 2000, message: "Максимум 2000 символів" },
     },
     materialsCost: {
       valueAsNumber: true,
-      min: { value: 0, message: 'Не може бути негативним' },
+      min: { value: 0, message: "Не може бути негативним" },
     },
-    jobDone: { maxLength: { value: 4000, message: 'Максимум 4000 символів' } },
+    jobDone: { maxLength: { value: 4000, message: "Максимум 4000 символів" } },
     jobCost: {
       valueAsNumber: true,
-      min: { value: 0, message: 'Не може бути негативним' },
+      min: { value: 0, message: "Не може бути негативним" },
     },
     masterConclusion: {
-      maxLength: { value: 4000, message: 'Максимум 4000 символів' },
+      maxLength: { value: 4000, message: "Максимум 4000 символів" },
     },
     managerComment: {
-      maxLength: { value: 4000, message: 'Максимум 4000 символів' },
+      maxLength: { value: 4000, message: "Максимум 4000 символів" },
     },
   };
 
@@ -125,12 +133,12 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             </label>
             <select
               id="statusId"
-              {...register('statusId', validationRules.statusId)}
+              {...register("statusId", validationRules.statusId)}
               disabled={isReadOnly}
               className={`${defaultBaseClasses} ${getFieldClasses(
-                'statusId',
+                "statusId",
                 true
-              )}`}
+              )} h-[41.6px]`}
             >
               <option value="">Оберіть статус</option>
               {repairStatuses.map((s) => (
@@ -150,12 +158,12 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             </label>
             <select
               id="paymentId"
-              {...register('paymentId', validationRules.paymentId)}
+              {...register("paymentId", validationRules.paymentId)}
               disabled={isReadOnly}
               className={`${defaultBaseClasses} ${getFieldClasses(
-                'paymentId',
+                "paymentId",
                 true
-              )}`}
+              )} h-[41.6px]`}
             >
               <option value="">Оберіть статус розрахунку</option>
               {repairPayments.map((p) => (
@@ -175,12 +183,12 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             </label>
             <select
               id="userId"
-              {...register('userId')}
+              {...register("userId")}
               disabled={isReadOnly}
               className={`${defaultBaseClasses} ${getFieldClasses(
-                'userId',
+                "userId",
                 true
-              )}`}
+              )} h-[41.6px]`}
             >
               <option value="">Не прив'язано</option>
               {users.map((u) => (
@@ -190,6 +198,55 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
               ))}
             </select>
           </div>
+
+          <div>
+            <label
+              htmlFor="notifyRepairCreated"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Сповіщення про прийом
+            </label>
+            <div className={getCheckboxContainerClasses()}>
+              <input
+                id="notifyRepairCreated"
+                type="checkbox"
+                {...register("notifyRepairCreated")}
+                disabled={isReadOnly}
+                className="h-4 w-4 text-primaryOrange focus:ring-primaryOrange border-gray-300 rounded disabled:bg-gray-100 cursor-pointer disabled:cursor-default"
+              />
+              <label
+                htmlFor="notifyRepairCreated"
+                className="text-sm text-gray-700 cursor-pointer disabled:cursor-default w-full"
+              >
+                Сповістити клієнта
+              </label>
+            </div>
+          </div>
+
+          <div>
+            <label
+              htmlFor="notifyRepairCompleted"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
+              Сповіщення про завершення
+            </label>
+            <div className={getCheckboxContainerClasses()}>
+              <input
+                id="notifyRepairCompleted"
+                type="checkbox"
+                {...register("notifyRepairCompleted")}
+                disabled={isReadOnly}
+                className="h-4 w-4 text-primaryOrange focus:ring-primaryOrange border-gray-300 rounded disabled:bg-gray-100 cursor-pointer disabled:cursor-default"
+              />
+              <label
+                htmlFor="notifyRepairCompleted"
+                className="text-sm text-gray-700 cursor-pointer disabled:cursor-default w-full"
+              >
+                Сповістити клієнта
+              </label>
+            </div>
+          </div>
+          {/* ------------------------------- */}
         </div>
 
         {/* Col 2 */}
@@ -204,9 +261,9 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             <input
               id="lastName"
               type="text"
-              {...register('lastName', validationRules.lastName)}
+              {...register("lastName", validationRules.lastName)}
               disabled={isReadOnly}
-              className={`${defaultBaseClasses} ${getFieldClasses('lastName')}`}
+              className={`${defaultBaseClasses} ${getFieldClasses("lastName")}`}
             />
             <ErrorText message={rHFerrors.lastName?.message} />
           </div>
@@ -220,10 +277,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             <input
               id="firstName"
               type="text"
-              {...register('firstName', validationRules.firstName)}
+              {...register("firstName", validationRules.firstName)}
               disabled={isReadOnly}
               className={`${defaultBaseClasses} ${getFieldClasses(
-                'firstName'
+                "firstName"
               )}`}
             />
             <ErrorText message={rHFerrors.firstName?.message} />
@@ -238,10 +295,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             <input
               id="phoneNumber"
               type="tel"
-              {...register('phoneNumber', validationRules.phoneNumber)}
+              {...register("phoneNumber", validationRules.phoneNumber)}
               disabled={isReadOnly}
               className={`${defaultBaseClasses} ${getFieldClasses(
-                'phoneNumber'
+                "phoneNumber"
               )}`}
             />
             <ErrorText message={rHFerrors.phoneNumber?.message} />
@@ -256,9 +313,9 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             <input
               id="city"
               type="text"
-              {...register('city', validationRules.city)}
+              {...register("city", validationRules.city)}
               disabled={isReadOnly}
-              className={`${defaultBaseClasses} ${getFieldClasses('city')}`}
+              className={`${defaultBaseClasses} ${getFieldClasses("city")}`}
             />
             <ErrorText message={rHFerrors.city?.message} />
           </div>
@@ -272,9 +329,9 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             <input
               id="street"
               type="text"
-              {...register('street', validationRules.street)}
+              {...register("street", validationRules.street)}
               disabled={isReadOnly}
-              className={`${defaultBaseClasses} ${getFieldClasses('street')}`}
+              className={`${defaultBaseClasses} ${getFieldClasses("street")}`}
             />
             <ErrorText message={rHFerrors.street?.message} />
           </div>
@@ -297,10 +354,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <input
             id="equipmentModel"
             type="text"
-            {...register('equipmentModel', validationRules.equipmentModel)}
+            {...register("equipmentModel", validationRules.equipmentModel)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} ${getFieldClasses(
-              'equipmentModel'
+              "equipmentModel"
             )}`}
           />
           <ErrorText message={rHFerrors.equipmentModel?.message} />
@@ -315,10 +372,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <input
             id="equipmentType"
             type="text"
-            {...register('equipmentType', validationRules.equipmentType)}
+            {...register("equipmentType", validationRules.equipmentType)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} ${getFieldClasses(
-              'equipmentType'
+              "equipmentType"
             )}`}
           />
           <ErrorText message={rHFerrors.equipmentType?.message} />
@@ -333,16 +390,15 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <input
             id="serialNumber"
             type="text"
-            {...register('serialNumber', validationRules.serialNumber)}
+            {...register("serialNumber", validationRules.serialNumber)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} ${getFieldClasses(
-              'serialNumber'
+              "serialNumber"
             )}`}
           />
           <ErrorText message={rHFerrors.serialNumber?.message} />
         </div>
 
-        {/* --- FIELD UPDATED --- */}
         <div className="md:col-span-2">
           <label
             htmlFor="complection"
@@ -353,15 +409,14 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <input
             id="complection"
             type="text"
-            {...register('complection', validationRules.complection)}
+            {...register("complection", validationRules.complection)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} ${getFieldClasses(
-              'complection'
+              "complection"
             )}`}
           />
           <ErrorText message={rHFerrors.complection?.message} />
         </div>
-        {/* --------------------- */}
 
         <div className="md:col-span-2">
           <label
@@ -373,10 +428,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <textarea
             id="issue"
             rows={4}
-            {...register('issue', validationRules.issue)}
+            {...register("issue", validationRules.issue)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} resize-vertical ${getFieldClasses(
-              'issue'
+              "issue"
             )}`}
           />
           <ErrorText message={rHFerrors.issue?.message} />
@@ -391,10 +446,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <textarea
             id="state"
             rows={2}
-            {...register('state', validationRules.state)}
+            {...register("state", validationRules.state)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} resize-vertical ${getFieldClasses(
-              'state'
+              "state"
             )}`}
           />
           <ErrorText message={rHFerrors.state?.message} />
@@ -417,14 +472,13 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <input
             id="repairDate"
             type="date"
-            {...register('repairDate', validationRules.repairDate)}
+            {...register("repairDate", validationRules.repairDate)}
             disabled={isReadOnly}
-            className={`${defaultBaseClasses} ${getFieldClasses('repairDate')}`}
+            className={`${defaultBaseClasses} ${getFieldClasses("repairDate")}`}
           />
           <ErrorText message={rHFerrors.repairDate?.message} />
         </div>
 
-        {/* --- FIELD UPDATED --- */}
         <div className="md:col-span-2">
           <label
             htmlFor="usedMaterials"
@@ -435,15 +489,14 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <textarea
             id="usedMaterials"
             rows={2}
-            {...register('usedMaterials', validationRules.usedMaterials)}
+            {...register("usedMaterials", validationRules.usedMaterials)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} resize-vertical ${getFieldClasses(
-              'usedMaterials'
+              "usedMaterials"
             )}`}
           />
           <ErrorText message={rHFerrors.usedMaterials?.message} />
         </div>
-        {/* --------------------- */}
 
         <div className="md:col-span-2">
           <label
@@ -455,10 +508,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <textarea
             id="jobDone"
             rows={3}
-            {...register('jobDone', validationRules.jobDone)}
+            {...register("jobDone", validationRules.jobDone)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} resize-vertical ${getFieldClasses(
-              'jobDone'
+              "jobDone"
             )}`}
           />
           <ErrorText message={rHFerrors.jobDone?.message} />
@@ -474,10 +527,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             id="materialsCost"
             type="number"
             step="0.01"
-            {...register('materialsCost', validationRules.materialsCost)}
+            {...register("materialsCost", validationRules.materialsCost)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} ${getFieldClasses(
-              'materialsCost'
+              "materialsCost"
             )}`}
           />
           <ErrorText message={rHFerrors.materialsCost?.message} />
@@ -493,9 +546,9 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
             id="jobCost"
             type="number"
             step="0.01"
-            {...register('jobCost', validationRules.jobCost)}
+            {...register("jobCost", validationRules.jobCost)}
             disabled={isReadOnly}
-            className={`${defaultBaseClasses} ${getFieldClasses('jobCost')}`}
+            className={`${defaultBaseClasses} ${getFieldClasses("jobCost")}`}
           />
           <ErrorText message={rHFerrors.jobCost?.message} />
         </div>
@@ -517,10 +570,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <textarea
             id="masterConclusion"
             rows={3}
-            {...register('masterConclusion', validationRules.masterConclusion)}
+            {...register("masterConclusion", validationRules.masterConclusion)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} resize-vertical ${getFieldClasses(
-              'masterConclusion'
+              "masterConclusion"
             )}`}
           />
           <ErrorText message={rHFerrors.masterConclusion?.message} />
@@ -535,10 +588,10 @@ export const RepairFormFields: React.FC<RepairFormFieldsProps> = ({
           <textarea
             id="managerComment"
             rows={3}
-            {...register('managerComment', validationRules.managerComment)}
+            {...register("managerComment", validationRules.managerComment)}
             disabled={isReadOnly}
             className={`${defaultBaseClasses} resize-vertical ${getFieldClasses(
-              'managerComment'
+              "managerComment"
             )}`}
           />
           <ErrorText message={rHFerrors.managerComment?.message} />

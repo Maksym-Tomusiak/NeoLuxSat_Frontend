@@ -177,7 +177,7 @@ const Header = () => {
           <button
             aria-label="Open menu"
             onClick={() => setIsOpen(true)}
-            className="ml-auto flex size-[40px] items-center justify-center rounded-[10px] min-[1150px]:hidden"
+            className="ml-auto flex size-[40px] items-center justify-center rounded-[10px] min-[1150px]:hidden action:transform active:scale-95 active:duration-75"
           >
             <MenuIcon />
           </button>

@@ -60,14 +60,22 @@ const ServicesSection = () => {
           {/* Cards - Top Row (data[0] and data[1]) coming from the top */}
           <div className="flex gap-[20px] w-full lg:w-fit justify-center flex-wrap">
             {/* Card 1 from Top */}
-            <FadeInFromDirection direction="top" delay={0.1}>
+            <FadeInFromDirection
+              direction="top"
+              delay={0.1}
+              className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
+            >
               <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
                 <ServiceCard {...data[0]} />
               </div>
             </FadeInFromDirection>
 
             {/* Card 2 from Top */}
-            <FadeInFromDirection direction="top" delay={0.2}>
+            <FadeInFromDirection
+              direction="top"
+              delay={0.2}
+              className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
+            >
               <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
                 <ServiceCard {...data[1]} />
               </div>
@@ -78,15 +86,23 @@ const ServicesSection = () => {
         {/* Cards - Bottom Row (data[2] and data[3]) coming from the bottom */}
         <div className="w-full flex justify-center items-center gap-[20px] mx-auto flex-wrap">
           {/* Card 3 from Bottom */}
-          <FadeInFromDirection direction="bottom" delay={0.1}>
-            <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
+          <FadeInFromDirection
+            direction="bottom"
+            delay={0.1}
+            className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
+          >
+            <div className="max-[712px]:min-w-full min-[712px]:max-w-[330px]">
               <ServiceCard {...data[2]} />
             </div>
           </FadeInFromDirection>
 
           {/* Card 4 from Bottom */}
-          <FadeInFromDirection direction="bottom" delay={0.2}>
-            <div className="max-[712px]:w-full min-[712px]:max-w-[330px]">
+          <FadeInFromDirection
+            direction="bottom"
+            delay={0.2}
+            className="max-[712px]:min-w-full min-[712px]:max-w-[330px]"
+          >
+            <div className="max-[712px]:min-w-full min-[712px]:max-w-[330px]">
               <ServiceCard {...data[3]} />
             </div>
           </FadeInFromDirection>

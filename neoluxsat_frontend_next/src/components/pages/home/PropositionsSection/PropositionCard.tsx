@@ -171,7 +171,7 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
                       </React.Fragment>
                     ))}
                   </p>
-                  <div className="flex items-center gap-[8px] mt-[12px] fill-primaryOrange mb-[12px] xs:mb-[20px] md:mb-[40px] lg:mb-[20px] xl:mb-[40px]">
+                  <div className="flex items-center gap-[8px] mt-[12px] fill-primaryOrange mb-[24px] xs:mb-[32px] md:mb-[40px] lg:mb-[20px] xl:mb-[40px]">
                     <div>
                       <DateIcon />
                     </div>
@@ -214,7 +214,7 @@ const PropositionCard: React.FC<PropositionCardProps> = ({
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full sm:w-auto mt-3 sm:mt-0 px-6 py-3 rounded-lg border-primaryOrange border-[2px] bg-primaryOrange text-primaryWhite font-semibold font-noto whitespace-nowrap hover:bg-transparent hover:text-primaryBlue transition-colors disabled:opacity-70 cursor-pointer"
+                className="w-full sm:w-auto mt-3 sm:mt-0 px-6 py-3 rounded-lg border-primaryOrange border-[2px] bg-primaryOrange text-primaryWhite font-semibold font-noto whitespace-nowrap hover:bg-transparent hover:text-primaryBlue transition-colors disabled:opacity-70 cursor-pointer action:transform active:scale-95 active:duration-75"
               >
                 {isSubmitting ? "Відправка..." : "Залишити заявку"}
               </button>
