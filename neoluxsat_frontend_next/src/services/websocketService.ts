@@ -32,12 +32,11 @@ class WebSocketService {
 
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl, {
-        transport: signalR.HttpTransportType.WebSockets,
         skipNegotiation: true,
-        withCredentials: true,
+        transport: signalR.HttpTransportType.WebSockets,
       })
       .withAutomaticReconnect()
-      .configureLogging(signalR.LogLevel.Information)
+      .configureLogging(signalR.LogLevel.Warning) // Use Warning to reduce console noise
       .build();
   }
 
