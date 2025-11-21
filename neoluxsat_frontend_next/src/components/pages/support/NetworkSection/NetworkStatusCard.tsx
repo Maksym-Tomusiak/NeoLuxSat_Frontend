@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 
 export type NetworkStatusData = {
   title: string;
@@ -14,7 +14,7 @@ const NetworkStatusCard: React.FC<{ data: NetworkStatusData }> = ({ data }) => (
   <div className="w-full max-w-[680px] rounded-[20px] p-[24px] bg-primaryBlue/10 flex flex-col gap-[24px]">
     <div className="flex items-start gap-[24px]">
       <div
-        className={`rounded-[20px] flex items-center justify-center p-[10px] max-xs:p-[8px] max-xs:rounded-[10px] max-xs:max-w-[40px] max-xs:max-h-[40px] ${data.iconBgColorClass}`}
+        className={`rounded-[20px] flex items-center justify-center p-[10px] max-xs:p-[8px] max-xs:rounded-[10px] max-xs:max-w-[60px] max-xs:max-h-[60px] xs:max-w-[80px] xs:max-h-[80px] [&>svg]:w-full [&>svg]:h-full ${data.iconBgColorClass}`}
       >
         {data.icon}
       </div>
