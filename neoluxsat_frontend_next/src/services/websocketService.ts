@@ -5,7 +5,6 @@ import type { NetworkProblemDto } from "@/types/networkProblem";
 import type { ApplicationDto } from "@/types/application";
 import type { RepairDto } from "@/types/repair";
 
-// Names of events we expect from the backend
 const EVENTS = {
   PROBLEM_CREATED: "NetworkProblemCreated",
   PROBLEM_UPDATED: "NetworkProblemUpdated",
@@ -16,31 +15,23 @@ class WebSocketService {
   private connection: signalR.HubConnection;
   private static instance: WebSocketService;
 
-  // Constructor is private for singleton pattern
   private constructor() {
     let apiUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "";
-
-    // 1. FIX: Derive the secure WSS protocol URL.
-    // Example: https://ostrog.pp.ua/api  ->  wss://ostrog.pp.ua/websocketsHub
+    // Remove /api to get the root URL
     let rootUrl = apiUrl.replace(/\/api$/, "");
 
-    // We must ensure WSS protocol is used for the connection builder.
-    // If the deployment is HTTPS, the WebSocket MUST use WSS.
-    let wssUrl = rootUrl.replace(/^https?:\/\//i, "wss://");
-
-    const hubUrl = `${wssUrl}/websocketsHub`; // Final URL: wss://ostrog.pp.ua/websocketsHub
+    const hubUrl = `${rootUrl}/websocketsHub`;
 
     this.connection = new signalR.HubConnectionBuilder()
       .withUrl(hubUrl, {
-        skipNegotiation: true,
         transport: signalR.HttpTransportType.WebSockets,
+        withCredentials: true,
       })
       .withAutomaticReconnect()
-      .configureLogging(signalR.LogLevel.Warning) // Use Warning to reduce console noise
+      .configureLogging(signalR.LogLevel.Information)
       .build();
   }
 
-  // Method to get the single instance of the service
   public static getInstance(): WebSocketService {
     if (!WebSocketService.instance) {
       WebSocketService.instance = new WebSocketService();
@@ -48,26 +39,25 @@ class WebSocketService {
     return WebSocketService.instance;
   }
 
-  // Launch connection (if not already established)
   public async start() {
     if (this.connection.state === signalR.HubConnectionState.Disconnected) {
       try {
         await this.connection.start();
+        console.log("SignalR Connected!");
       } catch (err) {
-        // This will log the final negotiation error in the console
         console.error("SignalR Connection Start Failure: ", err);
+        // Optional: Retry logic could go here
       }
     }
   }
 
-  // Зупинка з'єднання
   public async stop() {
     if (this.connection.state === signalR.HubConnectionState.Connected) {
       await this.connection.stop();
     }
   }
 
-  // --- Методи підписки на події ---
+  // --- Event Subscriptions ---
 
   public onNetworkProblemCreated(
     callback: (problem: NetworkProblemDto) => void
@@ -91,10 +81,7 @@ class WebSocketService {
     this.connection.off(EVENTS.PROBLEM_UPDATED, callback);
   }
 
-  public onNetworkProblemDeleted(
-    // Припускаємо, що бекенд надсилає ID видаленої сутності
-    callback: (id: string) => void
-  ) {
+  public onNetworkProblemDeleted(callback: (id: string) => void) {
     this.connection.on(EVENTS.PROBLEM_DELETED, callback);
   }
   public offNetworkProblemDeleted(callback: (id: string) => void) {
@@ -104,7 +91,6 @@ class WebSocketService {
   public onApplicationCreated(callback: (application: ApplicationDto) => void) {
     this.connection.on("ApplicationCreated", callback);
   }
-
   public offApplicationCreated(
     callback: (application: ApplicationDto) => void
   ) {
@@ -114,7 +100,6 @@ class WebSocketService {
   public onApplicationUpdated(callback: (application: ApplicationDto) => void) {
     this.connection.on("ApplicationUpdated", callback);
   }
-
   public offApplicationUpdated(
     callback: (application: ApplicationDto) => void
   ) {
@@ -124,7 +109,6 @@ class WebSocketService {
   public onApplicationDeleted(callback: (id: string) => void) {
     this.connection.on("ApplicationDeleted", callback);
   }
-
   public offApplicationDeleted(callback: (id: string) => void) {
     this.connection.off("ApplicationDeleted", callback);
   }
@@ -132,7 +116,6 @@ class WebSocketService {
   public onRepairCreated(callback: (repair: RepairDto) => void) {
     this.connection.on("RepairCreated", callback);
   }
-
   public offRepairCreated(callback: (repair: RepairDto) => void) {
     this.connection.off("RepairCreated", callback);
   }
@@ -140,7 +123,6 @@ class WebSocketService {
   public onRepairUpdated(callback: (repair: RepairDto) => void) {
     this.connection.on("RepairUpdated", callback);
   }
-
   public offRepairUpdated(callback: (repair: RepairDto) => void) {
     this.connection.off("RepairUpdated", callback);
   }
@@ -148,11 +130,9 @@ class WebSocketService {
   public onRepairDeleted(callback: (id: string) => void) {
     this.connection.on("RepairDeleted", callback);
   }
-
   public offRepairDeleted(callback: (id: string) => void) {
     this.connection.off("RepairDeleted", callback);
   }
 }
 
-// Експортуємо один екземпляр на весь додаток
 export const webSocketService = WebSocketService.getInstance();
