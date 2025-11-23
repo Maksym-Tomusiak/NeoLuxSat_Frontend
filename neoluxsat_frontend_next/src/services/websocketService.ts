@@ -43,7 +43,6 @@ class WebSocketService {
     if (this.connection.state === signalR.HubConnectionState.Disconnected) {
       try {
         await this.connection.start();
-        console.log("SignalR Connected!");
       } catch (err) {
         console.error("SignalR Connection Start Failure: ", err);
         // Optional: Retry logic could go here
