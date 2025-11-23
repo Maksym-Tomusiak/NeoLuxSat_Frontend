@@ -153,14 +153,14 @@ const Header = () => {
             <div className="flex flex-col items-center gap-[4px]">
               <Link
                 href="tel:0957773244"
-                className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px]"
+                className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px] hover:text-primaryOrange transition-colors duration-150"
               >
                 095-777-3244
               </Link>
               <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
               <Link
                 href="tel:0737376088"
-                className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px]"
+                className="text-[14px]/[120%] font-semibold tracking-[-0.28px] md:text-[16px]/[120%] md:tracking-[-0.32px] hover:text-primaryOrange transition-colors duration-150"
               >
                 073-737-6088
               </Link>
@@ -297,7 +297,7 @@ const Header = () => {
                         {/* Note: Kept as <Link> for consistency, though standard <Link> is fine for tel: */}
                         <Link
                           href="tel:0957773244"
-                          className="font-medium w-fit"
+                          className="font-medium w-fit hover:text-primaryOrange transition-colors duration-150"
                           onClick={handleClose}
                         >
                           095-777-3244
@@ -305,7 +305,7 @@ const Header = () => {
                         <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
                         <Link
                           href="tel:0737376088"
-                          className="font-medium"
+                          className="font-medium hover:text-primaryOrange transition-colors duration-150"
                           onClick={handleClose}
                         >
                           073-737-6088
@@ -320,7 +320,7 @@ const Header = () => {
                       <p className="font-normal text-primaryBlue/80">Пошта</p>
                       <Link
                         href="mailto:luxsatnet@gmail.com"
-                        className="font-medium"
+                        className="font-medium hover:text-primaryOrange transition-colors duration-150"
                       >
                         luxsatnet@gmail.com
                       </Link>

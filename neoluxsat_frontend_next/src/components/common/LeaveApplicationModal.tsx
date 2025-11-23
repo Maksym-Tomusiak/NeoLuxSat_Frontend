@@ -432,7 +432,7 @@ const LeaveApplicationModal: React.FC<LeaveApplicationModalProps> = ({
                                   ref={field.ref}
                                   onBlur={field.onBlur}
                                   aria-invalid={!!error}
-                                  className="w-full bg-white text-primaryBlue/40 data-[placeholder]:text-primaryBlue/40"
+                                  className="w-full bg-white text-primaryBlue/80 data-[placeholder]:text-primaryBlue/40"
                                 >
                                   <SelectValue
                                     placeholder={

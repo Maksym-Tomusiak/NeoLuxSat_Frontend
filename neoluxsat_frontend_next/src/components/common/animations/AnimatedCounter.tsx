@@ -35,7 +35,7 @@ const AnimatedCounter: React.FC<AnimatedCounterProps> = ({ to, className }) => {
     if (isInView) {
       count.set(0);
       animate(count, to, {
-        duration: 2.5,
+        duration: 1.5,
         ease: "easeInOut",
       });
     }

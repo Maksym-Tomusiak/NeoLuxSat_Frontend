@@ -100,11 +100,17 @@ const ContactsSection = () => {
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
               <div className="flex flex-col gap-[4px] w-fit">
-                <Link href="tel:0957773244" className="font-medium w-fit">
+                <Link
+                  href="tel:0957773244"
+                  className="font-medium w-fit hover:text-primaryOrange transition-colors duration-150"
+                >
                   095-777-3244
                 </Link>
                 <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
-                <Link href="tel:0737376088" className="font-medium">
+                <Link
+                  href="tel:0737376088"
+                  className="font-medium hover:text-primaryOrange transition-colors duration-150"
+                >
                   073-737-6088
                 </Link>
               </div>
@@ -114,7 +120,10 @@ const ContactsSection = () => {
             <EmailIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
-              <Link href="mailto:luxsatnet@gmail.com" className="font-medium">
+              <Link
+                href="mailto:luxsatnet@gmail.com"
+                className="font-medium hover:text-primaryOrange transition-colors duration-150"
+              >
                 luxsatnet@gmail.com
               </Link>
             </div>
@@ -169,11 +178,17 @@ const ContactsSection = () => {
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Номер телефону</p>
               <div className="flex flex-col gap-[4px] w-fit">
-                <Link href="tel:0957773244" className="font-medium w-fit">
+                <Link
+                  href="tel:0957773244"
+                  className="font-medium w-fit hover:text-primaryOrange transition-colors duration-150"
+                >
                   095-777-3244
                 </Link>
                 <div className="h-[1.4px] bg-primaryOrange w-full rounded-full"></div>
-                <Link href="tel:0737376088" className="font-medium">
+                <Link
+                  href="tel:0737376088"
+                  className="font-medium hover:text-primaryOrange transition-colors duration-150"
+                >
                   073-737-6088
                 </Link>
               </div>
@@ -183,7 +198,10 @@ const ContactsSection = () => {
             <EmailIcon />
             <div className="flex flex-col gap-[8px]">
               <p className="font-normal text-primaryBlue/80">Пошта</p>
-              <Link href="mailto:luxsatnet@gmail.com" className="font-medium">
+              <Link
+                href="mailto:luxsatnet@gmail.com"
+                className="font-medium hover:text-primaryOrange transition-colors duration-150"
+              >
                 luxsatnet@gmail.com
               </Link>
             </div>
