@@ -68,7 +68,11 @@ const ContactsSection = () => {
             "Не вдалося отримати вашу геолокацію. Будь ласка, перевірте налаштування та надайте дозвіл."
           );
         },
-        { enableHighAccuracy: true }
+        {
+          enableHighAccuracy: true,
+          maximumAge: 0,
+          timeout: 10000,
+        }
       );
     } else {
       alert("Геолокація не підтримується вашим браузером.");
@@ -310,7 +314,11 @@ const ContactsSection = () => {
             >
               <MaptilerStyledTileLayer styleId={"dataviz"} />
               <ZoomControl position="topright" />
-              <Marker position={position} icon={markerIcon} />
+              <Marker
+                position={position}
+                icon={markerIcon}
+                interactive={false}
+              />
             </MapContainer>
           )}
         </div>
