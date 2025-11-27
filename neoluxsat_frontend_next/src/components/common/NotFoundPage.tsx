@@ -12,10 +12,8 @@ const NotFoundPage = () => {
           src="/images/not-found-image.png"
           alt="404-image"
           // 3. IMPORTANT: Update these numbers to the actual pixel size of your image
-          width={4096}
-          height={2304}
-          // 4. The 'priority' prop fixes the preload warning
-          priority
+          width={600}
+          height={340}
         />
 
         <div className="flex flex-col gap-[16px] justify-center items-center">
@@ -28,10 +26,11 @@ const NotFoundPage = () => {
           </p>
         </div>
 
-        <Link href="/">
-          <button className="bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold ">
-            На головну
-          </button>
+        <Link
+          href="/"
+          className="bg-primaryOrange border-primaryOrange text-primaryWhite hover:text-primaryBlue border border-[2px] rounded-[10px] py-[14px] px-[20px] h-[40px] flex items-center text-[18px]/[120%] align-middle max-h-fit hover:bg-transparent transition duration-300 ease-in-out cursor-pointer font-noto font-semibold "
+        >
+          На головну
         </Link>
       </div>
     </div>
