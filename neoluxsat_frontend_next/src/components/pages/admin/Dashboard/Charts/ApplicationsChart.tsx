@@ -5,9 +5,9 @@ import { ApplicationService } from "@/services/application.service";
 import BaseDataChart from "./BaseDataChart";
 
 // --- Specific Data Fetching ---
-const fetchApplicationsData = (signal: AbortSignal) => {
+const fetchApplicationsData = (days: number, signal: AbortSignal) => {
   return ApplicationService.getApplicationsCountByRecentDays(
-    7,
+    days,
     3,
     signal
   ) as Promise<Record<string, number>>;

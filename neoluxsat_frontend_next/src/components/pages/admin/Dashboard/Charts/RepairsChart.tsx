@@ -4,12 +4,10 @@ import { RepairService } from "@/services/repair.service";
 import BaseDataChart from "./BaseDataChart";
 import React from "react";
 
-const fetchRepairsData = (signal: AbortSignal) => {
-  return RepairService.getRepairsCountByRecentDays(
-    7, // Last 7 days
-    3,
-    signal
-  ) as Promise<Record<string, number>>;
+const fetchRepairsData = (days: number, signal: AbortSignal) => {
+  return RepairService.getRepairsCountByRecentDays(days, 3, signal) as Promise<
+    Record<string, number>
+  >;
 };
 
 const RepairsChartComponent: React.FC = () => {

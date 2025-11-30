@@ -17,13 +17,21 @@ const AdminPage = () => {
           <ApplicationsByStatusComponent />
         </div>
       </div>
-      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-center w-full">
-        <ApplicationsChart />
-        <LatestApplicationsTable />
+      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-between w-full mb-[16px] max-w-[1380px] mx-auto">
+        <div className="flex-1 min-w-0 max-lg:w-full">
+          <ApplicationsChart />
+        </div>
+        <div className="flex-1 min-w-0 max-lg:w-full">
+          <LatestApplicationsTable />
+        </div>
       </div>
-      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-center w-full mb-[16px]">
-        <RepairsChart />
-        <LatestRepairsTable />
+      <div className="flex flex-col lg:flex-row gap-[20px] items-start justify-between w-full mb-[16px] max-w-[1380px] mx-auto">
+        <div className="flex-1 min-w-0 max-lg:w-full">
+          <RepairsChart />
+        </div>
+        <div className="flex-1 min-w-0 max-lg:w-full">
+          <LatestRepairsTable />
+        </div>
       </div>
     </div>
   );
