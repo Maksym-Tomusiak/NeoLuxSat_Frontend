@@ -30,7 +30,12 @@ export const getCrudsOptions = (role: string | null) => {
     );
   }
 
-  if (role === "Admin" || role === "HeadManager") {
+  if (
+    role === "Admin" ||
+    role === "HeadManager" ||
+    role === "Manager" ||
+    role === "Master"
+  ) {
     options.push({ name: "Заявки", href: "/admin/applications" });
   }
 
