@@ -20,6 +20,9 @@ const noto = Noto_Sans({
 // 2. Your metadata object (without viewport)
 export const metadata: Metadata = {
   title: "NeoLuxSat",
+  verification: {
+    google: "Sxj-9CvDxz7pedOEIpFwWoGFOE_yk-puj90ojxQllqU",
+  },
   icons: [
     { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
     {
