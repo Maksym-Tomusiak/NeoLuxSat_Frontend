@@ -21,6 +21,7 @@ const noto = Noto_Sans({
 export const metadata: Metadata = {
   title: "NeoLuxSat",
   icons: [
+    { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
     {
       url: "/icon.svg",
       media: "(prefers-color-scheme: light)",
