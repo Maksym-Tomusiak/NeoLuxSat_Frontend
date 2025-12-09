@@ -23,17 +23,14 @@ export const metadata: Metadata = {
   verification: {
     google: "Sxj-9CvDxz7pedOEIpFwWoGFOE_yk-puj90ojxQllqU",
   },
-  icons: [
-    { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
-    {
-      url: "/icon.svg",
-      media: "(prefers-color-scheme: light)",
-    },
-    {
-      url: "/iconDark.svg",
-      media: "(prefers-color-scheme: dark)",
-    },
-  ],
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon-192.png", type: "image/png", sizes: "192x192" },
+    ],
+    apple: [{ url: "/icon-192.png", type: "image/png", sizes: "192x192" }],
+  },
 };
 
 // 3. The new, separate viewport export
