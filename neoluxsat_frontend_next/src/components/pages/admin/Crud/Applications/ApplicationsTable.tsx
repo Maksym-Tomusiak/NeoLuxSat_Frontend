@@ -2,6 +2,8 @@
 
 import React from "react";
 import { Table, TableBody } from "@/components/common/admin/crud-table";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 import ApplicationsTableHeader from "./ApplicationsTableHeader";
 import ApplicationsTableRow from "./ApplicationsTableRow";
@@ -23,7 +25,7 @@ import type {
 import { useUser } from "@/contexts/userContext";
 
 const ApplicationsTable: React.FC = () => {
-  const { role } = useUser(); // 2. Get the user's role
+  const { role } = useUser();
   const {
     paginatedData,
     applicationTypes,
@@ -58,6 +60,91 @@ const ApplicationsTable: React.FC = () => {
     );
   }
 
+  // --- ПОЧАТОК ЗМІН: Оновлена функція експорту ---
+  const handleExportPDF = async () => {
+    try {
+      const doc = new jsPDF();
+
+      // 1. Завантажуємо шрифт Roboto (або будь-який інший з кирилицею)
+      // Примітка: Для продакшну краще зберегти цей файл у public/fonts і робити fetch("/fonts/Roboto-Regular.ttf")
+      const fontUrl =
+        "https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf";
+
+      const response = await fetch(fontUrl);
+      if (!response.ok) throw new Error("Не вдалося завантажити шрифт");
+
+      const blob = await response.blob();
+      const reader = new FileReader();
+
+      reader.readAsDataURL(blob);
+      reader.onloadend = () => {
+        const base64data = reader.result?.toString().split(",")[1];
+
+        if (base64data) {
+          // 2. Додаємо шрифт у PDF
+          doc.addFileToVFS("Roboto-Regular.ttf", base64data);
+          doc.addFont("Roboto-Regular.ttf", "Roboto", "normal");
+          doc.setFont("Roboto"); // Встановлюємо активний шрифт
+
+          // Заголовок
+          doc.setFontSize(16);
+          doc.text("Заявки", 14, 15);
+
+          // Підготовка даних
+          const tableData = paginatedData.items.map((app) => [
+            formatDate(app.createdAt),
+            app.type?.title || "N/A",
+            app.address || "N/A",
+            app.fullName,
+            app.phone || "N/A",
+            app.status?.title || "N/A",
+            app.comment || "-",
+          ]);
+
+          // Генерація таблиці
+          autoTable(doc, {
+            head: [
+              [
+                "Дата",
+                "Послуга",
+                "Адреса",
+                "ПІБ",
+                "Телефон",
+                "Статус",
+                "Коментар",
+              ],
+            ],
+            body: tableData,
+            startY: 25,
+            styles: {
+              font: "Roboto", // ВАЖЛИВО: вказуємо шрифт для тіла таблиці
+              fontSize: 9,
+              fontStyle: "normal",
+              lineColor: [200, 200, 200],
+              lineWidth: 0.1,
+            },
+            headStyles: {
+              fillColor: [41, 128, 185],
+              textColor: 255,
+              font: "Roboto", // ВАЖЛИВО: вказуємо шрифт для заголовка
+              fontStyle: "normal", // Roboto Regular зазвичай не має Bold гліфів у тому ж файлі
+              fontSize: 10,
+            },
+            alternateRowStyles: { fillColor: [245, 245, 245] },
+            margin: { top: 25 },
+          });
+
+          // Збереження PDF
+          doc.save(`заявки_${new Date().toLocaleDateString("uk-UA")}.pdf`);
+        }
+      };
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Помилка при генерації PDF. Перевірте підключення до інтернету.");
+    }
+  };
+  // --- КІНЕЦЬ ЗМІН ---
+
   const contentOpacityClass = isFetching
     ? "opacity-50 transition-opacity duration-300"
     : "opacity-100 transition-opacity duration-300";
@@ -70,7 +157,6 @@ const ApplicationsTable: React.FC = () => {
         </h2>
 
         <div className="flex items-center gap-4">
-          {/* 3. Conditionally render Add button (Only Master cannot add) */}
           {role !== "Master" && (
             <button
               onClick={handleAdd}
@@ -83,6 +169,17 @@ const ApplicationsTable: React.FC = () => {
               Додати
             </button>
           )}
+
+          <button
+            onClick={handleExportPDF}
+            className="flex items-center justify-center 
+            h-10 px-4 border border-primaryBlue border-[2px]
+            text-[14px]/[120%] font-noto font-normal text-primaryWhite cursor-pointer
+            bg-primaryBlue rounded-full 
+            hover:bg-primaryWhite hover:text-primaryBlue transition-colors action:transform active:scale-95 active:duration-75"
+          >
+            Експорт
+          </button>
 
           <TableSearch value={localSearchTerm} onChange={handleSearchChange} />
         </div>
@@ -97,7 +194,7 @@ const ApplicationsTable: React.FC = () => {
                 <ApplicationsTableRow
                   key={application.id}
                   application={application}
-                  role={role} // 4. Pass role as a prop
+                  role={role}
                   onDetails={handleDetails}
                   onEdit={handleEdit}
                   onDelete={openDeleteModal}
@@ -106,7 +203,7 @@ const ApplicationsTable: React.FC = () => {
               ))
             ) : (
               <tr>
-                <td colSpan={5} className="h-24 text-center text-gray-500">
+                <td colSpan={7} className="h-24 text-center text-gray-500">
                   Немає заявок.
                 </td>
               </tr>
@@ -114,7 +211,7 @@ const ApplicationsTable: React.FC = () => {
           </TableBody>
         </Table>
       </div>
-      {/* ... (rest of the file is unchanged) ... */}
+
       <div className="flex justify-end px-4">
         <TablePagination
           totalPages={paginatedData.totalPages}
@@ -122,6 +219,7 @@ const ApplicationsTable: React.FC = () => {
           onPageChange={handlePageChange}
         />
       </div>
+
       {itemToDelete && (
         <DeleteConfirmationModal
           isOpen={isDeleteModalOpen}
@@ -130,6 +228,7 @@ const ApplicationsTable: React.FC = () => {
           itemName={`заявку від "${itemToDelete.name}"`}
         />
       )}
+
       {isFormModalOpen && (
         <EntityFormModal<
           ApplicationDto,

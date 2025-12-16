@@ -16,27 +16,11 @@ const ApplicationsTableHeader: React.FC = () => {
       <TableRow className="border-b-0 hover:bg-transparent">
         <TableHead className="text-primaryBlue">
           <div className="flex gap-[6px] items-center">
-            <PersonIcon />
-            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-              ПІБ
-            </p>
-          </div>
-        </TableHead>
-        <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
-            <ContentIcon />
-            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-              Статус
-            </p>
-          </div>
-        </TableHead>
-        <TableHead className="text-primaryBlue">
-          <div className="flex gap-[6px] items-center">
             <div className="fill-primaryBlue/80">
               <DateIcon />
             </div>
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
-              Дата створення
+              Дата
             </p>
           </div>
         </TableHead>
@@ -53,6 +37,38 @@ const ApplicationsTableHeader: React.FC = () => {
             <AddressIcon />
             <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
               Адреса
+            </p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <PersonIcon />
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              ПІБ
+            </p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <ContentIcon />
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              Телефон
+            </p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <ContentIcon />
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              Статус
+            </p>
+          </div>
+        </TableHead>
+        <TableHead className="text-primaryBlue">
+          <div className="flex gap-[6px] items-center">
+            <ContentIcon />
+            <p className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal">
+              Коментар
             </p>
           </div>
         </TableHead>
