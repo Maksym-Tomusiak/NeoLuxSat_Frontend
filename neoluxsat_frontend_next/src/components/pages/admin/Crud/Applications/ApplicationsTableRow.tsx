@@ -47,9 +47,22 @@ const ApplicationsTableRow: React.FC<Props> = ({
       key={application.id}
       className={"bg-primaryWhite hover:bg-gray-50 border-b! border-gray-200"}
     >
-      {/* ... (other cells are unchanged) ... */}
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
+        <div>{formatDate(application.createdAt)}</div>
+      </TableCell>
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
+        <div>{application.type?.title || "N/A"}</div>
+      </TableCell>
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
+        <div className="max-w-[200px] truncate">
+          {application.address || "N/A"}
+        </div>
+      </TableCell>
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue py-3 max-w-xs truncate max-width-[300px] truncate">
         {application.fullName}
+      </TableCell>
+      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
+        <div>{application.phone || "N/A"}</div>
       </TableCell>
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
         <div>
@@ -65,14 +78,8 @@ const ApplicationsTableRow: React.FC<Props> = ({
         </div>
       </TableCell>
       <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
-        <div>{formatDate(application.createdAt)}</div>
-      </TableCell>
-      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
-        <div>{application.type?.title || "N/A"}</div>
-      </TableCell>
-      <TableCell className="font-noto text-[16px]/[120%] tracking-[-0.32px] font-normal text-primaryBlue">
-        <div className="max-w-[300px] truncate">
-          {application.address || "N/A"}
+        <div className="max-w-[200px] truncate">
+          {application.comment || "-"}
         </div>
       </TableCell>
       {/* 4. Conditionally render buttons */}
